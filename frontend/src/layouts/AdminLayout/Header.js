@@ -10,7 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { useStyles } from './styles';
 
 import AppBar from '@material-ui/core/AppBar';
-import { requestGet } from '../../utils/request';
+import { requestDelete } from '../../utils/request';
 import { API_ROUTES } from '../../utils/constants';
 
 const Header = (props) => {
@@ -25,7 +25,7 @@ const Header = (props) => {
   const logout = (e) => {
     e.preventDefault();
 
-    requestGet(API_ROUTES.logout).then((res) => {
+    requestDelete(API_ROUTES.logout).then((res) => {
       if (res.ok) {
         dispatch(removeCurrentUser());
         history.push('/');
