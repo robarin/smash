@@ -6,8 +6,9 @@ module Smash
           desc 'GET /users'
 
           get '/' do
-            users = User.all
-            users.to_json
+            users = ::User.all
+
+            UserSerializer.new(users).serializable_hash
           end
         end
       end

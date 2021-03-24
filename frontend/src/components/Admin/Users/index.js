@@ -17,15 +17,17 @@ const useStyles = makeStyles({
 });
 
 export default ({ list }) => {
+  console.log('LIST', list)
+  
   const classes = useStyles();
 
-  if (!list) {
+  if (!list || list.length === 0) {
     return <></>;
   }
 
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper}>s
         <Table className={classes.table} size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
@@ -36,14 +38,18 @@ export default ({ list }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {list.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell align="right">{user.id}</TableCell>
-                <TableCell align="right">{user.fullName}</TableCell>
-                <TableCell align="right">{user.email}</TableCell>
-                <TableCell align="right">{user.createdAt}</TableCell>
-              </TableRow>
-            ))}
+            {list.map((user) => {
+              const { attributes: { id, first_name, last_name, email, created_at }} = user;
+              
+              return (
+                <TableRow key={id}>
+                  <TableCell align="right">{id}</TableCell>
+                  <TableCell align="right">{`${first_name} ${last_name}`}</TableCell>
+                  <TableCell align="right">{email}</TableCell>
+                  <TableCell align="right">{created_at}</TableCell>
+                </TableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </TableContainer>

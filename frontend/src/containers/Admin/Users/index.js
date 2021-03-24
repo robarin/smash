@@ -11,7 +11,7 @@ const Users = () => {
     requestGet(API_ROUTES.admin.users).then((res) => {
       if (res.ok) {
         res.json().then((users) => {
-          setUsers(users);
+          setUsers(users.data);
         })
       }
     })

@@ -3,11 +3,11 @@ module Smash
     class Users < Grape::API
       helpers do
         def current_admin
-          @current_admin ||= Admin.find_by(email: params[:email])
+          @current_admin ||= ::Admin.find_by(email: params[:email])
         end
 
         def current_user
-          @current_user ||= User.find_by(email: params[:email])
+          @current_user ||= ::User.find_by(email: params[:email])
         end
 
         def validate_password!

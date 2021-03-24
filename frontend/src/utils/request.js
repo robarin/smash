@@ -14,7 +14,7 @@ const request = ({ url, headers, method, body }) => {
     },
   }
   if (currentUser) {
-    requestParams.headers['X-Auth-Access-Token'] = currentUser.accessToken;
+    requestParams.headers['X-Auth-Access-Token'] = currentUser.access_token;
   }
   if (USE_COOKIES) {
     requestParams.credentials = 'include';
