@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV.fetch("POSTGRES_USER") { 'postgres' } %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") {} %>
+
+development:
+  <<: *default
+  database: rails_react_starter_kit_development
+
+test:
+  <<: *default
+  database: rails_react_starter_kit_test
+
+production:
+  <<: *default
+  database: rails_react_starter_kit_production
+  username: rails_react_starter_kit
+  password: <%= ENV['RAILS_REACT_STARTER_KIT_DATABASE_PASSWORD'] %>

@@ -1,0 +1,10 @@
+.idea
+node_modules
+build
+npm-debug.log
+.env
+.DS_Store
+.tmp
+.sass-cache
+yarn-error.log
+*.output.css
