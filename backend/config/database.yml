@@ -7,14 +7,14 @@ default: &default
 
 development:
   <<: *default
-  database: rails_react_starter_kit_development
+  database: smash_development
 
 test:
   <<: *default
-  database: rails_react_starter_kit_test
+  database: smash_test
 
 production:
   <<: *default
-  database: rails_react_starter_kit_production
-  username: rails_react_starter_kit
+  database: smash_production
+  username: smash
   password: <%= ENV['RAILS_REACT_STARTER_KIT_DATABASE_PASSWORD'] %>

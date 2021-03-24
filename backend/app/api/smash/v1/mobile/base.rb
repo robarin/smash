@@ -1,10 +1,10 @@
-module RailsReactStarterKit
+module Smash
   module V1
     module Mobile
       class Base < Grape::API
         use Grape::Knock::Authenticable
 
-        # mount RailsReactStarterKit::V1::Mobile::
+        # mount Smash::V1::Mobile::
       end
     end
   end

@@ -1,4 +1,4 @@
-module RailsReactStarterKit
+module Smash
   module V1
     module ApiHelper
       extend Grape::API::Helpers

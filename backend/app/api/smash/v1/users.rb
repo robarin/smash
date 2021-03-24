@@ -1,4 +1,4 @@
-module RailsReactStarterKit
+module Smash
   module V1
     class Users < Grape::API
       helpers do
