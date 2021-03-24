@@ -7,34 +7,46 @@ import { API_ROUTES } from '../../utils/constants';
 
 import Typography from '@material-ui/core/Typography';
 import { Button, TextField, Link } from '@material-ui/core';
+import PageMessage from '../../components/Utils/PageMessage';
 
 const Signup = (props) => {
   const { dispatch, setCurrentUser } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
   const history = useHistory();
 
   const register = (e) => {
     e.preventDefault();
 
     const body = {
-      fullName,
       email,
       password,
+      first_name: firstName,
+      last_name: lastName,
     }
 
     requestPost(API_ROUTES.signup, body).then((res) => {
       if (res.ok) {
         res.json().then(user => {
-          dispatch(setCurrentUser(user));
-          history.push('/');
+          setSuccess(true);
         })
       } else {
         setError({ message: res?.message || 'Something went wrong' })
       }
     })
+  }
+  
+  if (success) {
+    return(
+      <PageMessage
+        title="Signed up successfully"
+        text="A confirmation link has been sent to your email address"
+      />
+    )
   }
 
   return(
@@ -43,7 +55,10 @@ const Signup = (props) => {
         <Typography variant="h5">Sign up</Typography>
         <form>
           <div className="m-4">
-            <TextField error={Boolean(error)} required type="text" label="Full Name" variant="outlined" onChange={(e) => setFullName(e.target.value)} />
+            <TextField error={Boolean(error)} required type="text" label="First Name" variant="outlined" onChange={(e) => setFirstName(e.target.value)} />
+          </div>
+          <div className="m-4">
+            <TextField error={Boolean(error)} required type="text" label="Last Name" variant="outlined" onChange={(e) => setLastName(e.target.value)} />
           </div>
           <div className="m-4">
             <TextField error={Boolean(error)} required type="email" label="Email" variant="outlined" onChange={(e) => setEmail(e.target.value)} />
