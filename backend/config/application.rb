@@ -58,5 +58,7 @@ module Smash
                        request_specs: false,
                        controller_specs: true
     end
+
+    config.active_job.queue_adapter = :delayed_job
   end
 end

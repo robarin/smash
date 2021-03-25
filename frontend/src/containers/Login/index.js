@@ -23,15 +23,14 @@ const Login = ({ dispatch, setCurrentUser }) => {
     }
 
     requestPost(API_ROUTES.login, body).then((res) => {
-      if (res.ok) {
-        res.json().then(user => {
-          console.log('USER', user);
-          dispatch(setCurrentUser(user));
+      res.json().then(data => {
+        if (res.ok) {
+          dispatch(setCurrentUser(data));
           history.push('/');
-        })
-      } else {
-        setLoginError(true);
-      }
+        } else {
+          setLoginError(data.message);
+        }
+      })
     })
   }
 
@@ -41,14 +40,14 @@ const Login = ({ dispatch, setCurrentUser }) => {
         <Typography variant="h5">Login</Typography>
         <form>
           <div className="m-4">
-            <TextField error={Boolean(loginError)} required type="email" label="Email" variant="outlined" onChange={(e) => setEmail(e.target.value)} />
+            <TextField required type="email" label="Email" variant="outlined" onChange={(e) => setEmail(e.target.value)} />
           </div>
           <div className="m-4">
-            <TextField error={Boolean(loginError)} required type="password" label="Password" variant="outlined" onChange={(e) => setPassword(e.target.value)} />
+            <TextField required type="password" label="Password" variant="outlined" onChange={(e) => setPassword(e.target.value)} />
           </div>
           {loginError && (
             <div className="m-4">
-              <p className="text-red-600">Incorrect Email or Password</p>
+              <p className="text-red-600">{loginError}</p>
             </div>
           )}
           <div className="m-4">

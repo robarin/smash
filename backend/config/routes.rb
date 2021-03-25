@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   mount Smash::Api, at: '/'
 
   devise_for :admins
-  devise_for :users
+  devise_for :users, controllers: { confirmations: 'users/confirmations' }
 end

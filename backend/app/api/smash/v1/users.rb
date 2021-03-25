@@ -23,6 +23,10 @@ module Smash
           validate_password!
         end
 
+        def check_confirmation!
+          error!({ message: 'You need to confirm your email' }, 401) unless logged_in_user&.confirmed?
+        end
+
         def logged_in_user
           current_admin || current_user
         end
@@ -45,6 +49,7 @@ module Smash
 
         post '/login' do
           validate_user!
+          check_confirmation!
 
           user_response
         end

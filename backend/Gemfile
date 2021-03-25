@@ -5,6 +5,7 @@ ruby '2.7.0'
 
 gem 'active_model_serializers', '~> 0.10.4'
 gem 'carrierwave'
+gem 'delayed_job_active_record'
 gem 'devise'
 gem 'grape'
 gem 'grape_on_rails_routes'
