@@ -1,4 +1,24 @@
-# Getting Started with Create React App
+# SMASH
+
+## Frontend
+
+### Требования
+
+- Node JS
+  - https://nodejs.org/en/download/
+  - yarn package manager
+    - `npm install -g yarn`
+    
+### Установка
+
+- `yarn`
+
+### Запуск
+
+- `yarn start`
+
+
+# Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
