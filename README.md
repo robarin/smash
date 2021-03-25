@@ -2,4 +2,4 @@
 
 `backend` – Rails API
 
-`frontend` – React + Redux + Redux Saga
+`frontend` – React + Redux (redux-persist)
