@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.1.10",
     "autoprefixer": "^7",
     "connected-react-router": "^6.9.0",
+    "cypress": "^6.8.0",
     "postcss": "^7",
     "postcss-flexbugs-fixes": "^4",
     "postcss-preset-env": "^6.7.0",
