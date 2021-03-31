@@ -8,6 +8,8 @@ import { API_ROUTES } from '../../utils/constants';
 import { TextField, Button, Link } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
+import GoogleButton from '../../components/Auth/GoogleButton';
+
 const Login = ({ dispatch, setCurrentUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,15 +25,19 @@ const Login = ({ dispatch, setCurrentUser }) => {
     }
 
     requestPost(API_ROUTES.login, body).then((res) => {
-      res.json().then(data => {
+      res.json().then(result => {
         if (res.ok) {
-          dispatch(setCurrentUser(data));
+          saveCurrentUser(result.data.attributes);
           history.push('/');
         } else {
-          setLoginError(data.message);
+          setLoginError(result.message);
         }
       })
     })
+  }
+  
+  const saveCurrentUser = (user) => {
+    dispatch(setCurrentUser(user))
   }
 
   return(
@@ -55,6 +61,13 @@ const Login = ({ dispatch, setCurrentUser }) => {
           </div>
           <div className="m-4">
             <Link component="button" onClick={() => history.push('/signup')}>Sign up</Link>
+          </div>
+          <div className="m-4">
+            <GoogleButton
+              setLoginError={setLoginError}
+              saveCurrentUser={saveCurrentUser}
+              history={history}
+            />
           </div>
         </form>
       </div>

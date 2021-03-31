@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './containers/Home';
 import AdminHome from './containers/Admin/Home';
 import Login from './containers/Login';
@@ -9,6 +9,11 @@ import Users from './containers/Admin/Users';
 
 import ApplicationRoute from './layouts/ApplicationLayout/ApplicationRoute';
 import AdminRoute from './layouts/AdminLayout/AdminRoute';
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+
+library.add(fab)
 
 function App() {
   return (

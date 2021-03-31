@@ -31,12 +31,17 @@ module Smash
           current_admin || current_user
         end
 
-        def user_response
+        def user_response(user = nil)
           if current_admin
             return current_admin.as_json.merge('isAdmin' => true)
           end
 
-          current_user.as_json
+          res = user || current_user
+          UserSerializer.new(res).serializable_hash
+        end
+
+        def generate_password
+          Devise.friendly_token(10)
         end
       end
 
@@ -66,12 +71,33 @@ module Smash
           result = ::Users::Auth::Organize.call(params: params)
           error!(result.message, 400) if result.failure?
 
-          result.user.as_json
+          user_response(result.user)
         end
 
         desc 'Log out user'
         delete '/logout' do
           status :no_content
+        end
+
+        namespace :oauth do
+          desc 'Sign up with oauth'
+          params do
+            requires :email, type: String, desc: 'User email'
+            requires :first_name, type: String, desc: 'First name'
+            requires :last_name, type: String, desc: 'Last name'
+            optional :provider, type: String, desc: 'OAuth provider'
+            optional :uid, type: String, desc: 'OAuth UID'
+          end
+
+          post '/sign_up' do
+            new_password = generate_password
+            user_data = params.merge(password: new_password)
+
+            result = ::Users::Oauth::Organize.call(params: user_data)
+            error!(result.message, 400) if result.failure?
+
+            user_response(result.user)
+          end
         end
       end
     end

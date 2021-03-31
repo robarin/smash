@@ -5,5 +5,13 @@ class UserSerializer
              :first_name,
              :last_name,
              :email,
-             :created_at
+             :created_at,
+             :access_token,
+             :provider,
+             :uid,
+             :role
+
+  attribute :confirmed do |object|
+    object.confirmed?
+  end
 end
