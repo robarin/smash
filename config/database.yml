@@ -16,5 +16,4 @@ test:
 production:
   <<: *default
   database: smash_production
-  username: smash
-  password: <%= ENV['RAILS_REACT_STARTER_KIT_DATABASE_PASSWORD'] %>
+  username: deployer

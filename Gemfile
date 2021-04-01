@@ -5,9 +5,11 @@ ruby '2.7.0'
 
 gem 'active_model_serializers', '~> 0.10.4'
 gem 'carrierwave'
+gem 'daemons'
 gem 'delayed_job_active_record'
 gem 'devise', github: 'heartcombo/devise', branch: 'master'
 gem 'devise-jwt'
+gem 'dotenv-rails'
 gem 'jwt', '~> 2.2', '>= 2.2.2'
 gem 'grape'
 gem 'grape_on_rails_routes'
@@ -47,7 +49,6 @@ group :development, :test do
   gem 'fuubar'
   gem 'rspec-rails'
   gem 'json_spec'
-  gem 'dotenv-rails'
   gem 'webdrivers', '~> 4.0'
 end
 
@@ -61,6 +62,15 @@ group :development do
 
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
+
+  gem 'capistrano'
+  gem 'capistrano3-puma', github: "seuros/capistrano-puma"
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-faster-assets', require: false
+  gem 'capistrano3-delayed-job'
+  gem 'capistrano-yarn'
 end
 
 group :test do
