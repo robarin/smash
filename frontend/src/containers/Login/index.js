@@ -8,7 +8,7 @@ import { API_ROUTES } from '../../utils/constants';
 import { TextField, Button, Link } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
-import GoogleButton from '../../components/Auth/GoogleButton';
+import Oauth from '../Oauth';
 
 const Login = ({ dispatch, setCurrentUser }) => {
   const [email, setEmail] = useState('');
@@ -62,13 +62,11 @@ const Login = ({ dispatch, setCurrentUser }) => {
           <div className="m-4">
             <Link component="button" onClick={() => history.push('/signup')}>Sign up</Link>
           </div>
-          <div className="m-4">
-            <GoogleButton
-              setLoginError={setLoginError}
-              saveCurrentUser={saveCurrentUser}
-              history={history}
-            />
-          </div>
+          <Oauth
+            setLoginError={setLoginError}
+            saveCurrentUser={saveCurrentUser}
+            history={history}
+          />
         </form>
       </div>
     </div>

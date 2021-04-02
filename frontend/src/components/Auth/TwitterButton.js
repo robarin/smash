@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Link} from "@material-ui/core";
 import NewWindow from 'react-new-window';
 
-const GOOGLE_AUTH_URL = `${process.env.REACT_APP_API_URL}/auth/google_oauth2`;
+const TWITTER_AUTH_URL = `${process.env.REACT_APP_API_URL}/auth/twitter`;
 
 export default function () {
   const [windowOpen, setWindowOpen] = useState(false);
@@ -15,9 +15,9 @@ export default function () {
   return (
     <>
       {windowOpen && (
-        <NewWindow url={GOOGLE_AUTH_URL} center="parent" />
+        <NewWindow url={TWITTER_AUTH_URL} center="parent" />
       )}
-      <Link onClick={onClick}>Log in with Google</Link>
+      <Link onClick={onClick}>Log in with Twitter</Link>
     </>
   )
 }

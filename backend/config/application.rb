@@ -27,6 +27,7 @@ module Smash
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
 
     config.autoload_paths << Rails.root.join('app', 'api')
+    config.autoload_paths << Rails.root.join('app', 'channels')
     config.autoload_paths << Rails.root.join('app', 'interactors', 'support')
     config.autoload_paths << Rails.root.join('app', 'interactors')
     config.autoload_paths << "#{Rails.root}/lib"

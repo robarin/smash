@@ -27,8 +27,11 @@ gem 'jsonapi-serializer'
 gem 'jbuilder', '~> 2.7'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.4', require: false
+
+gem 'omniauth', '~> 2.0', '>= 2.0.3'
 gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-google-oauth2', '~> 1.0'
+gem 'omniauth-twitter'
 
 group :development, :test do
   gem 'awesome_print'

@@ -7,4 +7,5 @@ class Smash::Api < Grape::API
 
   mount Smash::V1::Base => 'v1'
   mount Smash::V1::Admin::Base => 'v1/admin'
+  mount Smash::Oauth => '/'
 end
