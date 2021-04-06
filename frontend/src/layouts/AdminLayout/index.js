@@ -13,7 +13,7 @@ const AdminLayout = (props) => {
   const classes = useStyles();
   const history = useHistory();
 
-  if (!currentUser || !currentUser.isAdmin) {
+  if (!currentUser || !currentUser.admin) {
     history.push('/login');
     return <></>;
   }

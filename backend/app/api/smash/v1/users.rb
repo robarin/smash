@@ -24,6 +24,8 @@ module Smash
         end
 
         def check_confirmation!
+          return if logged_in_user.is_a?(::Admin)
+
           error!({ message: 'You need to confirm your email' }, 401) unless logged_in_user&.confirmed?
         end
 
@@ -33,7 +35,7 @@ module Smash
 
         def user_response(user = nil)
           if current_admin
-            return current_admin.as_json.merge('isAdmin' => true)
+            return AdminSerializer.new(current_admin).serializable_hash
           end
 
           res = user || current_user
