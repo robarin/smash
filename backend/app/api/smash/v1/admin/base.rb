@@ -9,6 +9,7 @@ module Smash
         end
 
         mount Smash::V1::Admin::Users
+        mount Smash::V1::Admin::TagTypes
 
         add_swagger_documentation \
         doc_version: '1.0.0',

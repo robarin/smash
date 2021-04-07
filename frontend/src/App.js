@@ -6,6 +6,7 @@ import AdminHome from './containers/Admin/Home';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
 import Users from './containers/Admin/Users';
+import TagTypes from './containers/Admin/TagTypes';
 
 import ApplicationRoute from './layouts/ApplicationLayout/ApplicationRoute';
 import AdminRoute from './layouts/AdminLayout/AdminRoute';
@@ -26,6 +27,7 @@ function App() {
 
           <AdminRoute exact path="/admin" component={AdminHome} />
           <AdminRoute exact path="/admin/users" component={Users} />
+          <AdminRoute exact path="/admin/tag_types" component={TagTypes} />
         </Switch>
       </Router>
     </div>

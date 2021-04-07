@@ -44,6 +44,11 @@ ActiveRecord::Schema.define(version: 2021_04_08_110232) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "tag_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+  end
+
   create_table "genders", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description"
@@ -51,6 +56,7 @@ ActiveRecord::Schema.define(version: 2021_04_08_110232) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_genders_on_name"
   end
+
 
   create_table "people", force: :cascade do |t|
     t.string "first_name", default: "", null: false
