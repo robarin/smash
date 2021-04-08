@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_07_144548) do
+ActiveRecord::Schema.define(version: 2021_04_08_110232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,89 @@ ActiveRecord::Schema.define(version: 2021_04_07_144548) do
     t.index ["user_id"], name: "index_people_on_user_id"
   end
 
+  create_table "question_responses", force: :cascade do |t|
+    t.bigint "question_id"
+    t.bigint "response_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_question_responses_on_question_id"
+    t.index ["response_id"], name: "index_question_responses_on_response_id"
+  end
+
+  create_table "question_types", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "body", default: "", null: false
+    t.bigint "question_type_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_type_id"], name: "index_questions_on_question_type_id"
+  end
+
+  create_table "responses", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "session_surveys", force: :cascade do |t|
+    t.bigint "session_id"
+    t.bigint "survey_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["session_id"], name: "index_session_surveys_on_session_id"
+    t.index ["survey_id"], name: "index_session_surveys_on_survey_id"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.datetime "begin_date", null: false
+    t.datetime "end_time"
+    t.bigint "person_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["person_id"], name: "index_sessions_on_person_id"
+  end
+
+  create_table "survey_questions", force: :cascade do |t|
+    t.bigint "survey_id"
+    t.bigint "question_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_survey_questions_on_question_id"
+    t.index ["survey_id"], name: "index_survey_questions_on_survey_id"
+  end
+
+  create_table "survey_session_answers", force: :cascade do |t|
+    t.bigint "session_survey_id"
+    t.bigint "question_response_id"
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_response_id"], name: "index_survey_session_answers_on_question_response_id"
+    t.index ["session_survey_id"], name: "index_survey_session_answers_on_session_survey_id"
+  end
+
+  create_table "survey_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "surveys", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "access_token"
     t.string "email", default: "", null: false
@@ -88,4 +171,14 @@ ActiveRecord::Schema.define(version: 2021_04_07_144548) do
 
   add_foreign_key "people", "genders"
   add_foreign_key "people", "users"
+  add_foreign_key "question_responses", "questions"
+  add_foreign_key "question_responses", "responses"
+  add_foreign_key "questions", "question_types"
+  add_foreign_key "session_surveys", "sessions"
+  add_foreign_key "session_surveys", "surveys"
+  add_foreign_key "sessions", "people"
+  add_foreign_key "survey_questions", "questions"
+  add_foreign_key "survey_questions", "surveys"
+  add_foreign_key "survey_session_answers", "question_responses"
+  add_foreign_key "survey_session_answers", "session_surveys"
 end
