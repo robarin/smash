@@ -39,7 +39,7 @@ module Smash
           end
 
           res = user || current_user
-          UserSerializer.new(res).serializable_hash
+          UserSerializer.new(res, include: [:person]).serializable_hash
         end
 
         def generate_password
@@ -67,6 +67,7 @@ module Smash
           requires :password, type: String, desc: 'User password'
           requires :first_name, type: String, desc: 'First name'
           requires :last_name, type: String, desc: 'Last name'
+          requires :middle_name, type: String, desc: 'Middle name'
         end
 
         post '/sign_up' do
@@ -79,27 +80,6 @@ module Smash
         desc 'Log out user'
         delete '/logout' do
           status :no_content
-        end
-
-        namespace :oauth do
-          desc 'Sign up with oauth'
-          params do
-            requires :email, type: String, desc: 'User email'
-            requires :first_name, type: String, desc: 'First name'
-            requires :last_name, type: String, desc: 'Last name'
-            optional :provider, type: String, desc: 'OAuth provider'
-            optional :uid, type: String, desc: 'OAuth UID'
-          end
-
-          post '/sign_up' do
-            new_password = generate_password
-            user_data = params.merge(password: new_password)
-
-            result = ::Users::Oauth::Organize.call(params: user_data)
-            error!(result.message, 400) if result.failure?
-
-            user_response(result.user)
-          end
         end
       end
     end

@@ -26,12 +26,19 @@ module Smash
         )
       end
 
+      def create_user
+        result = ::Users::Oauth::Organize.call(params: omniauth_data)
+        error!({ message: result.message }) if result.failure?
+
+        result.user
+      end
+
       def authorized_user
-        @authorized_user ||= ::Users::Oauth::Organize.call(params: omniauth_data).user
+        @authorized_user ||= create_user
       end
 
       def serialized_user
-        UserSerializer.new(authorized_user).serializable_hash
+        UserSerializer.new(authorized_user, include: [:person]).serializable_hash
       end
 
       def stream_user
@@ -42,13 +49,17 @@ module Smash
     namespace :auth do
       desc 'Twitter oauth callback'
       get '/twitter/callback' do
+        create_user
         stream_user
+
         status :ok
       end
 
       desc 'Google oauth callback'
       get '/google_oauth2/callback' do
+        create_user
         stream_user
+
         status :ok
       end
     end

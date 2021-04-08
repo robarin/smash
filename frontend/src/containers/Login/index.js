@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { requestPost } from '../../utils/request';
-import { setCurrentUser } from '../../actions/currentUser';
 import { showFlashMessage } from '../../actions/flash';
 import { useHistory } from 'react-router-dom';
 import { API_ROUTES } from '../../utils/constants';
+import saveCurrentUser from '../../utils/saveCurrentUser';
 
 import { TextField, Button, Link } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 import Oauth from '../Oauth';
 
-const Login = ({ dispatch, setCurrentUser, showFlashMessage }) => {
+const Login = ({ dispatch, showFlashMessage }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(null);
@@ -28,7 +28,7 @@ const Login = ({ dispatch, setCurrentUser, showFlashMessage }) => {
     requestPost(API_ROUTES.login, body).then((res) => {
       res.json().then(result => {
         if (res.ok) {
-          saveCurrentUser(result.data.attributes);
+          saveCurrentUser(result);
           setFlashMessage();
           
           history.push('/');
@@ -46,10 +46,6 @@ const Login = ({ dispatch, setCurrentUser, showFlashMessage }) => {
       text: 'You have successfully logged in',
       type: 'success',
     }))
-  }
-  
-  const saveCurrentUser = (user) => {
-    dispatch(setCurrentUser(user))
   }
 
   return(
@@ -92,7 +88,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser,
   showFlashMessage,
   dispatch
 })

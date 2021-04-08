@@ -9,9 +9,7 @@ const Oauth = (props) => {
   const cable = ActionCable.createConsumer(`ws://${process.env.REACT_APP_API_HOST}/cable`);
   
   const handleMessage = (message) => {
-    const user = message.data.attributes;
-    
-    saveCurrentUser(user);
+    saveCurrentUser(message);
     history.push('/');
   }
   

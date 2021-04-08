@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
-import { connect } from "react-redux";
 import { requestPost } from '../../utils/request';
-import { setCurrentUser } from '../../actions/currentUser';
 import { useHistory } from "react-router-dom";
 import { API_ROUTES } from '../../utils/constants';
 
 import Typography from '@material-ui/core/Typography';
 import { Button, TextField, Link } from '@material-ui/core';
 import PageMessage from '../../components/Utils/PageMessage';
+import saveCurrentUser from '../../utils/saveCurrentUser';
 
-const Signup = (props) => {
-  const { dispatch, setCurrentUser } = props;
+const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [middleName, setMiddleName] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const history = useHistory();
@@ -27,11 +26,13 @@ const Signup = (props) => {
       password,
       first_name: firstName,
       last_name: lastName,
+      middle_name: middleName,
     }
 
     requestPost(API_ROUTES.signup, body).then((res) => {
       if (res.ok) {
-        res.json().then(user => {
+        res.json().then(result => {
+          saveCurrentUser(result);
           setSuccess(true);
         })
       } else {
@@ -61,6 +62,9 @@ const Signup = (props) => {
             <TextField error={Boolean(error)} required type="text" label="Last Name" variant="outlined" onChange={(e) => setLastName(e.target.value)} />
           </div>
           <div className="m-4">
+            <TextField error={Boolean(error)} required type="text" label="Middle Name" variant="outlined" onChange={(e) => setMiddleName(e.target.value)} />
+          </div>
+          <div className="m-4">
             <TextField error={Boolean(error)} required type="email" label="Email" variant="outlined" onChange={(e) => setEmail(e.target.value)} />
           </div>
           <div className="m-4">
@@ -83,13 +87,4 @@ const Signup = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  currentUser: state.currentUser,
-})
-
-const mapDispatchToProps = dispatch => ({
-  setCurrentUser,
-  dispatch
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+export default Signup;
