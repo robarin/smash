@@ -3,7 +3,10 @@ export const HIDE_MODAL = 'HIDE_MODAL';
 
 export const showModal = (payload) => ({
   type: SHOW_MODAL,
-  payload,
+  payload: {
+    isOpen: true,
+    ...payload
+  },
 });
 
 export const hideModal = () => ({

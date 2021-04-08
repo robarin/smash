@@ -1,7 +1,8 @@
 import { SHOW_MODAL, HIDE_MODAL } from '../actions/globalModal';
 
 const initialState = {
-  type: null
+  type: null,
+  isOpen: false
 };
 
 const globalModalReducer = (state = initialState, action) => {

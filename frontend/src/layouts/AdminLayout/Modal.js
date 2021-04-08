@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiModal from '@material-ui/core/Modal';
 import TagTypeForm from '../../components/Admin/TagTypes/Form'
+import { hideModal } from '../../actions/globalModal';
 
 const modalTypesBindings = {
   TAG_TYPES_FORM: TagTypeForm
@@ -30,10 +31,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Modal({open, onClose, type}) {
+function Modal({open, type, dispatch}) {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
   const ModalBody = modalTypesBindings[type]
+  const onClose = () => {
+    dispatch(hideModal())
+  };
 
   return (
     <div>
@@ -52,6 +56,11 @@ function Modal({open, onClose, type}) {
     </div>
   );
 }
+
+const mapDispatchToProps = dispatch => ({
+  hideModal,
+  dispatch
+})
 
 const mapStateToProps = (state) => ({
   globalModal: state.globalModal,

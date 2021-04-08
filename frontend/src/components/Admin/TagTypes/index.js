@@ -12,7 +12,7 @@ import {
   Paper
 } from '@material-ui/core';
 import { showModal } from '../../../actions/globalModal';
-import MODALS from '../../../utils/modals'
+import {TAG_TYPES_FORM} from '../../../utils/modals'
 
 const useStyles = makeStyles({
   table: {
@@ -25,7 +25,7 @@ const TagTypes = (props) => {
   const classes = useStyles();
   const openModal = (id) => {
     dispatch(showModal({
-      type: MODALS.TAG_TYPES_FORM,
+      type: TAG_TYPES_FORM,
       modalProps: {
         tagTypeId: id,
         action: 'edit'

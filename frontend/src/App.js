@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './containers/Home';
 import AdminHome from './containers/Admin/Home';
@@ -13,12 +14,14 @@ import AdminRoute from './layouts/AdminLayout/AdminRoute';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
+import Modal from './layouts/AdminLayout/Modal'
 
 library.add(fab)
 
-function App() {
+function App({modalIsOpen}) {
   return (
     <div className="App">
+      <Modal open={modalIsOpen}/>
       <Router>
         <Switch>
           <ApplicationRoute exact path="/" component={Home} />
@@ -34,4 +37,8 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  modalIsOpen: state.globalModal.isOpen,
+})
+
+export default connect(mapStateToProps)(App);
