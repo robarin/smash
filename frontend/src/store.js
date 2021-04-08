@@ -7,6 +7,7 @@ import rootReducer from './reducers/root';
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist: [`globalModal`]
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -24,4 +25,3 @@ const initialStore = initStore();
 
 export const store = initialStore.store;
 export const persistor = initialStore.persistor;
-

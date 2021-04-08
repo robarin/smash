@@ -4,10 +4,12 @@ import {setCurrentUser} from '../actions/currentUser';
 
 const saveCurrentUser = (result) => {
   const user = result.data.attributes;
-  user.person = result.included[0].attributes;
-  
+
+  if (!user.admin) {
+    user.person = result.included[0].attributes;
+  }
+
   store.dispatch(setCurrentUser(user));
 }
 
 export default saveCurrentUser;
-

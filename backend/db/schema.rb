@@ -134,16 +134,16 @@ ActiveRecord::Schema.define(version: 2021_04_08_110232) do
     t.index ["session_survey_id"], name: "index_survey_session_answers_on_session_survey_id"
   end
 
-  create_table "survey_types", force: :cascade do |t|
-    t.string "name", null: false
+  create_table "surveys", force: :cascade do |t|
+    t.string "name", default: "", null: false
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "surveys", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.string "description"
+  create_table "tag_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
