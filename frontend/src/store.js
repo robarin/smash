@@ -24,4 +24,3 @@ const initialStore = initStore();
 
 export const store = initialStore.store;
 export const persistor = initialStore.persistor;
-

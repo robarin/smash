@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -9,6 +11,8 @@ import {
   TableRow,
   Paper
 } from '@material-ui/core';
+import { setModalType } from '../../../actions/modalType';
+import MODALS from '../../../utils/modals'
 
 const useStyles = makeStyles({
   table: {
@@ -16,8 +20,12 @@ const useStyles = makeStyles({
   },
 });
 
-export default ({ list }) => {
+const TagTypes = (props) => {
+  const { list, setModalType, dispatch } = props;
   const classes = useStyles();
+  const openModal = () => {
+    dispatch(setModalType(MODALS.TAG_TYPES_FORM))
+  };
 
   if (!list || list.length === 0) {
     return <></>;
@@ -32,11 +40,11 @@ export default ({ list }) => {
               <TableCell align="right">ID</TableCell>
               <TableCell align="right">Name</TableCell>
               <TableCell align="right">Description</TableCell>
+              <TableCell align="right">Buttons</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {list.map((tagType) => {
-                console.log('tagType', tagType)
                 const {
                   attributes: {
                     id,
@@ -50,6 +58,11 @@ export default ({ list }) => {
                     <TableCell align="right">{id}</TableCell>
                     <TableCell align="right">{name}</TableCell>
                     <TableCell align="right">{description}</TableCell>
+                    <TableCell align="right">
+                      <Button onClick={openModal} variant="contained" color="primary">
+                        Edit
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 )
               }
@@ -60,3 +73,10 @@ export default ({ list }) => {
     </>
   )
 }
+
+const mapDispatchToProps = dispatch => ({
+  setModalType,
+  dispatch
+})
+
+export default connect(mapDispatchToProps)(TagTypes);
