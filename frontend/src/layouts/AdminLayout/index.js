@@ -6,18 +6,17 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Modal from './Modal'
 
-
 import { useStyles } from './styles';
 import { removeCurrentUser } from '../../actions/currentUser';
-import { setModalType } from '../../actions/modalType';
+import { hideModal } from '../../actions/globalModal';
 
 const AdminLayout = (props) => {
-  const { currentUser, removeCurrentUser, modalType, setModalType, children, dispatch } = props;
+  const { currentUser, removeCurrentUser, modalType, hideModal, children, dispatch } = props;
   const classes = useStyles();
   const history = useHistory();
 
   const closeModal = () => {
-    dispatch(setModalType(null))
+    dispatch(hideModal())
   };
 
   if (!currentUser || !currentUser.admin) {
@@ -52,12 +51,12 @@ const AdminLayout = (props) => {
 
 const mapStateToProps = (state) => ({
   currentUser: state.currentUser,
-  modalType: state.modalType,
+  modalType: state.globalModal.type,
 })
 
 const mapDispatchToProps = dispatch => ({
   removeCurrentUser,
-  setModalType,
+  hideModal,
   dispatch
 })
 

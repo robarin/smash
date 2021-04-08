@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import currentUserReducer from './currentUser';
-import modalTypeReducer from './modalType';
+import globalModalReducer from './globalModal';
 import flashReducer from './flash';
 
 const rootReducer = combineReducers({
   currentUser: currentUserReducer,
-  modalType: modalTypeReducer,
+  globalModal: globalModalReducer,
   flashMessage: flashReducer,
 });
 

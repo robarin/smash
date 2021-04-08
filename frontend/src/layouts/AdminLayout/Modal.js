@@ -30,11 +30,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Modal(props) {
-  const {open, onClose, modalType} = props
+function Modal({open, onClose, type}) {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
-  const ModalBody = modalTypesBindings[modalType]
+  const ModalBody = modalTypesBindings[type]
 
   return (
     <div>
@@ -55,7 +54,8 @@ function Modal(props) {
 }
 
 const mapStateToProps = (state) => ({
-  modalType: state.modalType,
+  globalModal: state.globalModal,
+  type: state.globalModal.type,
 })
 
 export default connect(mapStateToProps)(Modal);

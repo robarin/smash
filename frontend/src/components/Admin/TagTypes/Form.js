@@ -1,15 +1,15 @@
 import React from 'react'
-import { setModalType } from '../../../actions/modalType'
+import { connect } from 'react-redux';
 
-const Form = ({action, id}) => {
+const Form = ({action}) => {
   let handler
   let title
 
-  if (action === 'create') {
+  if (action === 'new') {
     handler = () => { 'create handler' }
     title = 'Create Tag Type'
-  } else if (action === 'update') {
-    handler =  () => { 'update handler' }
+  } else if (action === 'edit') {
+    handler = () => { 'update handler' }
     title = 'Update Tag Type'
   }
 
@@ -20,4 +20,8 @@ const Form = ({action, id}) => {
   </div>
 }
 
-export default Form
+const mapStateToProps = (state) => ({
+  action: state.globalModal.modalProps.action,
+})
+
+export default connect(mapStateToProps)(Form);

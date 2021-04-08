@@ -11,7 +11,7 @@ import {
   TableRow,
   Paper
 } from '@material-ui/core';
-import { setModalType } from '../../../actions/modalType';
+import { showModal } from '../../../actions/globalModal';
 import MODALS from '../../../utils/modals'
 
 const useStyles = makeStyles({
@@ -21,10 +21,16 @@ const useStyles = makeStyles({
 });
 
 const TagTypes = (props) => {
-  const { list, setModalType, dispatch } = props;
+  const { list, showModal, dispatch } = props;
   const classes = useStyles();
-  const openModal = () => {
-    dispatch(setModalType(MODALS.TAG_TYPES_FORM))
+  const openModal = (id) => {
+    dispatch(showModal({
+      type: MODALS.TAG_TYPES_FORM,
+      modalProps: {
+        tagTypeId: id,
+        action: 'edit'
+      }
+    }))
   };
 
   if (!list || list.length === 0) {
@@ -59,7 +65,7 @@ const TagTypes = (props) => {
                     <TableCell align="right">{name}</TableCell>
                     <TableCell align="right">{description}</TableCell>
                     <TableCell align="right">
-                      <Button onClick={openModal} variant="contained" color="primary">
+                      <Button onClick={() => {openModal(id)}} variant="contained" color="primary">
                         Edit
                       </Button>
                     </TableCell>
@@ -75,7 +81,7 @@ const TagTypes = (props) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  setModalType,
+  showModal,
   dispatch
 })
 
