@@ -24,6 +24,7 @@ function Navbar(props) {
 
     requestDelete(API_ROUTES.logout).then((res) => {
       if (res.ok) {
+        history.push('/');
         dispatch(removeCurrentUser());
       }
     });
@@ -35,11 +36,11 @@ function Navbar(props) {
   }
 
   const isUserAdmin = () => {
-    return currentUser && currentUser.isAdmin;
+    return currentUser && currentUser.admin;
   }
 
   return (
-    <nav className="bg-gray-800">
+    <nav className="bg-gray-800 z-50">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -57,6 +58,9 @@ function Navbar(props) {
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
                 <NavLink href="/">Home</NavLink>
+                {currentUser && (
+                  <NavLink href="/profile">Profile</NavLink>
+                )}
                 {isUserAdmin() && (
                   <NavLink href="/admin">Admin</NavLink>
                 )}

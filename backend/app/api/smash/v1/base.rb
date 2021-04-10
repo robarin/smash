@@ -1,8 +1,15 @@
 module Smash
   module V1
     class Base < Grape::API
+      helpers Smash::V1::ApiHelper
+
+      before do
+        authenticate_user! unless request.path.include?('users')
+      end
+
       mount Smash::V1::Mobile::Base => :client
       mount Smash::V1::Users
+      mount Smash::V1::Profiles
 
       add_swagger_documentation \
         doc_version: '1.0.0',

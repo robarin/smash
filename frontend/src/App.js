@@ -1,11 +1,13 @@
 import './App.css';
 import React from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import Home from './containers/Home';
-import AdminHome from './containers/Admin/Home';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
+import Profile from './containers/Profile';
+
+import AdminHome from './containers/Admin/Home';
 import Users from './containers/Admin/Users';
 import TagTypes from './containers/Admin/TagTypes';
 
@@ -21,12 +23,15 @@ library.add(fab)
 function App({modalIsOpen}) {
   return (
     <div className="App">
-      <Modal open={modalIsOpen}/>
+      {modalIsOpen && (
+        <Modal open={modalIsOpen} />
+      )}
       <Router>
         <Switch>
           <ApplicationRoute exact path="/" component={Home} />
           <ApplicationRoute path="/login" component={Login} />
           <ApplicationRoute path="/signup" component={Signup} />
+          <ApplicationRoute path="/profile" component={Profile} />
 
           <AdminRoute exact path="/admin" component={AdminHome} />
           <AdminRoute exact path="/admin/users" component={Users} />

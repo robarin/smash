@@ -10,7 +10,6 @@ const request = ({ url, headers, method, body }) => {
     method: requestMethod,
     headers: {
       ...headers,
-      'Content-Type': 'application/json',
     },
   }
   if (currentUser) {
@@ -20,7 +19,15 @@ const request = ({ url, headers, method, body }) => {
     requestParams.credentials = 'include';
   }
   if (['POST', 'PATCH'].includes(requestMethod)) {
-    requestParams.body = JSON.stringify(body);
+    if (body.file) {
+      const formData = new FormData();
+      formData.append('file', body.file);
+  
+      requestParams.body = formData;
+    } else {
+      requestParams.headers['Content-Type'] = 'application/json';
+      requestParams.body = JSON.stringify(body);
+    }
   }
   return fetch(requestUrl, requestParams)
     .then((response) => {
