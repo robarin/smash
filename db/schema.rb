@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_12_091353) do
+ActiveRecord::Schema.define(version: 2021_04_13_143624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,14 @@ ActiveRecord::Schema.define(version: 2021_04_12_091353) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+  create_table "countries", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "abbrev"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -44,19 +52,28 @@ ActiveRecord::Schema.define(version: 2021_04_12_091353) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "survey_types", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "genders", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_genders_on_name"
+  end
+
+  create_table "group_types", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.bigint "group_type_id"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_type_id"], name: "index_groups_on_group_type_id"
   end
 
   create_table "people", force: :cascade do |t|
@@ -69,8 +86,33 @@ ActiveRecord::Schema.define(version: 2021_04_12_091353) do
     t.bigint "user_id"
     t.bigint "gender_id"
     t.string "avatar"
+    t.bigint "province_id"
     t.index ["gender_id"], name: "index_people_on_gender_id"
+    t.index ["province_id"], name: "index_people_on_province_id"
     t.index ["user_id"], name: "index_people_on_user_id"
+  end
+
+  create_table "person_groups", force: :cascade do |t|
+    t.bigint "role_id"
+    t.bigint "person_id"
+    t.bigint "group_id"
+    t.datetime "begin_date"
+    t.datetime "end_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_person_groups_on_group_id"
+    t.index ["person_id"], name: "index_person_groups_on_person_id"
+    t.index ["role_id"], name: "index_person_groups_on_role_id"
+  end
+
+  create_table "provinces", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "abbrev"
+    t.bigint "region_id"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["region_id"], name: "index_provinces_on_region_id"
   end
 
   create_table "question_responses", force: :cascade do |t|
@@ -98,9 +140,25 @@ ActiveRecord::Schema.define(version: 2021_04_12_091353) do
     t.index ["question_type_id"], name: "index_questions_on_question_type_id"
   end
 
+  create_table "regions", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.bigint "country_id"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["country_id"], name: "index_regions_on_country_id"
+  end
+
   create_table "responses", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

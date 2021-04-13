@@ -3,8 +3,10 @@ class Person < ApplicationRecord
 
   belongs_to :user
   belongs_to :gender
+  belongs_to :province
 
   has_many :sessions, dependent: :destroy
+  has_many :person_groups
 
   validates :first_name, :last_name, :middle_name, presence: true
 

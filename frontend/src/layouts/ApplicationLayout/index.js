@@ -5,8 +5,6 @@ import FlashDelay from '../../components/Utils/FlashDelay';
 import Header from './Header';
 
 const ApplicationLayout = ({ children, flashMessage }) => {
-  const history = useHistory();
-  
   return (
     <div className="applicationLayout grid grid-cols-12">
       {flashMessage.show && (
