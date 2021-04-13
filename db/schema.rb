@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_09_101701) do
+ActiveRecord::Schema.define(version: 2021_04_12_091353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,13 @@ ActiveRecord::Schema.define(version: 2021_04_09_101701) do
     t.datetime "created_at", precision: 6
     t.datetime "updated_at", precision: 6
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
+  create_table "survey_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "genders", force: :cascade do |t|
@@ -135,11 +142,20 @@ ActiveRecord::Schema.define(version: 2021_04_09_101701) do
     t.index ["session_survey_id"], name: "index_survey_session_answers_on_session_survey_id"
   end
 
+  create_table "survey_types", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "surveys", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "survey_type_id"
+    t.index ["survey_type_id"], name: "index_surveys_on_survey_type_id"
   end
 
   create_table "tag_types", force: :cascade do |t|
@@ -182,4 +198,5 @@ ActiveRecord::Schema.define(version: 2021_04_09_101701) do
   add_foreign_key "survey_questions", "surveys"
   add_foreign_key "survey_session_answers", "question_responses"
   add_foreign_key "survey_session_answers", "session_surveys"
+  add_foreign_key "surveys", "survey_types"
 end

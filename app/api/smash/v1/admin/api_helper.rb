@@ -15,6 +15,10 @@ module Smash
         def authenticate_admin!
           error!('401 Unauthorized', 401) unless current_admin
         end
+
+        def error_message(object)
+          object.errors.full_messages.join('; ')
+        end
       end
     end
   end

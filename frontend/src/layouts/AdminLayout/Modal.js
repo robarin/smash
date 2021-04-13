@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import TagTypeForm from '../../components/Admin/TagTypes/Form'
 import EditProfile from '../../containers/Profile/Edit';
+import TagTypeForm from '../../components/Admin/TagTypes/Form';
 import { hideModal } from '../../actions/globalModal';
 
 const modalTypesBindings = {
-  TAG_TYPES_FORM: TagTypeForm,
   EDIT_PROFILE_FORM: EditProfile,
+  TAG_TYPES_FORM: TagTypeForm,
 }
 
 function Modal({open, type, dispatch}) {
