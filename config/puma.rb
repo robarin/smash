@@ -1,3 +1,4 @@
+require 'puma'
 # Puma can serve each request in a thread from an internal thread pool.
 # The `threads` method setting takes two numbers: a minimum and maximum.
 # Any libraries that use thread pools should be configured to match
@@ -30,7 +31,7 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 # Workers do not work on JRuby or Windows (both of which do not support
 # processes).
 #
-# workers ENV.fetch("WEB_CONCURRENCY") { 2 }
+workers ENV.fetch("WEB_CONCURRENCY") { 2 }
 
 # Use the `preload_app!` method when specifying a `workers` number.
 # This directive tells Puma to first boot the application and load code
@@ -41,3 +42,19 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+
+if Rails.env.production?
+  app_dir = File.expand_path("../..", __FILE__)
+  shared_dir = "#{app_dir}/shared"
+  rails_env = ENV['RAILS_ENV'] || "production"
+  environment rails_env
+  # bind "unix://#{shared_dir}/sockets/puma.sock"
+  bind "unix:///var/www/smash/current/tmp/sockets/puma.sock"
+
+  # попробовать использовать shared папку
+  stdout_redirect "/var/www/smash/current/log/puma.access.log", "/var/www/smash/current/log/puma.error.log", true
+  # stdout_redirect "#{shared_dir}/log/puma.access.log", "#{shared_dir}/log/puma.error.log", true
+  pidfile "/var/www/smash/current/tmp/pids/puma.pid"
+  state_path "/var/www/smash/current/tmp/pids/puma.state"
+  activate_control_app
+end
