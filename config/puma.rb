@@ -43,17 +43,11 @@ workers ENV.fetch("WEB_CONCURRENCY") { 2 }
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
 
-if Rails.env.production?
-  app_dir = File.expand_path("../..", __FILE__)
-  shared_dir = "#{app_dir}/shared"
-  rails_env = ENV['RAILS_ENV'] || "production"
-  environment rails_env
-  # bind "unix://#{shared_dir}/sockets/puma.sock"
+if ENV["RAILS_ENV"] == 'production'
+  environment ENV['RAILS_ENV']
   bind "unix:///var/www/smash/current/tmp/sockets/puma.sock"
 
-  # попробовать использовать shared папку
   stdout_redirect "/var/www/smash/current/log/puma.access.log", "/var/www/smash/current/log/puma.error.log", true
-  # stdout_redirect "#{shared_dir}/log/puma.access.log", "#{shared_dir}/log/puma.error.log", true
   pidfile "/var/www/smash/current/tmp/pids/puma.pid"
   state_path "/var/www/smash/current/tmp/pids/puma.state"
   activate_control_app

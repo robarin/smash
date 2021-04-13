@@ -9,7 +9,7 @@
 
 set :rails_env, :production
 set :stage, :production
-set :branch, 'chore/deploy-backend'
+set :branch, 'chore/deploy-frontend'
 # role-based syntax
 # ==================
 

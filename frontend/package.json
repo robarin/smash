@@ -14,10 +14,8 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "actioncable": "^5.2.5",
-    "autoprefixer": "^7",
     "connected-react-router": "^6.9.0",
     "cypress": "^6.8.0",
-    "postcss": "^7",
     "postcss-flexbugs-fixes": "^4",
     "postcss-preset-env": "^6.7.0",
     "react": "^17.0.1",
@@ -32,7 +30,6 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
-    "tailwindcss": "^2.0.1-compat",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -60,5 +57,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss7-compat": "^2.1.0",
+    "autoprefixer": "^9",
+    "postcss": "^7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   }
 }
