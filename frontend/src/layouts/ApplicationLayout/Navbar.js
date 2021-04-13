@@ -59,7 +59,10 @@ function Navbar(props) {
               <div className="flex space-x-4">
                 <NavLink href="/">Home</NavLink>
                 {currentUser && (
-                  <NavLink href="/profile">Profile</NavLink>
+                  <>
+                    <NavLink href="/profile">Profile</NavLink>
+                    <NavLink href="/dashboard">Cabinet</NavLink>
+                  </>
                 )}
                 {isUserAdmin() && (
                   <NavLink href="/admin">Admin</NavLink>

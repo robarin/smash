@@ -31,7 +31,7 @@ const Login = ({ dispatch, showFlashMessage }) => {
           saveCurrentUser(result);
           setFlashMessage();
           
-          history.push('/');
+          history.push('/dashboard');
         } else {
           setLoginError(result.message);
         }

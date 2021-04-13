@@ -6,6 +6,7 @@ import Home from './containers/Home';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
 import Profile from './containers/Profile';
+import Dashboard from './containers/Cabinet/Dashboard';
 
 import AdminHome from './containers/Admin/Home';
 import Users from './containers/Admin/Users';
@@ -13,6 +14,7 @@ import TagTypes from './containers/Admin/TagTypes';
 
 import ApplicationRoute from './layouts/ApplicationLayout/ApplicationRoute';
 import AdminRoute from './layouts/AdminLayout/AdminRoute';
+import CabinetRoute from './layouts/CabinetLayout/CabinetRoute';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -31,7 +33,9 @@ function App({modalIsOpen}) {
           <ApplicationRoute exact path="/" component={Home} />
           <ApplicationRoute path="/login" component={Login} />
           <ApplicationRoute path="/signup" component={Signup} />
-          <ApplicationRoute path="/profile" component={Profile} />
+          
+          <CabinetRoute path="/dashboard" component={Dashboard} />
+          <CabinetRoute path="/profile" component={Profile} />
 
           <AdminRoute exact path="/admin" component={AdminHome} />
           <AdminRoute exact path="/admin/users" component={Users} />

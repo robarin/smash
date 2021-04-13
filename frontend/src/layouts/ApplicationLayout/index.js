@@ -1,23 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import FlashDelay from '../../components/Utils/FlashDelay';
 import Header from './Header';
-import Grid from '@material-ui/core/Grid';
 
 const ApplicationLayout = ({ children, flashMessage }) => {
+  const history = useHistory();
+  
   return (
-    <div className="applicationLayout">
+    <div className="applicationLayout grid grid-cols-12">
       {flashMessage.show && (
         <FlashDelay />
       )}
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Header />
-        </Grid>
-        <Grid item xs={12}>
-          {children}
-        </Grid>
-      </Grid>
+      <div className="col-span-12">
+        <Header />
+      </div>
+      <div className="col-span-12 h-screen">
+        {children}
+      </div>
     </div>
   )
 }
