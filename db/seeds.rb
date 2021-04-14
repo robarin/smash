@@ -1,7 +1,19 @@
-Dir['db/seeds/*.rb'].sort.each do |seed|
+SEEDS_PATH = 'db/seeds'.freeze
+SEEDS = %w[
+  admin
+  genders
+  countries
+  regions
+  provinces
+  users
+  survey_types
+].freeze
+
+SEEDS.each do |seed|
+  file = "#{SEEDS_PATH}/#{seed}.rb"
   begin
-    load seed
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
+    load file
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound, ActiveRecord::StatementInvalid => e
     puts e
     puts "Seed: #{seed}"
   end
