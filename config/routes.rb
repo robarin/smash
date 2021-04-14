@@ -8,4 +8,6 @@ Rails.application.routes.draw do
     confirmations: 'users/confirmations',
     sessions: 'users/sessions'
   }
+
+  get "*path", to: "application#frontend", constraints: ->(request) { !request.xhr? && request.format.html? }
 end

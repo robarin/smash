@@ -28,7 +28,7 @@ set :puma_error_log,  "#{release_path}/log/puma.access.log"
 set :puma_workers, 5
 set :puma_daemonize, true
 
-append :linked_files, ".env", "config/master.key"
+append :linked_files, ".env", "config/master.key", "frontend/.env"
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "public/uploads", ".bundle"
 
 namespace :puma do
@@ -43,7 +43,6 @@ namespace :puma do
   task :create_binstubs do
     on roles(:app) do
       execute "cd /var/www/smash/current && bin/bundle binstub puma"
-      sleep 5
     end
   end
 
@@ -57,6 +56,8 @@ before 'deploy:updated', 'yarn:install'
 # after 'deploy:published', 'deploy:assets:precompile'
 after 'deploy:finished', 'puma:stop'
 after 'deploy:finished', 'puma:start'
+after 'deploy:finished', 'deploy:frontend_build'
+after 'deploy:finished', 'deploy:frontend_release'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
