@@ -32,6 +32,22 @@ module Smash
 
           user_response
         end
+
+        desc 'Setup user\'s profile'
+        params do
+          requires :gender, type: String, desc: 'User gender'
+          requires :role, type: String, desc: 'User role'
+          requires :phone, type: String, desc: 'User phone'
+          requires :country, type: String, desc: 'Country'
+          requires :region, type: String, desc: 'Region'
+          requires :province, type: String, desc: 'Province'
+        end
+        post '/setup' do
+          result = ::People::Profile::Setup.call(person: current_user.person, params: params)
+          error!({ message: result.message }) if result.failure?
+
+          user_response
+        end
       end
     end
   end

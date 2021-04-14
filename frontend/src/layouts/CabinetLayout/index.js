@@ -4,13 +4,20 @@ import { useHistory } from 'react-router-dom';
 import FlashDelay from '../../components/Utils/FlashDelay';
 
 import NavMenu from "./NavMenu";
+import AccountSetup from "../../containers/Account/Setup";
 
-const CabinetLayout = ({ children, flashMessage }) => {
+const CabinetLayout = ({ children, flashMessage, currentUser }) => {
   const history = useHistory();
   
   const pageTitles = {
     dashboard: 'Dashboard',
     profile: 'Profile'
+  }
+  
+  if (currentUser && currentUser.sign_in_count === 1 && !currentUser.person.province) {
+    return(
+      <AccountSetup />
+    )
   }
   
   return (
@@ -42,6 +49,7 @@ const CabinetLayout = ({ children, flashMessage }) => {
 
 const mapStateToProps = (state) => ({
   flashMessage: state.flashMessage,
+  currentUser: state.currentUser,
 })
 
 export default connect(mapStateToProps, null)(CabinetLayout);

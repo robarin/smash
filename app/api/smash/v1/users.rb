@@ -24,9 +24,15 @@ module Smash
         end
 
         def check_confirmation!
-          return if logged_in_user.is_a?(::Admin)
+          return if current_admin
 
           error!({ message: 'You need to confirm your email' }, 401) unless logged_in_user&.confirmed?
+        end
+
+        def update_sign_in_count
+          return if current_admin
+
+          current_user.update(sign_in_count: current_user.sign_in_count + 1)
         end
 
         def logged_in_user
@@ -57,6 +63,7 @@ module Smash
         post '/login' do
           validate_user!
           check_confirmation!
+          update_sign_in_count
 
           user_response
         end
@@ -72,7 +79,7 @@ module Smash
 
         post '/sign_up' do
           result = ::Users::Auth::Organize.call(params: params)
-          error!(result.message, 400) if result.failure?
+          error!({ message: result.message }, 400) if result.failure?
 
           user_response(result.user)
         end

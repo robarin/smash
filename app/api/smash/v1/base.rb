@@ -10,6 +10,8 @@ module Smash
       mount Smash::V1::Mobile::Base => :client
       mount Smash::V1::Users
       mount Smash::V1::Profiles
+      mount Smash::V1::Roles
+      mount Smash::V1::Countries
 
       add_swagger_documentation \
         doc_version: '1.0.0',

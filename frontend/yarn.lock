@@ -10214,6 +10214,11 @@ react-scripts@4.0.2:
   optionalDependencies:
     fsevents "^2.1.3"
 
+react-step-wizard@^5.3.6:
+  version "5.3.6"
+  resolved "https://registry.yarnpkg.com/react-step-wizard/-/react-step-wizard-5.3.6.tgz#d109d741d258166fc2c08dabefd689764ec7a194"
+  integrity sha512-cJiJ+Pgku10scyL39HYKPgwoZQLgtOs4tVo9LC6IUoUqXdElrMrwRjSwOJrRgL6OmTAUaLIzAhq7mNSqaYtvMw==
+
 react-transition-group@^4.4.0:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.1.tgz#63868f9325a38ea5ee9535d828327f85773345c9"

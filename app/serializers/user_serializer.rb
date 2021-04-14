@@ -8,7 +8,8 @@ class UserSerializer
              :created_at,
              :access_token,
              :provider,
-             :uid
+             :uid,
+             :sign_in_count
 
   attribute :confirmed do |object|
     object.confirmed?

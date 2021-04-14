@@ -8,7 +8,8 @@ class User < ApplicationRecord
          :recoverable,
          :rememberable,
          :validatable,
-         :confirmable
+         :confirmable,
+         :trackable
 
   alias authenticate valid_password?
 

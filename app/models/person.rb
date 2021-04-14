@@ -2,8 +2,8 @@ class Person < ApplicationRecord
   mount_uploader :avatar, AvatarUploader
 
   belongs_to :user
-  belongs_to :gender
-  belongs_to :province
+  belongs_to :gender, optional: true
+  belongs_to :province, optional: true
 
   has_many :sessions, dependent: :destroy
   has_many :person_groups

@@ -2,6 +2,7 @@ SEEDS_PATH = 'db/seeds'.freeze
 SEEDS = %w[
   admin
   genders
+  roles
   countries
   regions
   provinces

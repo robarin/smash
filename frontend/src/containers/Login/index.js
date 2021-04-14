@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
 import { requestPost } from '../../utils/request';
 import { showFlashMessage } from '../../actions/flash';
@@ -11,11 +11,32 @@ import Typography from '@material-ui/core/Typography';
 
 import Oauth from '../Oauth';
 
+const queryString = require('query-string');
+const confirmationTypes = {
+  success: {
+    title: 'Success',
+    text: 'Your account has been confirmed',
+    type: 'success',
+  },
+  failure: {
+    title: 'Failure',
+    text: 'An error occured while confirmation',
+    type: 'error',
+  }
+}
+
 const Login = ({ dispatch, showFlashMessage }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(null);
   const history = useHistory();
+  const queryParams = queryString.parse(history.location.search);
+  
+  useEffect(() => {
+    if (queryParams.confirmation) {
+      setConfirmationMessage();
+    }
+  }, []);
 
   const login = (e) => {
     e.preventDefault();
@@ -45,6 +66,13 @@ const Login = ({ dispatch, showFlashMessage }) => {
       title: 'Success',
       text: 'You have successfully logged in',
       type: 'success',
+    }))
+  }
+  
+  const setConfirmationMessage = () => {
+    dispatch(showFlashMessage({
+      show: true,
+      ...confirmationTypes[queryParams.confirmation]
     }))
   }
 

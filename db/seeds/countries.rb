@@ -2,14 +2,6 @@ countries = [
   {
     name: 'USA',
     abbrev: 'US'
-  },
-  {
-    name: 'Canada',
-    abbrev: 'CA'
-  },
-  {
-    name: 'Mexico',
-    abbrev: 'MX'
   }
 ]
 

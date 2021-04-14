@@ -32,11 +32,12 @@ const Signup = () => {
     requestPost(API_ROUTES.signup, body).then((res) => {
       if (res.ok) {
         res.json().then(result => {
-          saveCurrentUser(result);
           setSuccess(true);
         })
       } else {
-        setError({ message: res?.message || 'Something went wrong' })
+        res.json().then(error => {
+          setError({ message: error.message || 'Something went wrong' })
+        })
       }
     })
   }

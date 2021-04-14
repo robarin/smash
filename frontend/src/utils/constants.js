@@ -13,6 +13,13 @@ export const API_ROUTES = {
   },
   profile: {
     update: '/v1/profile/',
-    avatar: '/v1/profile/avatar'
+    avatar: '/v1/profile/avatar',
+    setup: '/v1/profile/setup'
+  },
+  roles: {
+    index: '/v1/roles',
+  },
+  countries: {
+    index: '/v1/countries'
   }
 }

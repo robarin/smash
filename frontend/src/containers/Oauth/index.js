@@ -10,7 +10,7 @@ const Oauth = (props) => {
   
   const handleMessage = (message) => {
     saveCurrentUser(message);
-    history.push('/');
+    history.push('/dashboard');
   }
   
   useEffect(() => {
