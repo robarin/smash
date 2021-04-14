@@ -7,6 +7,7 @@ SEEDS = %w[
   provinces
   users
   survey_types
+  surveys
 ].freeze
 
 SEEDS.each do |seed|

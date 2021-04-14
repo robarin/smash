@@ -9,6 +9,7 @@ export const API_ROUTES = {
     users: '/v1/admin/users',
     tag_types: '/v1/admin/tag_types',
     surveyTypes: '/v1/admin/survey_types',
+    surveys: '/v1/admin/surveys',
   },
   profile: {
     update: '/v1/profile/',
