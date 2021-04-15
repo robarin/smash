@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 2021_04_14_172906) do
   create_table "people", force: :cascade do |t|
     t.string "first_name", default: "", null: false
     t.string "last_name", default: "", null: false
-    t.string "middle_name", default: "", null: false
+    t.string "middle_name"
     t.datetime "birth_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
