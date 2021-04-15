@@ -5,4 +5,6 @@ class Question < ApplicationRecord
   has_many :question_responses, dependent: :destroy
 
   validates :name, :body, presence: true
+
+  accepts_nested_attributes_for :question_responses
 end

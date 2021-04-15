@@ -5,4 +5,18 @@ class Survey < ApplicationRecord
   has_many :session_surveys, dependent: :destroy
 
   validates :name, presence: true
+
+  scope :with_survey_questions, -> {
+    includes(
+      :survey_type,
+      survey_questions: {
+        question: [
+          :question_type,
+          {
+            question_responses: [:response]
+          }
+        ]
+      }
+    )
+  }
 end

@@ -1,7 +1,7 @@
 class SurveySerializer
   include JSONAPI::Serializer
 
-  belongs_to :survey_type
+  has_many :survey_questions
 
   attributes :id,
              :name,

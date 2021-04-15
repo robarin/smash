@@ -3,4 +3,6 @@ class QuestionResponse < ApplicationRecord
   belongs_to :response
 
   has_many :survey_session_answers, dependent: :destroy
+
+  accepts_nested_attributes_for :response
 end
