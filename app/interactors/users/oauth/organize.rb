@@ -3,5 +3,6 @@ class Users::Oauth::Organize < ApplicationInteractor
   include Transactable
 
   organize ::Users::Oauth::Create,
-           ::Users::Oauth::Confirm
+           ::Users::Oauth::Confirm,
+           ::Users::Oauth::Update
 end

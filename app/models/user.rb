@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
   alias authenticate valid_password?
 
-  has_one :person
+  has_one :person, dependent: :destroy
 
   accepts_nested_attributes_for :person
 
