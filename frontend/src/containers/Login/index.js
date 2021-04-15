@@ -31,7 +31,7 @@ const Login = ({ dispatch, showFlashMessage }) => {
   const [loginError, setLoginError] = useState(null);
   const history = useHistory();
   const queryParams = queryString.parse(history.location.search);
-  
+
   useEffect(() => {
     if (queryParams.confirmation) {
       setConfirmationMessage();
@@ -59,7 +59,7 @@ const Login = ({ dispatch, showFlashMessage }) => {
       })
     })
   }
-  
+
   const setFlashMessage = () => {
     dispatch(showFlashMessage({
       show: true,
@@ -68,7 +68,7 @@ const Login = ({ dispatch, showFlashMessage }) => {
       type: 'success',
     }))
   }
-  
+
   const setConfirmationMessage = () => {
     dispatch(showFlashMessage({
       show: true,
@@ -121,4 +121,3 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
-

@@ -58,7 +58,7 @@ function Navbar(props) {
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
                 <NavLink href="/">Home</NavLink>
-                {currentUser && (
+                {currentUser && !currentUser.admin && (
                   <>
                     <NavLink href="/profile">Profile</NavLink>
                     <NavLink href="/dashboard">Cabinet</NavLink>
@@ -111,4 +111,3 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
-
