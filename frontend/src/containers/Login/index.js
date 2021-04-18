@@ -49,10 +49,10 @@ const Login = ({ dispatch, showFlashMessage }) => {
     requestPost(API_ROUTES.login, body).then((res) => {
       res.json().then(result => {
         if (res.ok) {
-          saveCurrentUser(result);
+          const user = saveCurrentUser(result);
           setFlashMessage();
           
-          history.push('/dashboard');
+          history.push(user.admin ? '/admin' : '/dashboard');
         } else {
           setLoginError(result.message);
         }

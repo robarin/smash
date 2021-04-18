@@ -1,6 +1,6 @@
 import { store } from '../store';
 
-const USE_COOKIES = false;
+const USE_COOKIES = true;
 
 const request = ({ url, headers, method, body }) => {
   const requestMethod = method || 'GET';
@@ -32,7 +32,7 @@ const request = ({ url, headers, method, body }) => {
   return fetch(requestUrl, requestParams)
     .then((response) => {
       if (response.status === 401) {
-        console.log('Request error', response?.message);
+        console.log('Unauthorized', response?.message || response?.error);
       }
       return response;
     })

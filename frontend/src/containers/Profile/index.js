@@ -3,11 +3,12 @@ import {connect} from "react-redux";
 import Grid from '@material-ui/core/Grid';
 import {showFlashMessage} from "../../actions/flash";
 
+import ContainerWrapper from "../wrapper";
 import ProfileInfo from './Info';
 
 const Profile = ({currentUser}) => {
   return (
-    <div>
+    <ContainerWrapper>
       <Grid container
             direction="row"
             justify="center"
@@ -21,7 +22,7 @@ const Profile = ({currentUser}) => {
           </div>
         </Grid>
       </Grid>
-    </div>
+    </ContainerWrapper>
   )
 }
 

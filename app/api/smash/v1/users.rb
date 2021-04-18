@@ -2,12 +2,12 @@ module Smash
   module V1
     class Users < Grape::API
       helpers do
-        def current_admin
-          @current_admin ||= ::Admin.find_by(email: params[:email])
+        def admin
+          @admin ||= ::Admin.find_by(email: params[:email])
         end
 
-        def current_user
-          @current_user ||= ::User.find_by(email: params[:email])
+        def user
+          @user ||= ::User.find_by(email: params[:email])
         end
 
         def validate_password!
@@ -24,33 +24,50 @@ module Smash
         end
 
         def check_confirmation!
-          return if current_admin
+          return if admin
 
           error!({ message: 'You need to confirm your email' }, 401) unless logged_in_user&.confirmed?
         end
 
         def update_sign_in_count
-          return if current_admin
+          return if admin
 
-          current_user.update(sign_in_count: current_user.sign_in_count + 1)
+          user.update(sign_in_count: user.sign_in_count + 1)
         end
 
         def logged_in_user
-          current_admin || current_user
+          admin || user
         end
 
-        def user_response(user = nil)
-          if current_admin
-            return AdminSerializer.new(current_admin).serializable_hash
+        def user_response(subject = nil)
+          if admin
+            return AdminSerializer.new(admin).serializable_hash
           end
 
-          res = user || current_user
+          res = subject || user
           UserSerializer.new(res, include: [:person]).serializable_hash
         end
 
         def generate_password
           Devise.friendly_token(10)
         end
+
+        def save_user_session(user = nil)
+          session[:access_token] = (user || logged_in_user).access_token
+        end
+
+        def me
+          if current_admin
+            return AdminSerializer.new(current_admin).serializable_hash
+          end
+
+          UserSerializer.new(current_user, include: [:person]).serializable_hash
+        end
+      end
+
+      desc 'Get current user'
+      get '/me' do
+        me
       end
 
       resource :users do
@@ -64,6 +81,7 @@ module Smash
           validate_user!
           check_confirmation!
           update_sign_in_count
+          save_user_session
 
           user_response
         end
@@ -81,11 +99,13 @@ module Smash
           result = ::Users::Auth::Organize.call(params: params)
           error!({ message: result.message }, 400) if result.failure?
 
+          save_user_session(result.user)
           user_response(result.user)
         end
 
         desc 'Log out user'
         delete '/logout' do
+          session.clear
           status :no_content
         end
       end

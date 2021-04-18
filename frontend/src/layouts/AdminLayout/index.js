@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,13 +8,18 @@ import FlashDelay from '../../components/Utils/FlashDelay';
 
 import { useStyles } from './styles';
 import { removeCurrentUser } from '../../actions/currentUser';
+import getCurrentUser from "../../utils/getCurrentUser";
 
 const AdminLayout = (props) => {
   const { currentUser, removeCurrentUser, children, dispatch, flashMessage } = props;
   const classes = useStyles();
   const history = useHistory();
-
-  if (!currentUser || !currentUser.admin) {
+  
+  useEffect(() => {
+    getCurrentUser({history});
+  },[]);
+  
+  if (currentUser && !currentUser.admin) {
     history.push('/login');
     return <></>;
   }

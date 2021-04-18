@@ -1,13 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import FlashDelay from '../../components/Utils/FlashDelay';
 
 import NavMenu from "./NavMenu";
 import AccountSetup from "../../containers/Account/Setup";
+import getCurrentUser from '../../utils/getCurrentUser';
 
 const CabinetLayout = ({ children, flashMessage, currentUser }) => {
   const history = useHistory();
+  
+  useEffect(() => {
+    if (currentUser) return;
+    getCurrentUser({history});
+  },[]);
   
   const pageTitles = {
     dashboard: 'Dashboard',

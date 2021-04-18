@@ -10,6 +10,7 @@ const saveCurrentUser = (result) => {
   }
 
   store.dispatch(setCurrentUser(user));
+  return user;
 }
 
 export default saveCurrentUser;

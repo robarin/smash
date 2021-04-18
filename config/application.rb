@@ -22,7 +22,7 @@ Bundler.require(*Rails.groups)
 module Smash
   class Application < Rails::Application
     config.api_only = true
-    config.session_store :cookie_store, key: '_interslice_session'
+    config.session_store :cookie_store, key: '_interslice_session', httponly: true
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
 
