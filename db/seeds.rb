@@ -8,16 +8,17 @@ SEEDS = %w[
   provinces
   users
   survey_types
-  question_types
-  questions_and_responses
-  surveys_and_survey_questions
+  questions
+  surveys
+  survey_questions
 ].freeze
 
 SEEDS.each do |seed|
   file = "#{SEEDS_PATH}/#{seed}.rb"
   begin
+    puts "Seeding file: #{file}"
     load file
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound, ActiveRecord::StatementInvalid => e
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound, ActiveRecord::StatementInvalid, TypeError => e
     puts e
     puts "Seed: #{seed}"
   end

@@ -26,5 +26,5 @@ question_types_attrs = [
 ]
 
 question_types_attrs.each do |attr|
-  QuestionType.create!(attr)
+  QuestionType.find_or_create_by!(attr)
 end

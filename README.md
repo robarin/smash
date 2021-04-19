@@ -1,52 +1,5 @@
 # SMASH
 
-`backend` – Rails API
-
-`frontend` – React + Redux (redux-persist)
-
-### Создание БД
-
-```
-rake db:create
-rake db:migrate
-```
-
-### Запуск тестов
-
-1. перейти в папку `./backend` и запустить Rails `CYPRESS=1 RAILS_ENV=test rails s`
-2. перейти в папку `./frontend` и запустить фронтенд-приложение `???` **WIP**
-3. перейти в папку `./frontend` и запустить Cypress `yarn cypress open`
-
-Подготовка БД в сценариях тестов:
-
-```
-// some_cypress_spec.js
-
-describe('Rails using factory bot examples', function() {
-  beforeEach(() => {
-    // Сброс БД
-    cy.app('clean') // have a look at cypress/app_commands/clean.rb
-
-    // Подготовка состояния БД
-    cy.appFactories([
-      ['create', 'user', {
-        first_name: 'Name',
-        last_name: 'Surname',
-        email: 'user@example.com',
-        password: '123456
-      }]
-    ])
-  })
-
-  it('using single factory bot', function() {
-    // код теста
-    // ...
-  })
-})
-```
-
-**[Подробнее](https://github.com/shakacode/cypress-on-rails)**
-
 ## Backend
 
 ### Требования:
@@ -100,3 +53,52 @@ sudo apt-get install libxslt1-dev libxml2-dev build-essential patch libsqlite3-d
 Rails выступает только в качестве API, построенном на Grape (https://github.com/ruby-grape/grape).
 - Роуты
   - `rails grape:routes`
+  
+### Seeds
+
+При создании нового файла сидов в `db/seeds` нужно обязательно добавить его в массив имен файлов в `db/seeds.rb` в том порядке, в котором этот файл должен запускаться. Например, файл сидов `regions.rb` должен следовать после файла `countries.rb`.
+
+При написании нового файла сидов нужно учитывать следующее:
+- Называть файл простым и понятным именем
+- Не создавать в одном файле объекты более чем одного типа, если только они не связаны между собой семантически и на уровне БД.
+- Чтобы избежать конфликтов или создания дублированных объектов в базе, объекты нужно создавать либо через `find_or_create_by!`, либо используя подход **guard clause** (https://devblast.com/b/what-are-guard-clauses)
+- Для удобства расширения кол-ва создаваемых объектов внутри одного файла сидов, нужно писать его так, чтобы при повторном запуске существующие объекты не дублировались, а создавались только новые. Для этого нужно использовать массивы исходных данных и guard clause внутри итераций
+- Создавать достаточное кол-во объектов для полноценного тестирования
+- При создании объектов со сложными связями, или когда объекты должны создаваться только в большом количестве, оборачивать весь процесс в транзакцию
+- После каждого изменения сидов убедиться, что все сиды прогоняются без ошибок
+
+### Приемочное тестирование
+
+1. в корне проекта запустить `CYPRESS=1 RAILS_ENV=test rails s`
+2. запустить фронтенд-приложение `cd frontend && yarn start`
+3. запустить Cypress `yarn cypress open`
+
+Подготовка БД в сценариях тестов:
+
+```
+// some_cypress_spec.js
+
+describe('Rails using factory bot examples', function() {
+  beforeEach(() => {
+    // Сброс БД
+    cy.app('clean') // have a look at cypress/app_commands/clean.rb
+
+    // Подготовка состояния БД
+    cy.appFactories([
+      ['create', 'user', {
+        first_name: 'Name',
+        last_name: 'Surname',
+        email: 'user@example.com',
+        password: '123456
+      }]
+    ])
+  })
+
+  it('using single factory bot', function() {
+    // код теста
+    // ...
+  })
+})
+```
+
+**[Подробнее](https://github.com/shakacode/cypress-on-rails)**

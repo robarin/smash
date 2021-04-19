@@ -1,9 +1,8 @@
 require 'faker'
 
 genders = Gender.all
-provinces = Province.all
 
-(0..10).to_a.each do |n|
+(0..50).to_a.each do |n|
   user = User.find_by(email: "user#{n}@example.com")
 
   unless user
