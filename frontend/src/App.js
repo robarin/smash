@@ -13,6 +13,7 @@ import Users from './containers/Admin/Users';
 import TagTypes from './containers/Admin/TagTypes';
 import SurveyTypes from './containers/Admin/SurveyTypes';
 import Surveys from './containers/Admin/Surveys';
+import Survey from './components/Admin/Survey';
 
 import ApplicationRoute from './layouts/ApplicationLayout/ApplicationRoute';
 import AdminRoute from './layouts/AdminLayout/AdminRoute';
@@ -42,6 +43,7 @@ function App({modalIsOpen}) {
           <AdminRoute exact path="/admin" component={AdminHome} />
           <AdminRoute exact path="/admin/users" component={Users} />
           <AdminRoute exact path="/admin/surveys" component={Surveys} />
+          <AdminRoute exact path="/admin/surveys/:id" component={Survey} />
           <AdminRoute exact path="/admin/tag_types" component={TagTypes} />
           <AdminRoute exact path="/admin/survey_types" component={SurveyTypes} />
         </Switch>
