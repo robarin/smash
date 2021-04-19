@@ -4,6 +4,7 @@ class QuestionSerializer
   attributes :id,
              :name,
              :body,
+             :response_type,
              :created_at
 
   attribute :question_type do |object|

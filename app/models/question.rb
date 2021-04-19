@@ -1,4 +1,6 @@
 class Question < ApplicationRecord
+  enum response_type: %i[single multiple text single_or_text multiple_or_text]
+
   belongs_to :question_type
 
   has_many :survey_questions, dependent: :destroy
