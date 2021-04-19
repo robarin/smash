@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import logger from 'redux-logger';
 import storage from 'redux-persist/lib/storage';
@@ -15,7 +15,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 const initStore = () => {
   let store = createStore(
     persistedReducer,
-    applyMiddleware(logger),
+    compose(
+      applyMiddleware(logger),
+      window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
+    )
   )
   let persistor = persistStore(store)
   return { store, persistor }
