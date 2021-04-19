@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 import storage from 'redux-persist/lib/storage';
 import rootReducer from './reducers/root';
 
@@ -16,7 +17,7 @@ const initStore = () => {
   let store = createStore(
     persistedReducer,
     compose(
-      applyMiddleware(logger),
+      applyMiddleware(logger, thunk),
       window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
     )
   )
