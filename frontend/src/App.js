@@ -1,6 +1,5 @@
 import './App.css';
 import React from 'react';
-import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import Home from './containers/Home';
 import Login from './containers/Login';
@@ -21,22 +20,18 @@ import CabinetRoute from './layouts/CabinetLayout/CabinetRoute';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import Modal from './layouts/AdminLayout/Modal'
 
 library.add(fab)
 
-function App({modalIsOpen}) {
+function App() {
   return (
     <div className="App">
-      {modalIsOpen && (
-        <Modal open={modalIsOpen} />
-      )}
       <Router>
         <Switch>
           <ApplicationRoute exact path="/" component={Home} />
           <ApplicationRoute path="/login" component={Login} />
           <ApplicationRoute path="/signup" component={Signup} />
-          
+
           <CabinetRoute path="/dashboard" component={Dashboard} />
           <CabinetRoute path="/profile" component={Profile} />
 
@@ -52,8 +47,4 @@ function App({modalIsOpen}) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  modalIsOpen: state.globalModal.isOpen,
-})
-
-export default connect(mapStateToProps)(App);
+export default App;

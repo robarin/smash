@@ -3,16 +3,16 @@ import {connect} from 'react-redux';
 import { Button } from '@material-ui/core';
 import { requestGet, requestPost, requestPatch, requestDelete } from '../../../utils/request';
 import { API_ROUTES } from '../../../utils/constants';
-import Modal from '../../../components/Admin/Modal';
+import Modal from '../../../components/Utils/Modal';
 import Form from '../../../components/Admin/SurveyTypes/Form';
 import SurveyTypesList from '../../../components/Admin/SurveyTypes';
 import {showFlashMessage} from "../../../actions/flash";
 
 const SurveyTypes = ({dispatch, showFlashMessage}) => {
   const [surveyTypes, setSurveyTypes] = useState([]);
-  const defaultModalParams = { 
-    open: false, 
-    title: 'Default', 
+  const defaultModalParams = {
+    open: false,
+    title: 'Default',
     surveyType: null
   };
   const [modalParams, setModalParams] = useState(defaultModalParams);
