@@ -10,7 +10,7 @@ const ApplicationLayout = ({ children, flashMessage, currentUser }) => {
   
   useEffect(() => {
     if (currentUser) return;
-    getCurrentUser(history);
+    getCurrentUser({history});
   },[]);
   
   return (

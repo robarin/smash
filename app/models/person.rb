@@ -8,7 +8,9 @@ class Person < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :person_groups
 
-  validates :first_name, :last_name, presence: true
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 
   def set_new_attributes(attrs)
     assign_attributes(permitted_attributes(attrs))

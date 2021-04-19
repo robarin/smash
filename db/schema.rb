@@ -77,8 +77,8 @@ ActiveRecord::Schema.define(version: 2021_04_19_050310) do
   end
 
   create_table "people", force: :cascade do |t|
-    t.string "first_name", default: "", null: false
-    t.string "last_name", default: "", null: false
+    t.string "first_name"
+    t.string "last_name"
     t.string "middle_name"
     t.datetime "birth_date"
     t.datetime "created_at", precision: 6, null: false
@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(version: 2021_04_19_050310) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "response_type", default: 0
     t.index ["question_type_id"], name: "index_questions_on_question_type_id"
+    t.index ["response_type"], name: "index_questions_on_response_type"
   end
 
   create_table "regions", force: :cascade do |t|

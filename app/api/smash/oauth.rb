@@ -6,23 +6,29 @@ module Smash
       end
 
       def username
+        default_name = { first_name: '', last_name: '' }
         name = user_data.info.name
-        return unless name
+
+        return default_name unless name
 
         full_name = name.split(' ')
-        {
+        default_name.merge(
           first_name: full_name[0],
           last_name: full_name[1]
+        )
+      end
+
+      def provider_data
+        {
+          provider: user_data.provider,
+          uid: user_data.uid
         }
       end
 
       def omniauth_data
         user_data.info.merge(
           username,
-          {
-            provider: user_data.provider,
-            uid: user_data.uid
-          }
+          provider_data
         )
       end
 

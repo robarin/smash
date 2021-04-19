@@ -48,10 +48,6 @@ module Smash
           UserSerializer.new(res, include: [:person]).serializable_hash
         end
 
-        def generate_password
-          Devise.friendly_token(10)
-        end
-
         def save_user_session(user = nil)
           session[:access_token] = (user || logged_in_user).access_token
         end
@@ -106,7 +102,7 @@ module Smash
         desc 'Log out user'
         delete '/logout' do
           session.clear
-          status :no_content
+          status :ok
         end
       end
     end

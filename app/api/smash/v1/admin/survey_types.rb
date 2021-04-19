@@ -7,10 +7,6 @@ module Smash
             @survey_type ||= ::SurveyType.find(params[:id])
           end
 
-          def survey_type_new
-            @survey_type ||= ::SurveyType.create(params)
-          end
-
           def update_survey_type
             survey_type.update(params)
           end
@@ -30,9 +26,10 @@ module Smash
             optional :description, type: String, desc: 'Decsription of the type'
           end
           post do
-            error!({ message: error_message(survey_type_new) }, 400) if survey_type_new.errors.any?
+            new_survey_type = ::SurveyType.create(params)
+            error!({ message: error_message(new_survey_type) }, 400) if new_survey_type.errors.any?
 
-            SurveyTypeSerializer.new(survey_type_new).serializable_hash
+            SurveyTypeSerializer.new(new_survey_type).serializable_hash
           end
 
           desc 'PATCH /survey_types'
@@ -42,7 +39,7 @@ module Smash
           end
           patch '/:id' do
             update_survey_type
-            error!({ message: error_message(survey_type_new) }, 400) if survey_type.errors.any?
+            error!({ message: error_message(survey_type) }, 400) if survey_type.errors.any?
 
             SurveyTypeSerializer.new(survey_type).serializable_hash
           end
@@ -50,7 +47,7 @@ module Smash
           desc 'DELETE /survey_types'
           delete '/:id' do
             survey_type.destroy
-            error!({ message: error_message(survey_type_new) }, 400) unless survey_type.destroyed?
+            error!({ message: error_message(survey_type) }, 400) unless survey_type.destroyed?
 
             status :ok
           end
