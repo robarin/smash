@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Button,
@@ -11,8 +10,6 @@ import {
   TableRow,
   Paper
 } from '@material-ui/core';
-import { showModal } from '../../../actions/globalModal';
-import {TAG_TYPES_FORM} from '../../../utils/modals'
 
 const useStyles = makeStyles({
   table: {
@@ -21,17 +18,8 @@ const useStyles = makeStyles({
 });
 
 const TagTypes = (props) => {
-  const { list, showModal, dispatch } = props;
+  const { list, handleEdit } = props;
   const classes = useStyles();
-  const openModal = (id) => {
-    dispatch(showModal({
-      type: TAG_TYPES_FORM,
-      modalProps: {
-        tagTypeId: id,
-        action: 'edit'
-      }
-    }))
-  };
 
   if (!list || list.length === 0) {
     return <></>;
@@ -65,7 +53,7 @@ const TagTypes = (props) => {
                     <TableCell align="right">{name}</TableCell>
                     <TableCell align="right">{description}</TableCell>
                     <TableCell align="right">
-                      <Button onClick={() => {openModal(id)}} variant="contained" color="primary">
+                      <Button color='primary' onClick={() => handleEdit(id)}>
                         Edit
                       </Button>
                     </TableCell>
@@ -80,9 +68,4 @@ const TagTypes = (props) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  showModal,
-  dispatch
-})
-
-export default connect(mapDispatchToProps)(TagTypes);
+export default TagTypes;
