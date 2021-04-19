@@ -5,13 +5,17 @@ const styles = {
   success: 'bg-green-200 border-green-500',
 }
 
+const zIndex = {
+  zIndex: 1202
+}
+
 const Flash = ({type, title, text, active, hide}) => {
   if (!active) {
     return <></>;
   }
-  
+
   return (
-    <div className="absolute top-5 right-5 w-80 z-50">
+    <div className="absolute top-5 right-5 w-80 z-50" style={zIndex}>
       <div className={`${styles[type]} bg-teal-100 border-t-4 rounded-b text-teal-900 px-4 py-3 shadow-md`} role="alert">
         <div className="flex">
           <div className="py-1">
