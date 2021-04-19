@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
 import Grid from '@material-ui/core/Grid';
-import {showFlashMessage} from "../../actions/flash";
 
 import ContainerWrapper from "../wrapper";
 import ProfileInfo from './Info';
@@ -30,11 +29,4 @@ const mapStateToProps = (state) => ({
   currentUser: state.currentUser,
 })
 
-const mapDispatchToProps = dispatch => ({
-  showFlashMessage,
-  dispatch
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
-
-
+export default connect(mapStateToProps)(Profile);

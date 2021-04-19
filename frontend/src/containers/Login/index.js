@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
-import { requestPost } from '../../utils/request';
 import { showFlashMessage } from '../../actions/flash';
 import { useHistory } from 'react-router-dom';
-import { API_ROUTES } from '../../utils/constants';
-import saveCurrentUser from '../../utils/saveCurrentUser';
 
 import { TextField, Button, Link } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 import Oauth from '../Oauth';
+import {signIn} from "../../actions/currentUser";
 
 const queryString = require('query-string');
 const confirmationTypes = {
@@ -25,7 +23,7 @@ const confirmationTypes = {
   }
 }
 
-const Login = ({ dispatch, showFlashMessage }) => {
+const Login = ({ currentUser, showFlashMessage, signIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(null);
@@ -38,42 +36,35 @@ const Login = ({ dispatch, showFlashMessage }) => {
     }
   }, []);
 
-  const login = (e) => {
-    e.preventDefault();
-
-    const body = {
-      email,
-      password
+  useEffect(() => {
+    if (currentUser.isLogged) {
+      history.push(currentUser.admin ? '/admin' : '/dashboard');
     }
+  }, [currentUser])
 
-    requestPost(API_ROUTES.login, body).then((res) => {
-      res.json().then(result => {
-        if (res.ok) {
-          const user = saveCurrentUser(result);
-          setFlashMessage();
-          
-          history.push(user.admin ? '/admin' : '/dashboard');
-        } else {
-          setLoginError(result.message);
-        }
-      })
-    })
+  const login = async () => {
+    try {
+      await signIn(email, password)
+      setFlashMessage();
+    } catch(error) {
+      setLoginError(error.message);
+    }
   }
 
   const setFlashMessage = () => {
-    dispatch(showFlashMessage({
+    showFlashMessage({
       show: true,
       title: 'Success',
       text: 'You have successfully logged in',
       type: 'success',
-    }))
+    })
   }
 
   const setConfirmationMessage = () => {
-    dispatch(showFlashMessage({
+    showFlashMessage({
       show: true,
       ...confirmationTypes[queryParams.confirmation]
-    }))
+    })
   }
 
   return(
@@ -101,7 +92,6 @@ const Login = ({ dispatch, showFlashMessage }) => {
             </div>
             <Oauth
               setLoginError={setLoginError}
-              saveCurrentUser={saveCurrentUser}
               history={history}
             />
           </form>
@@ -115,9 +105,9 @@ const mapStateToProps = (state) => ({
   currentUser: state.currentUser,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = {
   showFlashMessage,
-  dispatch
-})
+  signIn,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

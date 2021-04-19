@@ -6,7 +6,6 @@ import { API_ROUTES } from '../../utils/constants';
 import Typography from '@material-ui/core/Typography';
 import { Button, TextField, Link } from '@material-ui/core';
 import PageMessage from '../../components/Utils/PageMessage';
-import saveCurrentUser from '../../utils/saveCurrentUser';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -19,8 +18,6 @@ const Signup = () => {
   const history = useHistory();
 
   const register = (e) => {
-    e.preventDefault();
-
     const body = {
       email,
       password,

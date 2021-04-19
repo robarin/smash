@@ -4,24 +4,23 @@ import { useHistory } from 'react-router-dom';
 import StepButtons from "./StepButtons";
 import {requestPost} from "../../utils/request";
 import {API_ROUTES} from "../../utils/constants";
-import saveCurrentUser from "../../utils/saveCurrentUser";
 import {showFlashMessage} from "../../actions/flash";
+import {setCurrentUser} from "../../actions/currentUser";
 
-const BasicSurvey = (props) => {
-  const { previousStep, accountInfo, showFlashMessage, dispatch } = props;
+const BasicSurvey = ({ previousStep, accountInfo, showFlashMessage, setCurrentUser }) => {
   const history = useHistory();
   
   const onFinish = () => {
     requestPost(API_ROUTES.profile.setup, accountInfo).then((res) => {
       res.json().then(result => {
         if (res.ok) {
-          saveCurrentUser(result);
-          dispatch(showFlashMessage({
+          setCurrentUser(result);
+          showFlashMessage({
             show: true,
             type: 'success',
             title: 'Great!',
             text: 'Your profile has been set up'
-          }))
+          })
           history.push('/dashboard');
         }
       })
@@ -41,10 +40,10 @@ const BasicSurvey = (props) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = {
   showFlashMessage,
-  dispatch
-})
+  setCurrentUser,
+}
 
 export default connect(null, mapDispatchToProps)(BasicSurvey);
 

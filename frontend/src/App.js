@@ -1,5 +1,6 @@
 import './App.css';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import Home from './containers/Home';
 import Login from './containers/Login';
@@ -20,12 +21,25 @@ import CabinetRoute from './layouts/CabinetLayout/CabinetRoute';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
+import Modal from './layouts/AdminLayout/Modal'
+import { getCurrentUser } from "./actions/currentUser";
 
 library.add(fab)
 
-function App() {
+const App = ({getCurrentUser, currentUser, modalIsOpen}) => {
+  useEffect(() => {
+    getCurrentUser()
+  }, [])
+
+  if (currentUser.isLoading) {
+    return <p>Loading...</p>
+  }
+
   return (
     <div className="App">
+      {modalIsOpen && (
+        <Modal open={modalIsOpen} />
+      )}
       <Router>
         <Switch>
           <ApplicationRoute exact path="/" component={Home} />
@@ -47,4 +61,13 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = ({currentUser, ...state}) => ({
+  currentUser,
+  modalIsOpen: state.globalModal.isOpen,
+})
+
+const mapDispatchToProps = {
+  getCurrentUser,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

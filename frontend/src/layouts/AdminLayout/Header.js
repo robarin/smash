@@ -10,11 +10,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { useStyles } from './styles';
 
 import AppBar from '@material-ui/core/AppBar';
-import { requestDelete } from '../../utils/request';
-import { API_ROUTES } from '../../utils/constants';
+import {connect} from "react-redux";
+import {logout} from "../../actions/currentUser";
 
 const Header = (props) => {
-  const { removeCurrentUser, dispatch, history } = props;
+  const { logout, history } = props;
   const [open, setOpen] = useState(true);
   const classes = useStyles();
 
@@ -22,15 +22,8 @@ const Header = (props) => {
     setOpen(!open);
   };
 
-  const logout = (e) => {
-    e.preventDefault();
-
-    requestDelete(API_ROUTES.logout).then((res) => {
-      if (res.ok) {
-        dispatch(removeCurrentUser());
-        history.push('/');
-      }
-    });
+  const handleLogout = () => {
+    logout()
   }
 
   return (
@@ -62,7 +55,7 @@ const Header = (props) => {
             </div>
             <div>
               <Button color="default" onClick={() => history.push('/')}>Home</Button>
-              <Button color="default" onClick={logout}>Logout</Button>
+              <Button color="default" onClick={handleLogout}>Logout</Button>
             </div>
           </div>
         </Toolbar>
@@ -71,4 +64,9 @@ const Header = (props) => {
   )
 }
 
-export default Header
+const mapDispatchToProps = {
+  logout
+}
+
+export default connect(null, mapDispatchToProps)(Header)
+

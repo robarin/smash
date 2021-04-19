@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 import {requestPost, requestPatch} from '../../utils/request';
 import {API_ROUTES} from "../../utils/constants";
 import {showFlashMessage} from "../../actions/flash";
-import saveCurrentUser from '../../utils/saveCurrentUser';
+import {setCurrentUser} from "../../actions/currentUser";
 
-const EditProfile = ({currentUser, dispatch, showFlashMessage, closeModal}) => {
+const EditProfile = ({currentUser, setCurrentUser, showFlashMessage}) => {
   const {person} = currentUser;
   const [firstName, setFirstName] = useState(person.first_name);
   const [lastName, setLastName] = useState(person.last_name);
@@ -15,49 +15,44 @@ const EditProfile = ({currentUser, dispatch, showFlashMessage, closeModal}) => {
   const fileInputRef = createRef();
 
   const edit = (e) => {
-    e.preventDefault();
-
     const body = {
       first_name: firstName,
       last_name: lastName,
       middle_name: middleName
     }
-
+    
     requestPatch(API_ROUTES.profile.update, body).then((res) => {
       res.json().then(result => {
         if (res.ok) {
-          saveCurrentUser(result);
-          closeModal();
-          dispatch(showFlashMessage({
+          setCurrentUser(result);
+          showFlashMessage({
             show: true,
             title: 'Success',
             text: 'Your profile has been successfully updated',
             type: 'success',
-          }))
+          })
         } else {
           setEditError(result.message);
         }
       })
     })
   }
-
+  
   const onFileChange = () => {
     setFile(fileInputRef.current.files[0])
   }
-
+  
   const onFileUpload = (e) => {
-    e.preventDefault();
-
     requestPost(API_ROUTES.profile.avatar, {file}).then((res) => {
       res.json().then(result => {
         if (res.ok) {
-          saveCurrentUser(result);
-          dispatch(showFlashMessage({
+          setCurrentUser(result);
+          showFlashMessage({
             show: true,
             title: 'Success',
             text: 'Your profile image has been successfully updated',
             type: 'success',
-          }))
+          })
           setFile(null);
         } else {
           setEditError(result.message);
@@ -124,9 +119,9 @@ const mapStateToProps = (state) => ({
   currentUser: state.currentUser,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = {
   showFlashMessage,
-  dispatch
-})
+  setCurrentUser,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);
