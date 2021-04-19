@@ -1,16 +1,29 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { showModal } from '../../actions/globalModal';
+import React, {useState} from 'react';
 
-const ProfileInfo = ({currentUser, dispatch, showModal}) => {
+import Modal from '../../components/Utils/Modal';
+import EditForm from './Edit'
+
+const ProfileInfo = ({currentUser}) => {
   const { person } = currentUser;
-  
+  const defaultModalParams = {
+    open: false,
+    title: 'Default',
+    tag: null
+  };
+  const [modalParams, setModalParams] = useState(defaultModalParams);
+  const closeModal = () => {
+    setModalParams(defaultModalParams);
+  };
+
   const openProfileEdit = () => {
-    dispatch(showModal({type: 'EDIT_PROFILE_FORM'}))
+    setModalParams({ open: true, title: 'Edit profile' });
   }
-  
+
   return(
     <div>
+      <Modal isOpen={modalParams.open} title={modalParams.title} handleClose={closeModal}>
+        <EditForm closeModal={closeModal}/>
+      </Modal>
       <div className="px-4 py-5 sm:px-6 grid gap-4 grid-cols-12">
         <div className="col-span-2">
           <div className="w-16 h-16 bg-gray-300 rounded-full">
@@ -109,10 +122,4 @@ const ProfileInfo = ({currentUser, dispatch, showModal}) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  showModal,
-  dispatch
-})
-
-export default connect(null, mapDispatchToProps)(ProfileInfo);
-
+export default ProfileInfo;

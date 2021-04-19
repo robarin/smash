@@ -5,7 +5,7 @@ import {API_ROUTES} from "../../utils/constants";
 import {showFlashMessage} from "../../actions/flash";
 import saveCurrentUser from '../../utils/saveCurrentUser';
 
-const EditProfile = ({currentUser, dispatch, showFlashMessage}) => {
+const EditProfile = ({currentUser, dispatch, showFlashMessage, closeModal}) => {
   const {person} = currentUser;
   const [firstName, setFirstName] = useState(person.first_name);
   const [lastName, setLastName] = useState(person.last_name);
@@ -13,20 +13,21 @@ const EditProfile = ({currentUser, dispatch, showFlashMessage}) => {
   const [editError, setEditError] = useState(null);
   const [file, setFile] = useState(null);
   const fileInputRef = createRef();
-  
+
   const edit = (e) => {
     e.preventDefault();
-    
+
     const body = {
       first_name: firstName,
       last_name: lastName,
       middle_name: middleName
     }
-    
+
     requestPatch(API_ROUTES.profile.update, body).then((res) => {
       res.json().then(result => {
         if (res.ok) {
           saveCurrentUser(result);
+          closeModal();
           dispatch(showFlashMessage({
             show: true,
             title: 'Success',
@@ -39,14 +40,14 @@ const EditProfile = ({currentUser, dispatch, showFlashMessage}) => {
       })
     })
   }
-  
+
   const onFileChange = () => {
     setFile(fileInputRef.current.files[0])
   }
-  
+
   const onFileUpload = (e) => {
     e.preventDefault();
-  
+
     requestPost(API_ROUTES.profile.avatar, {file}).then((res) => {
       res.json().then(result => {
         if (res.ok) {
@@ -64,7 +65,7 @@ const EditProfile = ({currentUser, dispatch, showFlashMessage}) => {
       })
     })
   }
-  
+
   return (
     <div className="px-4 py-5 sm:px-6 grid gap-4 border-gray-200 text-left grid-cols-12">
       <div className="col-span-3">
@@ -129,4 +130,3 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);
-
