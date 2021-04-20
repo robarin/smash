@@ -9,7 +9,7 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
   const [role, setRole] = useState(null);
   const [error, setError] = useState(null);
 
-  const getUserRoles = async () => {
+  const setUserRoles = async () => {
     try {
       const response = await userRoles();
       setRoles(response.data);
@@ -19,7 +19,7 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
   }
   
   useEffect(() => {
-    getUserRoles();
+    setUserRoles();
   }, [])
   
   const updateAccountInfo = () => {

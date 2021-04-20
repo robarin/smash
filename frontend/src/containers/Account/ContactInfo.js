@@ -15,7 +15,7 @@ const ContactInfo = ({ accountInfo, setAccountInfo, nextStep, previousStep, coun
   const [province, setProvince] = useState(null);
   const [error, setError] = useState(null);
 
-  const getContactInfo = async () => {
+  const setCountriesInfo = async () => {
     try {
       const response = await countriesInfo();
       const countriesData = response.data;
@@ -35,7 +35,7 @@ const ContactInfo = ({ accountInfo, setAccountInfo, nextStep, previousStep, coun
   }
   
   useEffect(() => {
-    getContactInfo();
+    setCountriesInfo();
   }, [])
   
   const onPhoneChange = (e) => {
