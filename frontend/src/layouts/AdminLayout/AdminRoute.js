@@ -1,15 +1,26 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, useHistory } from 'react-router-dom'
 import AdminLayout from './index';
+import { connect } from "react-redux";
 
-const AdminRoute = ({ component: Component, ...rest }) => {
+const AdminRoute = ({currentUser, component: Component, ...rest}) => {
+  const history = useHistory()
+
+  if (!currentUser.isLogged || !currentUser.admin) {
+    history.push('/login')
+  }
+
   return (
-    <Route { ...rest } render={props => (
+    <Route {...rest} render={props => (
       <AdminLayout>
-        <Component { ...props } />
+        <Component {...props} />
       </AdminLayout>
     )} />
   )
 }
 
-export default AdminRoute
+const mapStateToProps = ({currentUser}) => ({
+  currentUser,
+})
+
+export default connect(mapStateToProps)(AdminRoute);

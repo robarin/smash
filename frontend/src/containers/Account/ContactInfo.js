@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
+import { connect } from "react-redux";
 import StepButtons from "./StepButtons";
-import {requestGet} from "../../utils/request";
-import {API_ROUTES} from "../../utils/constants";
+import { countriesInfo } from "../../actions/countriesInfo";
 
 const PHONE_REG = /^[+]*[0-9]*$/;
 
-const ContactInfo = (props) => {
-  const { accountInfo, setAccountInfo, nextStep, previousStep } = props;
+const ContactInfo = ({ accountInfo, setAccountInfo, nextStep, previousStep, countriesInfo }) => {
   const [phone, setPhone] = useState('');
   const [countries, setCountries] = useState([]);
   const [regions, setRegions] = useState([]);
@@ -15,25 +14,28 @@ const ContactInfo = (props) => {
   const [region, setRegion] = useState(null);
   const [province, setProvince] = useState(null);
   const [error, setError] = useState(null);
+
+  const setCountriesInfo = async () => {
+    try {
+      const response = await countriesInfo();
+      const countriesData = response.data;
+      const regionsData = countriesData[0].attributes.regions;
+      const provincesData = regionsData[0].attributes.provinces;
+      
+      setCountry(countriesData[0]);
+      setRegion(regionsData[0]);
+      setProvince(provincesData[0]);
+      
+      setCountries(countriesData);
+      setRegions(regionsData);
+      setProvinces(provincesData);
+    } catch(error) {
+      setError({ message: error.message || 'Something went wrong' });
+    }
+  }
   
   useEffect(() => {
-    requestGet(API_ROUTES.countries.index).then((res) => {
-      res.json().then(result => {
-        if (res.ok) {
-          const countriesData = result.data;
-          const regionsData = countriesData[0].attributes.regions;
-          const provincesData = regionsData[0].attributes.provinces;
-          
-          setCountry(countriesData[0]);
-          setRegion(regionsData[0]);
-          setProvince(provincesData[0]);
-          
-          setCountries(countriesData);
-          setRegions(regionsData);
-          setProvinces(provincesData);
-        }
-      })
-    })
+    setCountriesInfo();
   }, [])
   
   const onPhoneChange = (e) => {
@@ -157,4 +159,8 @@ const ContactInfo = (props) => {
   )
 }
 
-export default ContactInfo;
+const mapDispatchToProps = {
+  countriesInfo,
+}
+
+export default connect(null, mapDispatchToProps)(ContactInfo);

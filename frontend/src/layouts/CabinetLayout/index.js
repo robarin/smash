@@ -5,22 +5,16 @@ import FlashDelay from '../../components/Utils/FlashDelay';
 
 import NavMenu from "./NavMenu";
 import AccountSetup from "../../containers/Account/Setup";
-import getCurrentUser from '../../utils/getCurrentUser';
 
 const CabinetLayout = ({ children, flashMessage, currentUser }) => {
   const history = useHistory();
-  
-  useEffect(() => {
-    if (currentUser) return;
-    getCurrentUser({history});
-  },[]);
   
   const pageTitles = {
     dashboard: 'Dashboard',
     profile: 'Profile'
   }
   
-  if (currentUser && currentUser.sign_in_count === 1 && !currentUser.person.province) {
+  if (currentUser.isLogged && currentUser.sign_in_count === 1 && !currentUser.person.province) {
     return(
       <AccountSetup />
     )

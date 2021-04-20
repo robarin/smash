@@ -1,5 +1,6 @@
 import './App.css';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import Home from './containers/Home';
 import Login from './containers/Login';
@@ -20,10 +21,19 @@ import CabinetRoute from './layouts/CabinetLayout/CabinetRoute';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
+import { getCurrentUser } from "./actions/currentUser";
 
 library.add(fab)
 
-function App() {
+const App = ({getCurrentUser, currentUser}) => {
+  useEffect(() => {
+    getCurrentUser()
+  }, [])
+
+  if (currentUser.isLoading) {
+    return <p>Loading...</p>
+  }
+
   return (
     <div className="App">
       <Router>
@@ -47,4 +57,12 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = ({currentUser}) => ({
+  currentUser
+})
+
+const mapDispatchToProps = {
+  getCurrentUser,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

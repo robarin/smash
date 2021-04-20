@@ -8,7 +8,6 @@ export default function () {
   const [windowOpen, setWindowOpen] = useState(false);
   
   const onClick = (e) => {
-    e.preventDefault();
     setWindowOpen(true);
   }
   

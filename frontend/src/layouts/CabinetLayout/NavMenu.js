@@ -1,28 +1,17 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {useHistory} from 'react-router-dom';
-import {requestDelete} from "../../utils/request";
-import {API_ROUTES} from "../../utils/constants";
 
 import HomeIcon from "@material-ui/icons/Home";
 import PeopleIcon from "@material-ui/icons/People";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import {removeCurrentUser} from "../../actions/currentUser";
+import {logout} from "../../actions/currentUser";
 
-const NavMenu = ({removeCurrentUser, dispatch}) => {
+const NavMenu = ({logout}) => {
   const history = useHistory();
   
-  const handleLogout = (e) => {
-    e.preventDefault();
-    
-    requestDelete(API_ROUTES.logout).then((res) => {
-      if (res.ok) {
-        history.push('/');
-        dispatch(removeCurrentUser());
-      }
-    });
-  }
-  
+  const handleLogout = () => logout()
+
   return (
     <>
       <ul>
@@ -48,10 +37,9 @@ const NavMenu = ({removeCurrentUser, dispatch}) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  removeCurrentUser,
-  dispatch
-})
+const mapDispatchToProps = {
+  logout,
+}
 
 export default connect(null, mapDispatchToProps)(NavMenu);
 

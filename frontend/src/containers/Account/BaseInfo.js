@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from "react-redux";
 import StepButtons from "./StepButtons";
-import {requestGet} from "../../utils/request";
-import {API_ROUTES} from "../../utils/constants";
+import { userRoles } from "../../actions/userRoles";
 
-const BaseInfo = (props) => {
-  const { accountInfo, setAccountInfo, nextStep } = props;
+const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
   const [roles, setRoles] = useState([]);
   const [gender, setGender] = useState(null);
   const [role, setRole] = useState(null);
   const [error, setError] = useState(null);
+
+  const setUserRoles = async () => {
+    try {
+      const response = await userRoles();
+      setRoles(response.data);
+    } catch(error) {
+      setError({ message: error.message || 'Something went wrong' });
+    }
+  }
   
   useEffect(() => {
-    requestGet(API_ROUTES.roles.index).then((res) => {
-      res.json().then(result => {
-        if (res.ok) {
-          setRoles(result.data);
-        }
-      })
-    })
+    setUserRoles();
   }, [])
   
   const updateAccountInfo = () => {
@@ -95,4 +97,8 @@ const BaseInfo = (props) => {
   )
 }
 
-export default BaseInfo;
+const mapDispatchToProps = {
+  userRoles,
+}
+
+export default connect(null, mapDispatchToProps)(BaseInfo);

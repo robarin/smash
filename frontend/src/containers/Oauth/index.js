@@ -1,24 +1,26 @@
 import React, {useEffect} from 'react';
 import { connect } from "react-redux";
+import { useHistory } from 'react-router-dom';
 
 import GoogleButton from '../../components/Auth/GoogleButton';
 import TwitterButton from '../../components/Auth/TwitterButton';
 import ActionCable from "actioncable";
 import {showFlashMessage} from "../../actions/flash";
+import {setCurrentUser} from "../../actions/currentUser";
 
-const Oauth = (props) => {
-  const { saveCurrentUser, history, showFlashMessage, dispatch } = props;
+const Oauth = ({ setCurrentUser, showFlashMessage }) => {
   const cable = ActionCable.createConsumer(`ws://${process.env.REACT_APP_API_HOST}/cable`);
-  
+  const history = useHistory()
+
   const handleMessage = (message) => {
     const provider = message.data.attributes.provider.replace(/^\w/, (c) => c.toUpperCase());
-    saveCurrentUser(message);
-    dispatch(showFlashMessage({
+    setCurrentUser(message);
+    showFlashMessage({
       type: 'success',
       title: 'Welcome!',
       text: `You have successfully signed in via ${provider}`,
       show: true,
-    }))
+    })
     history.push('/dashboard');
   }
   
@@ -37,10 +39,10 @@ const Oauth = (props) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = {
   showFlashMessage,
-  dispatch
-})
+  setCurrentUser,
+}
 
 export default connect(null, mapDispatchToProps)(Oauth);
 

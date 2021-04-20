@@ -2,30 +2,27 @@ import React from 'react';
 import { connect } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import StepButtons from "./StepButtons";
-import {requestPost} from "../../utils/request";
-import {API_ROUTES} from "../../utils/constants";
-import saveCurrentUser from "../../utils/saveCurrentUser";
 import {showFlashMessage} from "../../actions/flash";
+import {setCurrentUser} from "../../actions/currentUser";
+import {profileSetup} from "../../actions/profile";
 
-const BasicSurvey = (props) => {
-  const { previousStep, accountInfo, showFlashMessage, dispatch } = props;
+const BasicSurvey = ({ previousStep, accountInfo, showFlashMessage, setCurrentUser, profileSetup }) => {
   const history = useHistory();
   
-  const onFinish = () => {
-    requestPost(API_ROUTES.profile.setup, accountInfo).then((res) => {
-      res.json().then(result => {
-        if (res.ok) {
-          saveCurrentUser(result);
-          dispatch(showFlashMessage({
-            show: true,
-            type: 'success',
-            title: 'Great!',
-            text: 'Your profile has been set up'
-          }))
-          history.push('/dashboard');
-        }
+  const onFinish = async () => {
+    try {
+      const result = await profileSetup(accountInfo);
+      setCurrentUser(result);
+      showFlashMessage({
+        show: true,
+        type: 'success',
+        title: 'Great!',
+        text: 'Your profile has been set up'
       })
-    })
+      history.push('/dashboard');
+    } catch(error) {
+      console.log({ message: error.message || 'Something went wrong' });
+    }
   }
   
   return(
@@ -41,10 +38,11 @@ const BasicSurvey = (props) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = {
   showFlashMessage,
-  dispatch
-})
+  setCurrentUser,
+  profileSetup,
+}
 
 export default connect(null, mapDispatchToProps)(BasicSurvey);
 

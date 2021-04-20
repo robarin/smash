@@ -1,18 +1,9 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import FlashDelay from '../../components/Utils/FlashDelay';
 import Header from './Header';
-import getCurrentUser from "../../utils/getCurrentUser";
 
-const ApplicationLayout = ({ children, flashMessage, currentUser }) => {
-  const history = useHistory();
-  
-  useEffect(() => {
-    if (currentUser) return;
-    getCurrentUser({history});
-  },[]);
-  
+const ApplicationLayout = ({ children, flashMessage }) => {
   return (
     <div className="applicationLayout grid grid-cols-12">
       {flashMessage.show && (

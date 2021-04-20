@@ -5,7 +5,7 @@ import {showFlashMessage} from "../actions/flash";
 const ContainerWrapper = ({children, currentUser}) => {
   return(
     <>
-      {currentUser && children}
+      {currentUser.isLogged && children}
     </>
   )
 }

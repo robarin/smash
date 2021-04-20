@@ -7,26 +7,19 @@ import Sidebar from './Sidebar';
 import FlashDelay from '../../components/Utils/FlashDelay';
 
 import { useStyles } from './styles';
-import { removeCurrentUser } from '../../actions/currentUser';
-import getCurrentUser from "../../utils/getCurrentUser";
 
 const AdminLayout = (props) => {
-  const { currentUser, removeCurrentUser, children, dispatch, flashMessage } = props;
+  const { currentUser, children, dispatch, flashMessage } = props;
   const classes = useStyles();
   const history = useHistory();
   
-  useEffect(() => {
-    getCurrentUser({history});
-  },[]);
-  
-  if (currentUser && !currentUser.admin) {
+  if (!currentUser.admin) {
     history.push('/login');
     return <></>;
   }
 
   const headerProps = {
     history,
-    removeCurrentUser,
     dispatch
   }
 
@@ -53,9 +46,4 @@ const mapStateToProps = (state) => ({
   flashMessage: state.flashMessage,
 })
 
-const mapDispatchToProps = dispatch => ({
-  removeCurrentUser,
-  dispatch
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminLayout);
+export default connect(mapStateToProps)(AdminLayout);
