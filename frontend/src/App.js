@@ -21,12 +21,11 @@ import CabinetRoute from './layouts/CabinetLayout/CabinetRoute';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import Modal from './layouts/AdminLayout/Modal'
 import { getCurrentUser } from "./actions/currentUser";
 
 library.add(fab)
 
-const App = ({getCurrentUser, currentUser, modalIsOpen}) => {
+const App = ({getCurrentUser, currentUser}) => {
   useEffect(() => {
     getCurrentUser()
   }, [])
@@ -37,9 +36,6 @@ const App = ({getCurrentUser, currentUser, modalIsOpen}) => {
 
   return (
     <div className="App">
-      {modalIsOpen && (
-        <Modal open={modalIsOpen} />
-      )}
       <Router>
         <Switch>
           <ApplicationRoute exact path="/" component={Home} />
@@ -61,9 +57,8 @@ const App = ({getCurrentUser, currentUser, modalIsOpen}) => {
   );
 }
 
-const mapStateToProps = ({currentUser, ...state}) => ({
-  currentUser,
-  modalIsOpen: state.globalModal.isOpen,
+const mapStateToProps = ({currentUser}) => ({
+  currentUser
 })
 
 const mapDispatchToProps = {
