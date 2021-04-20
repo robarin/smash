@@ -95,7 +95,6 @@ module Smash
           result = ::Users::Auth::Organize.call(params: params)
           error!({ message: result.message }, 400) if result.failure?
 
-          save_user_session(result.user)
           user_response(result.user)
         end
 
