@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { requestPost } from '../../utils/request';
+import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { API_ROUTES } from '../../utils/constants';
+import { signUp } from "../../actions/signUp";
 
 import Typography from '@material-ui/core/Typography';
 import { Button, TextField, Link } from '@material-ui/core';
 import PageMessage from '../../components/Utils/PageMessage';
 
-const Signup = () => {
+const Signup = ({signUp}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -17,7 +17,7 @@ const Signup = () => {
   const [success, setSuccess] = useState(false);
   const history = useHistory();
 
-  const register = (e) => {
+  const register = async () => {
     const body = {
       email,
       password,
@@ -26,17 +26,12 @@ const Signup = () => {
       middle_name: middleName,
     }
 
-    requestPost(API_ROUTES.signup, body).then((res) => {
-      if (res.ok) {
-        res.json().then(result => {
-          setSuccess(true);
-        })
-      } else {
-        res.json().then(error => {
-          setError({ message: error.message || 'Something went wrong' })
-        })
-      }
-    })
+    try {
+      await signUp(body);
+      setSuccess(true);
+    } catch(error) {
+      setError({ message: error.message || 'Something went wrong' });
+    }
   }
   
   if (success) {
@@ -85,4 +80,8 @@ const Signup = () => {
   )
 }
 
-export default Signup;
+const mapDispatchToProps = {
+  signUp,
+}
+
+export default connect(null, mapDispatchToProps)(Signup);
