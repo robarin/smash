@@ -1,6 +1,6 @@
 import { makeAsyncActionCreator } from 'redux-toolbelt'
-import { requestPost } from "../utils/request";
-import { API_ROUTES } from "../utils/constants";
+import { requestPost } from "@utils/request";
+import { API_ROUTES } from "@utils/constants";
 
 export const SIGN_UP = makeAsyncActionCreator('SIGN_UP');
 

@@ -1,6 +1,6 @@
 import { makeAsyncActionCreator } from 'redux-toolbelt'
-import { requestGet } from "../utils/request";
-import { API_ROUTES } from "../utils/constants";
+import { requestGet } from "@utils/request";
+import { API_ROUTES } from "@utils/constants";
 
 export const USER_ROLES = makeAsyncActionCreator('USER_ROLES');
 
@@ -9,7 +9,7 @@ export const userRoles = () => dispatch => {
 
   return requestGet(API_ROUTES.roles.index).then((response) => {
     const {status, data} = response
-    
+
     if (status >= 200 && status < 300) {
       dispatch(USER_ROLES.success(data))
     } else {

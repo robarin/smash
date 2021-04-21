@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import DrawerList from '../../components/Admin/DrawerList';
+import DrawerList from '@components/Admin/DrawerList';
 
 import { useStyles } from './styles';
 

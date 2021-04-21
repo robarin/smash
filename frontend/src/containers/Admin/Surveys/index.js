@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@material-ui/core';
-import { requestGet } from '../../../utils/request';
-import { API_ROUTES } from '../../../utils/constants';
+import { requestGet } from '@utils/request';
+import { API_ROUTES } from '@utils/constants';
 
-import SurveysList from '../../../components/Admin/Surveys';
+import SurveysList from '@components/Admin/Surveys';
 
 const Surveys = () => {
   const [surveys, setSurveys] = useState([]);

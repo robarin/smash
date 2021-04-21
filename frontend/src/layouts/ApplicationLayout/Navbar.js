@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
 import { Button, withStyles, Typography } from '@material-ui/core';
-import NavLink from '../../components/Navigation/NavLink';
-import { logout } from "../../actions/currentUser";
+import NavLink from '@components/Navigation/NavLink';
+import { logout } from "@actions/currentUser";
 
 const ProfileButton = withStyles({
   root: {

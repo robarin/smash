@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
-import { showFlashMessage } from '../../actions/flash';
+import { showFlashMessage } from '@actions/flash';
 import { useHistory } from 'react-router-dom';
 
 import { TextField, Button, Link } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
-import Oauth from '../Oauth';
-import {signIn} from "../../actions/currentUser";
+import Oauth from '@containers/Oauth';
+import {signIn} from "@actions/currentUser";
 
 const queryString = require('query-string');
 const confirmationTypes = {

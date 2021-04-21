@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import Grid from '@material-ui/core/Grid';
 
-import ContainerWrapper from "../wrapper";
+import ContainerWrapper from "@containers/wrapper";
 import ProfileInfo from './Info';
 
 const Profile = ({currentUser}) => {

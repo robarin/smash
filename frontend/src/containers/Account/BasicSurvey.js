@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import StepButtons from "./StepButtons";
-import {showFlashMessage} from "../../actions/flash";
-import {setCurrentUser} from "../../actions/currentUser";
-import {profileSetup} from "../../actions/profile";
+import {showFlashMessage} from "@actions/flash";
+import {setCurrentUser} from "@actions/currentUser";
+import {profileSetup} from "@actions/profile";
 
 const BasicSurvey = ({ previousStep, accountInfo, showFlashMessage, setCurrentUser, profileSetup }) => {
   const history = useHistory();
-  
+
   const onFinish = async () => {
     try {
       const result = await profileSetup(accountInfo);
@@ -24,7 +24,7 @@ const BasicSurvey = ({ previousStep, accountInfo, showFlashMessage, setCurrentUs
       console.log({ message: error.message || 'Something went wrong' });
     }
   }
-  
+
   return(
     <div className="mb-6">
       <div className="m-4">
@@ -45,4 +45,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(null, mapDispatchToProps)(BasicSurvey);
-

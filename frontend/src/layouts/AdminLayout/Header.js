@@ -11,7 +11,7 @@ import { useStyles } from './styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import {connect} from "react-redux";
-import {logout} from "../../actions/currentUser";
+import {logout} from "@actions/currentUser";
 
 const Header = (props) => {
   const { logout, history } = props;
@@ -69,4 +69,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(null, mapDispatchToProps)(Header)
-

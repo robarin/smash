@@ -1,4 +1,4 @@
-import { FETCH_CURRENT_USER, SIGN_OUT, SIGN_IN } from '../actions/currentUser';
+import { FETCH_CURRENT_USER, SIGN_OUT, SIGN_IN } from '@actions/currentUser';
 
 const initialState = {
   isLogged: false,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
 import StepButtons from "./StepButtons";
-import { userRoles } from "../../actions/userRoles";
+import { userRoles } from "@actions/userRoles";
 
 const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
   const [roles, setRoles] = useState([]);
@@ -17,11 +17,11 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
       setError({ message: error.message || 'Something went wrong' });
     }
   }
-  
+
   useEffect(() => {
     setUserRoles();
   }, [])
-  
+
   const updateAccountInfo = () => {
     const currentRole = role || roles[0].attributes.name;
     setAccountInfo({
@@ -30,26 +30,26 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
       role: currentRole
     });
   }
-  
+
   const onStepChange = () => {
     if (!gender) {
       setError({ type: 'gender', message: 'Choose your gender' });
       return;
     }
-    
+
     updateAccountInfo();
     nextStep();
   }
-  
+
   const onGenderChange = (e) => {
     setError(null);
     setGender(e.target.value);
   }
-  
+
   const onRoleChange = (e) => {
     setRole(e.target.value);
   }
-  
+
   return (
     <div className="mb-6">
       <div className="m-4">
@@ -76,7 +76,7 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
                 )}
               </div>
             </dd>
-            
+
             <dt className="font-medium text-right">Role</dt>
             <dd className="col-span-2">
               <div>

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import StepButtons from "./StepButtons";
-import { countriesInfo } from "../../actions/countriesInfo";
+import { countriesInfo } from "@actions/countriesInfo";
 
 const PHONE_REG = /^[+]*[0-9]*$/;
 
@@ -21,11 +21,11 @@ const ContactInfo = ({ accountInfo, setAccountInfo, nextStep, previousStep, coun
       const countriesData = response.data;
       const regionsData = countriesData[0].attributes.regions;
       const provincesData = regionsData[0].attributes.provinces;
-      
+
       setCountry(countriesData[0]);
       setRegion(regionsData[0]);
       setProvince(provincesData[0]);
-      
+
       setCountries(countriesData);
       setRegions(regionsData);
       setProvinces(provincesData);
@@ -33,11 +33,11 @@ const ContactInfo = ({ accountInfo, setAccountInfo, nextStep, previousStep, coun
       setError({ message: error.message || 'Something went wrong' });
     }
   }
-  
+
   useEffect(() => {
     setCountriesInfo();
   }, [])
-  
+
   const onPhoneChange = (e) => {
     const value = e.target.value;
     if (value === '' || value.match(PHONE_REG)) {
@@ -45,7 +45,7 @@ const ContactInfo = ({ accountInfo, setAccountInfo, nextStep, previousStep, coun
       setPhone(value);
     }
   }
-  
+
   const onRegionChange = (e) => {
     const value = e.target.value;
     const selectedRegion = regions.find(r => r.attributes.name === value);
@@ -55,14 +55,14 @@ const ContactInfo = ({ accountInfo, setAccountInfo, nextStep, previousStep, coun
     setProvince(selectedProvinces[0]);
     setProvinces(selectedProvinces);
   }
-  
+
   const onProvinceChange = (e) => {
     const value = e.target.value;
     const selectedProvince = provinces.find(p => p.attributes.name === value);
-    
+
     setProvince(selectedProvince);
   }
-  
+
   const validPhone = () => {
     let valid = true;
     if (phone.length === 0) {
@@ -71,14 +71,14 @@ const ContactInfo = ({ accountInfo, setAccountInfo, nextStep, previousStep, coun
     }
     return valid;
   }
-  
+
   const validStep = () => {
     return validPhone();
   }
-  
+
   const onNextStep = () => {
     if (!validStep()) return;
-    
+
     setAccountInfo({
       ...accountInfo,
       phone,
@@ -88,11 +88,11 @@ const ContactInfo = ({ accountInfo, setAccountInfo, nextStep, previousStep, coun
     })
     nextStep();
   }
-  
+
   const isPhoneError = () => {
     return error && error.type === 'phone'
   }
-  
+
   return(
     <div className="mb-6">
       <div className="m-4">
@@ -112,7 +112,7 @@ const ContactInfo = ({ accountInfo, setAccountInfo, nextStep, previousStep, coun
                 )}
               </div>
             </dd>
-      
+
             <dt className="font-medium text-right pt-2">Country</dt>
             <dd className="col-span-2">
               <div>
@@ -125,7 +125,7 @@ const ContactInfo = ({ accountInfo, setAccountInfo, nextStep, previousStep, coun
                 </label>
               </div>
             </dd>
-  
+
             <dt className="font-medium text-right pt-2">Region</dt>
             <dd className="col-span-2">
               <div>
@@ -138,7 +138,7 @@ const ContactInfo = ({ accountInfo, setAccountInfo, nextStep, previousStep, coun
                 </label>
               </div>
             </dd>
-  
+
             <dt className="font-medium text-right pt-2">City</dt>
             <dd className="col-span-2">
               <div>

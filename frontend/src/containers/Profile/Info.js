@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import Modal from '../../components/Utils/Modal';
+import Modal from '@components/Utils/Modal';
 import EditForm from './Edit'
 
 const ProfileInfo = ({currentUser}) => {
