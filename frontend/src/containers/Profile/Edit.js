@@ -1,8 +1,8 @@
 import React, {createRef, useState} from 'react';
 import {connect} from 'react-redux';
-import {showFlashMessage} from "../../actions/flash";
-import {setCurrentUser} from "../../actions/currentUser";
-import {profileUpdate, profileAvatar} from "../../actions/profile";
+import {showFlashMessage} from "@actions/flash";
+import {setCurrentUser} from "@actions/currentUser";
+import {profileUpdate, profileAvatar} from "@actions/profile";
 
 const EditProfile = ({currentUser, setCurrentUser, showFlashMessage, profileUpdate, profileAvatar}) => {
   const {person} = currentUser;
@@ -12,7 +12,7 @@ const EditProfile = ({currentUser, setCurrentUser, showFlashMessage, profileUpda
   const [editError, setEditError] = useState(null);
   const [file, setFile] = useState(null);
   const fileInputRef = createRef();
-  
+
   const edit = async (e) => {
     const body = {
       first_name: firstName,
@@ -33,11 +33,11 @@ const EditProfile = ({currentUser, setCurrentUser, showFlashMessage, profileUpda
       setEditError(error.message);
     }
   }
-  
+
   const onFileChange = () => {
     setFile(fileInputRef.current.files[0])
   }
-  
+
   const onFileUpload = async (e) => {
     try {
       const result = await profileAvatar({file});

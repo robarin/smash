@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
-import FlashDelay from '../../components/Utils/FlashDelay';
+import FlashDelay from '@components/Utils/FlashDelay';
 import Header from './Header';
 
 const ApplicationLayout = ({ children, flashMessage }) => {
@@ -25,5 +25,3 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, null)(ApplicationLayout);
-
-

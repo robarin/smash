@@ -1,4 +1,4 @@
-import { SHOW_FLASH_MESSAGE, HIDE_FLASH_MESSAGE } from '../actions/flash';
+import { SHOW_FLASH_MESSAGE, HIDE_FLASH_MESSAGE } from '@actions/flash';
 
 const initialState = {
   show: false,

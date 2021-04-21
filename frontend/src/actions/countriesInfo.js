@@ -1,6 +1,6 @@
 import { makeAsyncActionCreator } from 'redux-toolbelt'
-import { requestGet } from "../utils/request";
-import { API_ROUTES } from "../utils/constants";
+import { requestGet } from "@utils/request";
+import { API_ROUTES } from "@utils/constants";
 
 export const COUNTRIES_INFO = makeAsyncActionCreator('COUNTRIES_INFO');
 
@@ -9,7 +9,7 @@ export const countriesInfo = () => dispatch => {
 
   return requestGet(API_ROUTES.countries.index).then((response) => {
     const {status, data} = response
-    
+
     if (status >= 200 && status < 300) {
       dispatch(COUNTRIES_INFO.success(data))
     } else {

@@ -2,11 +2,11 @@ import React, {useEffect} from 'react';
 import { connect } from "react-redux";
 import { useHistory } from 'react-router-dom';
 
-import GoogleButton from '../../components/Auth/GoogleButton';
-import TwitterButton from '../../components/Auth/TwitterButton';
+import GoogleButton from '@components/Auth/GoogleButton';
+import TwitterButton from '@components/Auth/TwitterButton';
 import ActionCable from "actioncable";
-import {showFlashMessage} from "../../actions/flash";
-import {setCurrentUser} from "../../actions/currentUser";
+import {showFlashMessage} from "@actions/flash";
+import {setCurrentUser} from "@actions/currentUser";
 
 const Oauth = ({ setCurrentUser, showFlashMessage }) => {
   const cable = ActionCable.createConsumer(`ws://${process.env.REACT_APP_API_HOST}/cable`);
@@ -23,14 +23,14 @@ const Oauth = ({ setCurrentUser, showFlashMessage }) => {
     })
     history.push('/dashboard');
   }
-  
+
   useEffect(() => {
     cable.subscriptions.create(
       {channel: 'UsersChannel'},
       {received: message => handleMessage(message)}
     )
   }, []);
-  
+
   return(
     <div className="m-4">
       <div className="m-4"><TwitterButton /></div>
@@ -45,5 +45,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(null, mapDispatchToProps)(Oauth);
-
-

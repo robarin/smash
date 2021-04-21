@@ -1,6 +1,6 @@
 import { makeAsyncActionCreator } from 'redux-toolbelt'
-import { requestPost, requestPatch } from "../utils/request";
-import { API_ROUTES } from "../utils/constants";
+import { requestPost, requestPatch } from "@utils/request";
+import { API_ROUTES } from "@utils/constants";
 
 export const PROFILE_SETUP = makeAsyncActionCreator('PROFILE_SETUP');
 export const PROFILE_UPDATE = makeAsyncActionCreator('PROFILE_UPDATE');
@@ -29,7 +29,7 @@ export const profileUpdate = (body) => dispatch => {
 
   return requestPatch(API_ROUTES.profile.update, body).then((response) => {
     const {status, data} = response
-    
+
     if (status >= 200 && status < 300) {
       dispatch(PROFILE_UPDATE.success(data))
     } else {
@@ -47,7 +47,7 @@ export const profileAvatar = (file) => dispatch => {
 
   return requestPost(API_ROUTES.profile.avatar, file).then((response) => {
     const {status, data} = response
-    
+
     if (status >= 200 && status < 300) {
       dispatch(PROFILE_AVATAR.success(data))
     } else {
@@ -59,4 +59,3 @@ export const profileAvatar = (file) => dispatch => {
     return data
   })
 }
-

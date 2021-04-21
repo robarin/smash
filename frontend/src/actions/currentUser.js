@@ -1,6 +1,6 @@
 import { makeAsyncActionCreator } from 'redux-toolbelt'
-import { requestDelete, requestGet, requestPost } from "../utils/request";
-import { API_ROUTES } from "../utils/constants";
+import { requestDelete, requestGet, requestPost } from "@utils/request";
+import { API_ROUTES } from "@utils/constants";
 
 export const FETCH_CURRENT_USER = makeAsyncActionCreator('FETCH_CURRENT_USER');
 export const SIGN_IN = makeAsyncActionCreator('SIGN_IN');

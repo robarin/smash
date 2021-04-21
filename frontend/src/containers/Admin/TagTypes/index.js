@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {requestGet} from '../../../utils/request';
-import {API_ROUTES} from '../../../utils/constants';
-import Modal from '../../../components/Utils/Modal';
-import TagTypesList from '../../../components/Admin/TagTypes';
+import {requestGet} from '@utils/request';
+import {API_ROUTES} from '@utils/constants';
+import Modal from '@components/Utils/Modal';
+import TagTypesList from '@components/Admin/TagTypes';
 
 const TagTypes = () => {
   const [tagTypes, setTagTypes] = useState([]);

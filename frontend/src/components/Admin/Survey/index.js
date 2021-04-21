@@ -5,8 +5,8 @@ import { Button } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
-import { requestGet } from '../../../utils/request';
-import { API_ROUTES } from '../../../utils/constants';
+import { requestGet } from '@utils/request';
+import { API_ROUTES } from '@utils/constants';
 import QuestionResponse from './QuestionResponse';
 
 const useStyles = makeStyles({
@@ -62,7 +62,7 @@ export default () => {
           }
         } = question;
         const responses = question_responses.map((qr) => qr.attributes.response.attributes);
-      
+
         return(
           <Card className={classes.card} key={id}>
             <CardContent>

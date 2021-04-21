@@ -1,5 +1,5 @@
 import React from 'react';
-import ContainerWrapper from "../wrapper";
+import ContainerWrapper from "@containers/wrapper";
 
 const Dashboard = () => {
   return(

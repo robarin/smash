@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { signUp } from "../../actions/signUp";
+import { signUp } from "@actions/signUp";
 
 import Typography from '@material-ui/core/Typography';
 import { Button, TextField, Link } from '@material-ui/core';
-import PageMessage from '../../components/Utils/PageMessage';
+import PageMessage from '@components/Utils/PageMessage';
 
 const Signup = ({signUp}) => {
   const [email, setEmail] = useState('');
@@ -33,7 +33,7 @@ const Signup = ({signUp}) => {
       setError({ message: error.message || 'Something went wrong' });
     }
   }
-  
+
   if (success) {
     return(
       <PageMessage

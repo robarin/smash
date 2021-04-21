@@ -5,11 +5,11 @@ import {useHistory} from 'react-router-dom';
 import HomeIcon from "@material-ui/icons/Home";
 import PeopleIcon from "@material-ui/icons/People";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import {logout} from "../../actions/currentUser";
+import {logout} from "@actions/currentUser";
 
 const NavMenu = ({logout}) => {
   const history = useHistory();
-  
+
   const handleLogout = () => logout()
 
   return (
@@ -42,5 +42,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(null, mapDispatchToProps)(NavMenu);
-
-
