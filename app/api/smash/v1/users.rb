@@ -1,6 +1,8 @@
 module Smash
   module V1
     class Users < Grape::API
+      LOGIN_ERROR_MESSAGE = 'Invalid email or password'.freeze
+
       helpers do
         def admin
           @admin ||= ::Admin.find_by(email: params[:email])
@@ -10,17 +12,17 @@ module Smash
           @user ||= ::User.find_by(email: params[:email])
         end
 
-        def validate_password!
-          error!({ message: 'Invalid password' }, 401) unless logged_in_user&.valid_password?(params[:password])
+        def valid_password?
+          logged_in_user&.valid_password?(params[:password])
         end
 
-        def validate_email!
-          error!({ message: 'Invalid email' }, 401) unless logged_in_user
+        def valid_email?
+          logged_in_user.present?
         end
 
         def validate_user!
-          validate_email!
-          validate_password!
+          return if valid_email? && valid_password?
+          error!({ message: LOGIN_ERROR_MESSAGE }, 401)
         end
 
         def check_confirmation!

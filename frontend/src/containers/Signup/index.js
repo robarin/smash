@@ -1,41 +1,40 @@
-import React, { useState } from 'react';
-import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { signUp } from "@actions/signUp";
+import React, {useState} from 'react';
+import {connect} from 'react-redux';
+import {useHistory} from 'react-router-dom';
+import {signUp} from '@actions/signUp';
+import {useForm} from 'react-hook-form';
 
 import Typography from '@material-ui/core/Typography';
-import { Button, TextField, Link } from '@material-ui/core';
 import PageMessage from '@components/Utils/PageMessage';
 
+import EmailField from '@components/Form/EmailField';
+import PasswordField from '@components/Form/PasswordField';
+import TextField from '@components/Form/TextField';
+
 const Signup = ({signUp}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [middleName, setMiddleName] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const {register, formState: {errors}, handleSubmit} = useForm();
+
   const history = useHistory();
 
-  const register = async () => {
-    const body = {
-      email,
-      password,
-      first_name: firstName,
-      last_name: lastName,
-      middle_name: middleName,
-    }
+  if (Object.keys(errors).length !== 0) {
+    Object.entries(errors).forEach(error => {
+      error[1].ref.classList.add('border-red-600');
+    })
+  }
 
+  const onSubmit = async (data) => {
     try {
-      await signUp(body);
+      await signUp(data);
       setSuccess(true);
-    } catch(error) {
-      setError({ message: error.message || 'Something went wrong' });
+    } catch (error) {
+      setError({message: error.message || 'Something went wrong'});
     }
   }
 
   if (success) {
-    return(
+    return (
       <PageMessage
         title="Signed up successfully"
         text="A confirmation link has been sent to your email address"
@@ -43,25 +42,25 @@ const Signup = ({signUp}) => {
     )
   }
 
-  return(
+  return (
     <div className="max-w-md mx-auto flex p-6 bg-gray-100 mt-10 rounded-lg shadow-xl">
-      <div className="mx-auto">
+      <div className="mx-auto w-4/5">
         <Typography variant="h5">Sign up</Typography>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="m-4">
-            <TextField error={Boolean(error)} required type="text" label="First Name" variant="outlined" onChange={(e) => setFirstName(e.target.value)} />
+            <TextField register={register} errors={errors} name="firstName" label="First name" />
           </div>
           <div className="m-4">
-            <TextField error={Boolean(error)} required type="text" label="Last Name" variant="outlined" onChange={(e) => setLastName(e.target.value)} />
+            <TextField register={register} errors={errors} name="lastName" label="Last name" />
           </div>
           <div className="m-4">
-            <TextField error={Boolean(error)} required type="text" label="Middle Name" variant="outlined" onChange={(e) => setMiddleName(e.target.value)} />
+            <TextField register={register} errors={errors} name="middleName" label="Middle name" />
           </div>
           <div className="m-4">
-            <TextField error={Boolean(error)} required type="email" label="Email" variant="outlined" onChange={(e) => setEmail(e.target.value)} />
+            <EmailField register={register} errors={errors}/>
           </div>
           <div className="m-4">
-            <TextField error={Boolean(error)} required type="password" label="Password" variant="outlined" onChange={(e) => setPassword(e.target.value)} />
+            <PasswordField register={register} errors={errors}/>
           </div>
           {error && (
             <div className="m-4">
@@ -69,10 +68,20 @@ const Signup = ({signUp}) => {
             </div>
           )}
           <div className="m-4">
-            <Button variant="contained" color="primary" onClick={register}>Sign up</Button>
+            <button type="submit"
+                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <span className="absolute left-0 inset-y-0 flex items-center pl-3"></span>
+              Sign up
+            </button>
           </div>
-          <div className="m-4">
-            <Link component="button" onClick={() => history.push('/login')}>Login</Link>
+          <div className="m-4 text-sm">
+            <a href="" className="font-medium text-indigo-600 hover:text-indigo-500"
+               onClick={(e) => {
+                 e.preventDefault();
+                 history.push('/login');
+               }}>
+              Log in
+            </a>
           </div>
         </form>
       </div>

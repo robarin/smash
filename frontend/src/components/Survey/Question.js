@@ -4,7 +4,7 @@ import QuestionResponse from './QuestionResponse';
 import {setSurveyResult} from '../../actions/survey';
 
 const SurveyQuestion = ({id, name, body, response_type, question_responses, surveyResult, setSurveyResult}) => {
-  const [customResponse, setCustomResponse] = useState(null);
+  const [customResponse, setCustomResponse] = useState({ responseText: '' });
 
   const onCustomResponseChange = (e) => {
     const questionId = e.target.name;
@@ -33,9 +33,15 @@ const SurveyQuestion = ({id, name, body, response_type, question_responses, surv
     if (textField) {
       textField.classList.add('hidden');
     }
+
+    let visible = false;
+
     if (textField && optionValue === 'custom') {
       textField.classList.remove('hidden');
+      visible = true;
     }
+
+    return visible;
   }
 
   const onOptionChange = (e) => {
@@ -45,13 +51,17 @@ const SurveyQuestion = ({id, name, body, response_type, question_responses, surv
     const questionResponseId = e.target.id;
     const isMultiple = e.target.type === 'checkbox';
     const currentResponse = questionResponses.find(r => r.questionId === questionId);
-
-    toggleTextField({questionId, optionValue});
+    const custom = toggleTextField({questionId, optionValue});
 
     const questionResponse = {
       questionId,
       isMultiple,
-      questionResponseId
+      questionResponseId,
+      custom,
+    }
+
+    if (custom) {
+      questionResponse.responseText = customResponse.responseText;
     }
 
     if (isMultiple) {
@@ -84,7 +94,7 @@ const SurveyQuestion = ({id, name, body, response_type, question_responses, surv
 
   return (
     <li key={`${name}-${id}`} className="list-none">
-      <div className="xs:w-full md:w-full p-4 m-4 shadow">
+      <div className="p-4 m-4 shadow">
         <div className="text-xl">{body}</div>
         <div className="text-lg text-gray-400">{name}</div>
         <div className="mt-2 flex justify-center">

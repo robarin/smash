@@ -32,9 +32,9 @@ const Oauth = ({ setCurrentUser, showFlashMessage }) => {
   }, []);
 
   return(
-    <div className="m-4">
-      <div className="m-4"><TwitterButton /></div>
-      <div className="m-4"><GoogleButton /></div>
+    <div className="m-4 flex">
+      <div className="flex-1 m-2"><TwitterButton /></div>
+      <div className="flex-1 m-2"><GoogleButton /></div>
     </div>
   )
 }

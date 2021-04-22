@@ -68,12 +68,11 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
                   <span className="ml-2">Male</span>
                 </label>
                 <label className="inline-flex items-center ml-6">
-                  <input type="radio" className="form-radio" name="accountType" value="female"
-                         onChange={onGenderChange}/>
+                  <input type="radio" className="form-radio" name="accountType" value="female" onChange={onGenderChange}/>
                   <span className="ml-2">Female</span>
                 </label>
                 {error && (
-                  <div>
+                  <div className="text-left">
                     <span className="text-red-500 text-xs mt-1">{error.message}</span>
                   </div>
                 )}

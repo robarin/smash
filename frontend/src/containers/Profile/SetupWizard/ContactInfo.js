@@ -109,7 +109,7 @@ const ContactInfo = ({accountInfo, setAccountInfo, nextStep, previousStep, count
           <div className="grid grid-cols-3 gap-4">
             <dt className="font-medium text-right pt-2">Phone</dt>
             <dd className="col-span-2">
-              <div>
+              <div className="text-left">
                 <PhoneInput specialLabel="" type="phone"
                             inputClass={`${isPhoneError() ? 'border-red-500' : 'border-gray-200'} p-2 form-input border p-1 outline-none rounded-md focus:border-gray-400`}
                             value={phone} onChange={value => onPhoneChange(value)}/>
@@ -150,7 +150,7 @@ const ContactInfo = ({accountInfo, setAccountInfo, nextStep, previousStep, count
               </div>
             </dd>
 
-            <dt className="font-medium text-right pt-2">City</dt>
+            <dt className="font-medium text-right pt-2">Province</dt>
             <dd className="col-span-2">
               <div>
                 <label className="block">

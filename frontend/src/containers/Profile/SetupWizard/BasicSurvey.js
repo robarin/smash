@@ -23,6 +23,7 @@ const BasicSurvey = (props) => {
 
   const [survey, setSurvey] = useState(null);
   const [error, setError] = useState(null);
+  const [surveyError, setSurveyError] = useState(null);
   const history = useHistory();
 
   const getSurvey = async () => {
@@ -43,7 +44,26 @@ const BasicSurvey = (props) => {
     });
   }, []);
 
+  const validSurveyResult = () => {
+    const responses = surveyResult.questionResponses;
+    const customResponse = responses.find(r => r.custom);
+    let result = {valid: true, message: ''}
+
+    if (responses.length !== survey.survey_questions.length) {
+      result = {valid: false, message: 'Please answer to all questions'}
+    }
+    if (customResponse && customResponse.responseText.length === 0) {
+      result = {valid: false, message: 'Please fill out all your response variants'}
+    }
+
+    setSurveyError(result.message);
+    return result;
+  }
+
   const onFinish = async () => {
+    const result = validSurveyResult();
+    if (!result.valid) return;
+
     accountInfo.surveyResult = surveyResult;
 
     try {
@@ -66,13 +86,20 @@ const BasicSurvey = (props) => {
       <div className="m-4">
         <h3 className="text-xl border-b-2 border-gray-100 pb-4">Survey</h3>
       </div>
-      <div className="m-4 p-6 flex justify-center">
+      <div className="w-full">
         {error && (
           <p className="text-red-500">{error.message}</p>
         )}
         {survey && (
-          <SurveyBody survey={survey}/>
+          <div className="w-full">
+            <SurveyBody survey={survey}/>
+          </div>
         )}
+        <div className="w-full">
+          {surveyError && (
+            <p className="text-red-500">{surveyError}</p>
+          )}
+        </div>
       </div>
       <StepButtons onPrevious={previousStep} onNext={onFinish} finish={true}/>
     </div>
