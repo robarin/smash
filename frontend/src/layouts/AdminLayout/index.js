@@ -9,7 +9,7 @@ import FlashDelay from '@components/Utils/FlashDelay';
 import { useStyles } from './styles';
 
 const AdminLayout = (props) => {
-  const { currentUser, children, dispatch, flashMessage } = props;
+  const { currentUser, children, flashMessage } = props;
   const classes = useStyles();
   const history = useHistory();
 
@@ -19,8 +19,7 @@ const AdminLayout = (props) => {
   }
 
   const headerProps = {
-    history,
-    dispatch
+    history
   }
 
   return (

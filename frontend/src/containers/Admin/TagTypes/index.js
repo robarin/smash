@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
 import {requestGet} from '@utils/request';
 import {API_ROUTES} from '@utils/constants';
 import Modal from '@components/Utils/Modal';
 import TagTypesList from '@components/Admin/TagTypes';
+import {showFlashMessage} from "@actions/flash";
 
-const TagTypes = () => {
+const TagTypes = ({showFlashMessage}) => {
   const [tagTypes, setTagTypes] = useState([]);
   const defaultModalParams = {
     open: false,
@@ -49,4 +51,8 @@ const TagTypes = () => {
   )
 }
 
-export default TagTypes;
+const mapDispatchToProps = {
+  showFlashMessage
+}
+
+export default connect(null, mapDispatchToProps)(TagTypes);

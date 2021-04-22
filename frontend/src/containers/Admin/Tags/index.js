@@ -8,7 +8,7 @@ import TagsList from '@components/Admin/Tags';
 import {showFlashMessage} from "@actions/flash";
 import {Button} from '@material-ui/core';
 
-const Tags = ({dispatch, showFlashMessage}) => {
+const Tags = ({showFlashMessage}) => {
   const [tags, setTags] = useState([]);
   const [tagTypes, setTagTypes] = useState([]);
   const defaultModalParams = {
@@ -17,15 +17,6 @@ const Tags = ({dispatch, showFlashMessage}) => {
     tag: null
   };
   const [modalParams, setModalParams] = useState(defaultModalParams);
-
-  const showMessage = (type, title, message) => {
-    dispatch(showFlashMessage({
-      show: true,
-      title: title,
-      text: message,
-      type: type,
-    }))
-  };
 
   const closeModal = () => {
     setModalParams(defaultModalParams);
@@ -49,10 +40,18 @@ const Tags = ({dispatch, showFlashMessage}) => {
       if (res.ok) {
         const newTagList = tags.filter((tag) => tag.id != id);
         setTags(newTagList);
-        showMessage('success', 'Tag', 'Successfully deleted');
+        showFlashMessage({
+          type: 'success',
+          title: 'Tag',
+          text: 'Successfully deleted'
+        });
       } else {
         res.json().then((response) => {
-          showMessage('error', 'Deleting error', response.message);
+          showFlashMessage({
+            type: 'error',
+            title: 'Deleting error',
+            text: response.message
+          });
         });
       }
     })
@@ -69,10 +68,18 @@ const Tags = ({dispatch, showFlashMessage}) => {
           newTags.splice(index, 1, tag.data);
           setTags(newTags);
         });
-        showMessage('success', 'Tag', 'Successfully updated');
+        showFlashMessage({
+          type: 'success',
+          title: 'Tag',
+          text: 'Successfully updated'
+        });
       } else {
         res.json().then((response) => {
-          showMessage('error', 'Updating error', response.message);
+          showFlashMessage({
+            type: 'error',
+            title: 'Updating error',
+            text: response.message
+          });
         });
       }
       closeModal();
@@ -86,10 +93,18 @@ const Tags = ({dispatch, showFlashMessage}) => {
         res.json().then((tag) => {
           setTags([...tags, tag.data]);
         });
-        showMessage('success', 'Tag', 'Successfully created');
+        showFlashMessage({
+          type: 'success',
+          title: 'Tag',
+          text: 'Successfully created'
+        });
       } else {
         res.json().then((response) => {
-          showMessage('error', 'Creating error', response.message);
+          showFlashMessage({
+            type: 'error',
+            title: 'Creating error',
+            text: response.message
+          });
         });
       }
       closeModal();
@@ -140,9 +155,8 @@ const Tags = ({dispatch, showFlashMessage}) => {
     </div>
   )
 }
-const mapDispatchToProps = dispatch => ({
-  showFlashMessage,
-  dispatch
-})
+const mapDispatchToProps = {
+  showFlashMessage
+}
 
-export default connect(mapDispatchToProps)(Tags);
+export default connect(null, mapDispatchToProps)(Tags);

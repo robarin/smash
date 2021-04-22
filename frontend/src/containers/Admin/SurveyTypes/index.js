@@ -8,7 +8,7 @@ import Form from '@components/Admin/SurveyTypes/Form';
 import SurveyTypesList from '@components/Admin/SurveyTypes';
 import {showFlashMessage} from "@actions/flash";
 
-const SurveyTypes = ({dispatch, showFlashMessage}) => {
+const SurveyTypes = ({showFlashMessage}) => {
   const [surveyTypes, setSurveyTypes] = useState([]);
   const defaultModalParams = {
     open: false,
@@ -31,12 +31,12 @@ const SurveyTypes = ({dispatch, showFlashMessage}) => {
   };
 
   const showMessage = (type, title, message) => {
-    dispatch(showFlashMessage({
+    showFlashMessage({
       show: true,
       title: title,
       text: message,
       type: type,
-    }))
+    })
   };
 
   const handleCreate = (name, description) => {
@@ -120,9 +120,8 @@ const SurveyTypes = ({dispatch, showFlashMessage}) => {
   )
 };
 
-const mapDispatchToProps = dispatch => ({
-  showFlashMessage,
-  dispatch
-})
+const mapDispatchToProps = {
+  showFlashMessage
+}
 
-export default connect(mapDispatchToProps)(SurveyTypes);
+export default connect(null, mapDispatchToProps)(SurveyTypes);

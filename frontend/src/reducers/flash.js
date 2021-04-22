@@ -7,11 +7,11 @@ const initialState = {
   type: ''
 };
 
-const flashReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SHOW_FLASH_MESSAGE:
-      return action.payload;
-    case HIDE_FLASH_MESSAGE:
+const flashReducer = (state = initialState, {type, payload}) => {
+  switch (type) {
+    case SHOW_FLASH_MESSAGE.TYPE:
+      return {...payload, show: true};
+    case HIDE_FLASH_MESSAGE.TYPE:
       return initialState;
     default:
       return state;
