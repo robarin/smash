@@ -1,4 +1,8 @@
 class Smash::Api < Grape::API
+  before do
+    params.deep_transform_keys!(&:underscore)
+  end
+
   format :json
   default_format :json
   formatter :json, Grape::Formatter::ActiveModelSerializers
