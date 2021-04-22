@@ -1,3 +1,15 @@
+:root {
+  --main-deep-blue: #00354f;
+}
+
+.sidebar-bg-main {
+  background-color: var(--main-deep-blue);
+}
+
+.sidebar-text-colo-main {
+  color: var(--main-deep-blue);
+}
+
 .App {
   text-align: center;
   width: 100%;

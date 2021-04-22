@@ -8,28 +8,30 @@ import ProfileSetup from "@containers/Profile/SetupWizard/ProfileSetup";
 
 const CabinetLayout = ({ children, flashMessage, currentUser }) => {
   const history = useHistory();
-  
+
   const pageTitles = {
     dashboard: 'Dashboard',
     profile: 'Profile'
   }
-  
+
   if (currentUser.isLogged && currentUser.sign_in_count === 1 && !currentUser.person.province) {
     return(
       <ProfileSetup />
     )
   }
-  
+
   return (
     <div className="applicationLayout grid grid-cols-12">
       {flashMessage.show && (
         <FlashDelay />
       )}
-      <div className="col-span-1 h-screen border-r-2 border-gray-100 p-4">
-        <div className="w-full h-16 bg-gray-300">
-          LOGO
+      <div className="h-screen sidebar-bg-main">
+        <div className="m-4 h-16 p-6 bg-white text-center rounded-lg">
         </div>
-        <div className="bg-white mt-4">
+        <div className="text-white font-medium">
+          SMASH!
+        </div>
+        <div className="bg-white sidebar-bg-main mt-4">
           <NavMenu />
         </div>
       </div>
