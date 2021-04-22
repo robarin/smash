@@ -14,4 +14,8 @@ class UserSerializer
   attribute :confirmed do |object|
     object.confirmed?
   end
+
+  attribute :person do |object|
+    PersonSerializer.new(object.person).serializable_hash[:data]
+  end
 end

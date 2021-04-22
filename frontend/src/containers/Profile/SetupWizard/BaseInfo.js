@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from "react-redux";
-import StepButtons from "./StepButtons";
-import { userRoles } from "@actions/userRoles";
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
+import StepButtons from '@components/Navigation/StepButtons';
+import {userRoles} from '@actions/userRoles';
 
 const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
   const [roles, setRoles] = useState([]);
@@ -9,18 +9,20 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
   const [role, setRole] = useState(null);
   const [error, setError] = useState(null);
 
-  const setUserRoles = async () => {
+  useEffect(() => {
+    getUserRoles().then(result => setRoles(result));
+  }, [])
+
+  const getUserRoles = async () => {
     try {
       const response = await userRoles();
-      setRoles(response.data);
-    } catch(error) {
-      setError({ message: error.message || 'Something went wrong' });
+      const {data} = response;
+
+      return data;
+    } catch (error) {
+      setError({message: error.message || 'Something went wrong'});
     }
   }
-
-  useEffect(() => {
-    setUserRoles();
-  }, [])
 
   const updateAccountInfo = () => {
     const currentRole = role || roles[0].attributes.name;
@@ -33,7 +35,7 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
 
   const onStepChange = () => {
     if (!gender) {
-      setError({ type: 'gender', message: 'Choose your gender' });
+      setError({type: 'gender', message: 'Choose your gender'});
       return;
     }
 
@@ -62,11 +64,12 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
             <dd className="col-span-2">
               <div>
                 <label className="inline-flex items-center">
-                  <input type="radio" className="form-radio" name="accountType" value="male" onChange={onGenderChange} />
+                  <input type="radio" className="form-radio" name="accountType" value="male" onChange={onGenderChange}/>
                   <span className="ml-2">Male</span>
                 </label>
                 <label className="inline-flex items-center ml-6">
-                  <input type="radio" className="form-radio" name="accountType" value="female" onChange={onGenderChange} />
+                  <input type="radio" className="form-radio" name="accountType" value="female"
+                         onChange={onGenderChange}/>
                   <span className="ml-2">Female</span>
                 </label>
                 {error && (

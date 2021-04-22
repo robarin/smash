@@ -1,8 +1,6 @@
 class SurveySerializer
   include JSONAPI::Serializer
 
-  has_many :survey_questions
-
   attributes :id,
              :name,
              :description,
@@ -10,5 +8,9 @@ class SurveySerializer
 
   attribute :survey_type do |object|
     SurveyTypeSerializer.new(object.survey_type).serializable_hash[:data]
+  end
+
+  attribute :survey_questions do |object|
+    SurveyQuestionSerializer.new(object.survey_questions).serializable_hash[:data]
   end
 end

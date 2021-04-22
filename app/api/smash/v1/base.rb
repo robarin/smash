@@ -12,6 +12,7 @@ module Smash
       mount Smash::V1::Profiles
       mount Smash::V1::Roles
       mount Smash::V1::Countries
+      mount Smash::V1::Surveys
 
       add_swagger_documentation \
         doc_version: '1.0.0',

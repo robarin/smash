@@ -22,5 +22,9 @@ export const API_ROUTES = {
   },
   countries: {
     index: '/v1/countries'
+  },
+  surveys: {
+    index: '/v1/surveys',
+    basic: '/v1/surveys?survey_type_name=basic'
   }
 }

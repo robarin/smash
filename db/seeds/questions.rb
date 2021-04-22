@@ -39,7 +39,7 @@ questions = [
   {
     name: 'Language knowledge',
     body: 'What languages do you know already?',
-    response_type: 'multiple_or_text',
+    response_type: 'multiple',
     question_responses_attributes: [
       {
         response_attributes: {

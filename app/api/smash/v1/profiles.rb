@@ -41,6 +41,7 @@ module Smash
           requires :country, type: String, desc: 'Country'
           requires :region, type: String, desc: 'Region'
           requires :province, type: String, desc: 'Province'
+          requires :surveyResult, type: Hash, desc: 'Province'
         end
         post '/setup' do
           result = ::People::Profile::Setup.call(person: current_user.person, params: params)
