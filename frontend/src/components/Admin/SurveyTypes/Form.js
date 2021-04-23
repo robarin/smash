@@ -3,8 +3,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 const Form = ({surveyType, handler}) => {
-  const initialName = surveyType?.attributes.name;
-  const initialDescription = surveyType?.attributes.description;
+  const initialName = surveyType?.name;
+  const initialDescription = surveyType?.description;
   const [name, setName] = useState(initialName);
   const [description, setDescription] = useState(initialDescription);
   const [formError, setFormError] = useState();

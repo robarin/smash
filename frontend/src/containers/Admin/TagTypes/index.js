@@ -29,7 +29,7 @@ const TagTypes = ({showFlashMessage}) => {
     requestGet(API_ROUTES.admin.tagTypes).then((res) => {
       if (res.ok) {
         res.json().then((tagTypes) => {
-          setTagTypes(tagTypes.data);
+          setTagTypes(tagTypes);
         })
       }
     })

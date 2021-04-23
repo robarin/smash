@@ -1,11 +1,8 @@
-class SurveyQuestionSerializer
-  include JSONAPI::Serializer
-
+class SurveyQuestionSerializer < ActiveModel::Serializer
   attributes :id,
              :position,
              :created_at
 
-  attribute :question do |object|
-    QuestionSerializer.new(object.question).serializable_hash[:data]
-  end
+  belongs_to :survey
+  belongs_to :question
 end

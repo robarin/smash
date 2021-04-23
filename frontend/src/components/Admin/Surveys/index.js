@@ -48,19 +48,17 @@ export default ({list}) => {
           <TableBody>
             {list.map((survey) => {
               const {
-                attributes: {
-                  id,
-                  name,
-                  description,
-                  created_at,
-                  survey_type
-                }
+                id,
+                name,
+                description,
+                created_at,
+                survey_type
               } = survey;
 
               return(
                 <TableRow key={id}>
                   <TableCell align="center">{id}</TableCell>
-                  <TableCell align="left">{survey_type.attributes.name}</TableCell>
+                  <TableCell align="left">{survey_type.name}</TableCell>
                   <TableCell align="left">{name}</TableCell>
                   <TableCell align="left">{description}</TableCell>
                   <TableCell align="left">{created_at}</TableCell>

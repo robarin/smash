@@ -2,10 +2,10 @@ import React from 'react';
 import QuestionsList from './QuestionsList';
 
 const SurveyBody = ({survey}) => {
-  const {survey_questions} = survey;
+  const questions = survey.survey_questions.map(sq => sq.question);
   return (
     <>
-      <QuestionsList questions={survey_questions}/>
+      <QuestionsList questions={questions}/>
     </>
   )
 }

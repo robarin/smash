@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import { Button } from '@material-ui/core';
-import { requestGet, requestPost, requestPatch, requestDelete } from '@utils/request';
-import { API_ROUTES } from '@utils/constants';
 import Modal from '@components/Utils/Modal';
 import Form from '@components/Admin/SurveyTypes/Form';
 import SurveyTypesList from '@components/Admin/SurveyTypes';
 import {showFlashMessage} from "@actions/flash";
 
-const SurveyTypes = ({showFlashMessage}) => {
+import {fetchSurveyTypes, updateSurveyType, createSurveyType, deleteSurveyType} from '@actions/surveyTypes';
+
+const SurveyTypes = ({showFlashMessage, fetchSurveyTypes, updateSurveyType, createSurveyType, deleteSurveyType}) => {
   const [surveyTypes, setSurveyTypes] = useState([]);
   const defaultModalParams = {
     open: false,
@@ -39,66 +39,52 @@ const SurveyTypes = ({showFlashMessage}) => {
     })
   };
 
-  const handleCreate = (name, description) => {
+  const handleCreate = async (name, description) => {
     const body = { name, description };
 
-    requestPost(API_ROUTES.admin.surveyTypes, body).then((res) => {
-      if (res.ok) {
-        res.json().then((surveyType) => {
-          setSurveyTypes([...surveyTypes, surveyType.data]);
-        });
-        showMessage('success', 'Survey type', 'Successfully created');
-      } else {
-        res.json().then((response) => {
-          showMessage('error', 'Creating error', response.message);
-        });
-      }
+    try {
+      const surveyType = await createSurveyType(body);
+      setSurveyTypes([...surveyTypes, surveyType]);
+
+      showMessage('success', 'Survey type', 'Successfully created');
       closeModal();
-    })
+    } catch(error) {
+      console.log(error.message);
+    }
   };
 
-  const handleUpdate = (id, name, description) => {
+  const handleUpdate = async (id, name, description) => {
     const body = { name, description };
+    try {
+      const surveyType = await updateSurveyType({id, body});
+      const newSurveysList = [...surveyTypes];
+      const index = newSurveysList.findIndex(type => type.id === id);
 
-    requestPatch(`${API_ROUTES.admin.surveyTypes}/${id}`, body).then((res) => {
-      if (res.ok) {
-        res.json().then((surveyType) => {
-          const newSurveysList = [...surveyTypes];
-          const index = newSurveysList.findIndex(type => type.id == id);
-          newSurveysList.splice(index, 1, surveyType.data);
-          setSurveyTypes(newSurveysList);
-        });
-        showMessage('success', 'Survey type', 'Successfully updated');
-      } else {
-        res.json().then((response) => {
-          showMessage('error', 'Updating error', response.message);
-        });
-      }
+      newSurveysList.splice(index, 1, surveyType);
+      setSurveyTypes(newSurveysList);
+
+      showMessage('success', 'Survey type', 'Successfully updated');
       closeModal();
-    })
-  };
+    } catch(error) {
+      console.log(error.message)
+    }
+  }
 
-  const handleDelete = (id) => {
-    requestDelete(`${API_ROUTES.admin.surveyTypes}/${id}`).then((res) => {
-      if (res.ok) {
-        const newSuveyTypesList = surveyTypes.filter((surveyType) => surveyType.id != id);
-        setSurveyTypes(newSuveyTypesList);
-        showMessage('success', 'Survey type', 'Successfully deleted');
-      } else {
-        res.json().then((response) => {
-          showMessage('error', 'Deleting error', response.message);
-        });
-      }
-    })
+  const handleDelete = async (id) => {
+    try {
+      await deleteSurveyType(id);
+      const newSuveyTypesList = surveyTypes.filter((surveyType) => surveyType.id != id);
+
+      setSurveyTypes(newSuveyTypesList);
+      showMessage('success', 'Survey type', 'Successfully deleted');
+    } catch(error) {
+      console.log(error.message);
+    }
   };
 
   useEffect(() => {
-    requestGet(API_ROUTES.admin.surveyTypes).then((res) => {
-      if (res.ok) {
-        res.json().then((surveyTypes) => {
-          setSurveyTypes(surveyTypes.data)
-        })
-      }
+    fetchSurveyTypes().then(result => {
+      setSurveyTypes(result);
     })
   }, []);
 
@@ -121,7 +107,11 @@ const SurveyTypes = ({showFlashMessage}) => {
 };
 
 const mapDispatchToProps = {
-  showFlashMessage
+  showFlashMessage,
+  fetchSurveyTypes,
+  updateSurveyType,
+  createSurveyType,
+  deleteSurveyType,
 }
 
 export default connect(null, mapDispatchToProps)(SurveyTypes);

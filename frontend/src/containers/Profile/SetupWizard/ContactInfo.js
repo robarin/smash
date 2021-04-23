@@ -16,7 +16,7 @@ const ContactInfo = ({accountInfo, setAccountInfo, nextStep, previousStep, count
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getCountriesInfo().then(result => {
+    countriesInfo().then(result => {
       setCountriesInfo(result);
     });
   }, [])
@@ -26,19 +26,9 @@ const ContactInfo = ({accountInfo, setAccountInfo, nextStep, previousStep, count
     setPhone(value);
   }
 
-  const getCountriesInfo = async () => {
-    try {
-      const response = await countriesInfo();
-      const {data} = response;
-      return data;
-    } catch (error) {
-      setError({message: error.message || 'Something went wrong'});
-    }
-  }
-
   const setCountriesInfo = (countriesData) => {
-    const regionsData = countriesData[0].attributes.regions;
-    const provincesData = regionsData[0].attributes.provinces;
+    const regionsData = countriesData[0].regions;
+    const provincesData = regionsData[0].provinces;
 
     setCountry(countriesData[0]);
     setRegion(regionsData[0]);
@@ -51,8 +41,8 @@ const ContactInfo = ({accountInfo, setAccountInfo, nextStep, previousStep, count
 
   const onRegionChange = (e) => {
     const value = e.target.value;
-    const selectedRegion = regions.find(r => r.attributes.name === value);
-    const selectedProvinces = selectedRegion.attributes.provinces;
+    const selectedRegion = regions.find(r => r.name === value);
+    const selectedProvinces = selectedRegion.provinces;
 
     setRegion(selectedRegion);
     setProvince(selectedProvinces[0]);
@@ -61,7 +51,7 @@ const ContactInfo = ({accountInfo, setAccountInfo, nextStep, previousStep, count
 
   const onProvinceChange = (e) => {
     const value = e.target.value;
-    const selectedProvince = provinces.find(p => p.attributes.name === value);
+    const selectedProvince = provinces.find(p => p.name === value);
 
     setProvince(selectedProvince);
   }
@@ -87,9 +77,9 @@ const ContactInfo = ({accountInfo, setAccountInfo, nextStep, previousStep, count
     setAccountInfo({
       ...accountInfo,
       phone,
-      country: country.attributes.name,
-      region: region.attributes.name,
-      province: province.attributes.name,
+      country: country.name,
+      region: region.name,
+      province: province.name,
     })
 
     nextStep();
@@ -128,7 +118,7 @@ const ContactInfo = ({accountInfo, setAccountInfo, nextStep, previousStep, count
                   <select
                     className="form-select border p-2 outline-none rounded-md border-gray-200 outline-none mt-1 block w-full">
                     {countries.map((country, index, self) => (
-                      <option key={`country-${index}`}>{country.attributes.name}</option>
+                      <option key={`country-${index}`}>{country.name}</option>
                     ))}
                   </select>
                 </label>
@@ -141,9 +131,9 @@ const ContactInfo = ({accountInfo, setAccountInfo, nextStep, previousStep, count
                 <label className="block">
                   <select
                     className="form-select border p-2 outline-none rounded-md border-gray-200 outline-none mt-1 block w-full"
-                    onChange={onRegionChange} value={region?.attributes?.name}>
+                    onChange={onRegionChange} value={region?.name}>
                     {regions.map((region, index, self) => (
-                      <option key={`region-${index}`}>{region.attributes.name}</option>
+                      <option key={`region-${index}`}>{region.name}</option>
                     ))}
                   </select>
                 </label>
@@ -156,9 +146,9 @@ const ContactInfo = ({accountInfo, setAccountInfo, nextStep, previousStep, count
                 <label className="block">
                   <select
                     className="form-select border p-2 outline-none rounded-md border-gray-200 outline-none mt-1 block w-full"
-                    onChange={onProvinceChange} value={province?.attributes?.name}>
+                    onChange={onProvinceChange} value={province?.name}>
                     {provinces.map((province, index, self) => (
-                      <option key={`province-${index}`}>{province.attributes.name}</option>
+                      <option key={`province-${index}`}>{province.name}</option>
                     ))}
                   </select>
                 </label>

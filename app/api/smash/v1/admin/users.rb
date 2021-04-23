@@ -6,9 +6,9 @@ module Smash
           desc 'GET /users'
 
           get '/' do
-            users = ::User.all
+            users = ::User.includes(:person)
 
-            UserSerializer.new(users).serializable_hash
+            ActiveModelSerializers::SerializableResource.new(users).serializable_hash
           end
         end
       end

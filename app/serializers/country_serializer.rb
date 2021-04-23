@@ -1,9 +1,5 @@
-class CountrySerializer
-  include JSONAPI::Serializer
-
+class CountrySerializer < ActiveModel::Serializer
   attributes :name, :description
 
-  attribute :regions do |object|
-    RegionSerializer.new(object.regions).serializable_hash[:data]
-  end
+  has_many :regions, each_serializer: RegionSerializer
 end

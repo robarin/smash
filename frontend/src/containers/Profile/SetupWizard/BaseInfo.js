@@ -1,31 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import StepButtons from '@components/Navigation/StepButtons';
-import {userRoles} from '@actions/userRoles';
+import {fetchUserRoles} from '@actions/userRoles';
 
-const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
+const BaseInfo = ({accountInfo, setAccountInfo, nextStep, fetchUserRoles}) => {
   const [roles, setRoles] = useState([]);
   const [gender, setGender] = useState(null);
   const [role, setRole] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getUserRoles().then(result => setRoles(result));
+    fetchUserRoles().then(result => setRoles(result));
   }, [])
 
-  const getUserRoles = async () => {
-    try {
-      const response = await userRoles();
-      const {data} = response;
-
-      return data;
-    } catch (error) {
-      setError({message: error.message || 'Something went wrong'});
-    }
-  }
-
   const updateAccountInfo = () => {
-    const currentRole = role || roles[0].attributes.name;
+    const currentRole = role || roles[0].name;
     setAccountInfo({
       ...accountInfo,
       gender,
@@ -85,7 +74,7 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
                 <label className="block">
                   <select className="form-select outline-none mt-1 block w-full" onChange={onRoleChange}>
                     {roles.map((role, index, self) => (
-                      <option key={`role-${index}`}>{role.attributes.name}</option>
+                      <option key={`role-${index}`}>{role.name}</option>
                     ))}
                   </select>
                 </label>
@@ -100,7 +89,7 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, userRoles}) => {
 }
 
 const mapDispatchToProps = {
-  userRoles,
+  fetchUserRoles,
 }
 
 export default connect(null, mapDispatchToProps)(BaseInfo);

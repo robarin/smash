@@ -27,7 +27,7 @@ const ProfileInfo = ({currentUser}) => {
       <div className="px-4 py-5 sm:px-6 grid gap-4 grid-cols-12">
         <div className="col-span-2">
           <div className="w-16 h-16 bg-gray-300 rounded-full">
-            {person.avatar.url && (
+            {person.avatar && (
               <img className="block w-16 h-16 bg-gray-300 rounded-full" alt="avatar" src={process.env.REACT_APP_API_URL + person.avatar.thumb.url} />
             )}
           </div>
@@ -95,7 +95,7 @@ const ProfileInfo = ({currentUser}) => {
               Gender
             </dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {person.gender?.attributes?.name || 'Not specified'}
+              {person.gender?.name || 'Not specified'}
             </dd>
           </div>
           <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -103,7 +103,7 @@ const ProfileInfo = ({currentUser}) => {
               Province
             </dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {person.province && person.province.attributes.name}
+              {person.province && person.province.name}
             </dd>
           </div>
           <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

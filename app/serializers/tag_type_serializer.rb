@@ -1,6 +1,4 @@
-class TagTypeSerializer
-  include JSONAPI::Serializer
-
+class TagTypeSerializer < ActiveModel::Serializer
   attributes :id,
              :name,
              :description

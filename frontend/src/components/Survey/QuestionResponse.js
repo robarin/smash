@@ -13,18 +13,12 @@ const QuestionResponse = (props) => {
     index,
     isLast,
     questionId,
+    questionResponseId,
   } = props;
 
   const {
-    attributes: {
-      response: {
-        attributes: {
-          description
-        }
-      }
-    }
+    description
   } = response;
-  const questionResponseId = response.id;
 
   const responseOption = (option, input) => {
     return (
@@ -36,11 +30,13 @@ const QuestionResponse = (props) => {
   }
 
   const isCheckedOption = (questionResponseId) => {
+    const id = (questionResponseId).toString();
+
     const checked = surveyResult.questionResponses.find(r => {
       if (r.isMultiple) {
-        return r.questionResponseId.includes(questionResponseId)
+        return r.questionResponseId.includes(id)
       } else {
-        return r.questionResponseId === questionResponseId
+        return r.questionResponseId === id
       }
     });
 

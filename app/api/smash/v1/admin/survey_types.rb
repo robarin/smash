@@ -14,10 +14,9 @@ module Smash
 
         resource :survey_types do
           desc 'GET /survey_types'
-          get '/' do
-            survey_types = ::SurveyType.order(:name)
-
-            SurveyTypeSerializer.new(survey_types).serializable_hash
+          get '/', each_serializer: SurveyTypeSerializer do
+            collection = ::SurveyType.includes(:surveys).order(:name)
+            ActiveModelSerializers::SerializableResource.new(collection).serializable_hash
           end
 
           desc 'POST /survey_types'

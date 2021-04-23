@@ -1,24 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from '@material-ui/core';
-import { requestGet } from '@utils/request';
-import { API_ROUTES } from '@utils/constants';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
+import {Button} from '@material-ui/core';
+import {fetchSurveys} from '@actions/survey';
 
 import SurveysList from '@components/Admin/Surveys';
 
-const Surveys = () => {
+const Surveys = ({fetchSurveys}) => {
   const [surveys, setSurveys] = useState([]);
 
   useEffect(() => {
-    requestGet(API_ROUTES.admin.surveys).then((res) => {
-      if (res.ok) {
-        res.json().then((surveys) => {
-          setSurveys(surveys.data)
-        })
-      }
-    });
+    fetchSurveys().then(result => setSurveys(result));
   }, []);
 
-  return(
+  return (
     <div>
       <div className="flex justify-between">
         <h1 className="text-2xl text-blue-700 leading-tight">
@@ -26,11 +20,14 @@ const Surveys = () => {
         </h1>
         <Button color='primary'>Create survey</Button>
       </div>
-      {surveys && (
-        <SurveysList list={surveys}/>
-      )}
+      <SurveysList list={surveys}/>
     </div>
   )
 }
 
-export default Surveys;
+const mapDispatchToProps = {
+  fetchSurveys,
+}
+
+export default connect(null, mapDispatchToProps)(Surveys);
+

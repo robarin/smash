@@ -1,6 +1,4 @@
-class GenderSerializer
-  include JSONAPI::Serializer
-
+class GenderSerializer < ActiveModel::Serializer
   attributes :id,
              :name,
              :description

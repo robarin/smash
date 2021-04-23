@@ -8,7 +8,7 @@ module Smash
           get '/' do
             tag_types = ::TagType.all
 
-            TagTypeSerializer.new(tag_types).serializable_hash
+            ActiveModelSerializers::SerializableResource.new(tag_types).serializable_hash
           end
         end
       end

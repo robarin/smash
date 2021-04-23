@@ -1,5 +1,3 @@
-class RoleSerializer
-  include JSONAPI::Serializer
-
+class RoleSerializer < ActiveModel::Serializer
   attributes :name, :description
 end

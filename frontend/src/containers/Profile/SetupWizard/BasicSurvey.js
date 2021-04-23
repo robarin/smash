@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 import {showFlashMessage} from '@actions/flash';
 import {setCurrentUser} from '@actions/currentUser';
 import {profileSetup} from '@actions/profile';
-import {fetchSurvey, setSurveyResult} from '@actions/survey';
+import {fetchSurvey, setSurveyResult, clearSurveyResult} from '@actions/survey';
 
 import StepButtons from '@components/Navigation/StepButtons';
 import SurveyBody from '@components/Survey/SurveyBody';
@@ -18,7 +18,8 @@ const BasicSurvey = (props) => {
     profileSetup,
     fetchSurvey,
     surveyResult,
-    setSurveyResult
+    setSurveyResult,
+    clearSurveyResult
   } = props;
 
   const [survey, setSurvey] = useState(null);
@@ -26,19 +27,8 @@ const BasicSurvey = (props) => {
   const [surveyError, setSurveyError] = useState(null);
   const history = useHistory();
 
-  const getSurvey = async () => {
-    try {
-      const result = await fetchSurvey();
-      const {data: {attributes}} = result;
-
-      return attributes;
-    } catch (error) {
-      setError({message: error.message || 'Something went wrong'})
-    }
-  }
-
   useEffect(() => {
-    getSurvey().then(surveyData => {
+    fetchSurvey().then(surveyData => {
       setSurvey(surveyData);
       setSurveyResult({...surveyResult, surveyId: surveyData.id});
     });
@@ -69,13 +59,16 @@ const BasicSurvey = (props) => {
     try {
       const result = await profileSetup(accountInfo);
       setCurrentUser(result);
+      clearSurveyResult();
+
+      history.push('/dashboard');
+
       showFlashMessage({
         show: true,
         type: 'success',
         title: 'Thanks!',
         text: 'Your profile has been set up'
       })
-      history.push('/dashboard');
     } catch (error) {
       setError({message: error.message || 'Something went wrong'})
     }
@@ -116,6 +109,7 @@ const mapDispatchToProps = {
   profileSetup,
   fetchSurvey,
   setSurveyResult,
+  clearSurveyResult,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BasicSurvey);

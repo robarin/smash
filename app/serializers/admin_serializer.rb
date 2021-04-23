@@ -1,12 +1,11 @@
-class AdminSerializer
-  include JSONAPI::Serializer
-
+class AdminSerializer < ActiveModel::Serializer
   attributes :id,
              :email,
              :created_at,
-             :access_token
+             :access_token,
+             :admin
 
-  attribute :admin do |object|
+  def admin
     object.is_a?(::Admin)
   end
 end

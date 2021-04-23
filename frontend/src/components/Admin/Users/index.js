@@ -38,19 +38,16 @@ export default ({ list }) => {
           <TableBody>
             {list.map((user) => {
               const {
-                attributes: {
-                  id,
-                  first_name,
-                  last_name,
-                  email,
-                  created_at
-                }
+                id,
+                email,
+                created_at,
+                person
               } = user;
-              
+
               return (
                 <TableRow key={id}>
                   <TableCell align="right">{id}</TableCell>
-                  <TableCell align="right">{`${first_name} ${last_name}`}</TableCell>
+                  <TableCell align="right">{`${person.first_name} ${person.last_name}`}</TableCell>
                   <TableCell align="right">{email}</TableCell>
                   <TableCell align="right">{created_at}</TableCell>
                 </TableRow>

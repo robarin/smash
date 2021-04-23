@@ -29,8 +29,8 @@ export default () => {
     requestGet(`${API_ROUTES.admin.surveys}/${id}`).then((res) => {
       if (res.ok) {
         res.json().then((survey) => {
-          setSurvey(survey.data.attributes);
-          setSurveyQuestions(survey.included);
+          setSurvey(survey);
+          setSurveyQuestions(survey.survey_questions);
         })
       }
     });
@@ -46,20 +46,16 @@ export default () => {
       </div>
       {surveyQuestions.map((surveyQuestion) => {
         const {
-          attributes: {
-            id,
-            position,
-            question
-          }
+          id,
+          position,
+          question
         } = surveyQuestion;
         const {
-          attributes: {
-            body,
-            name,
-            response_type,
-            question_type,
-            question_responses
-          }
+          body,
+          name,
+          response_type,
+          question_type,
+          question_responses
         } = question;
         const responses = question_responses.map((qr) => qr.attributes.response.attributes);
 
@@ -86,7 +82,7 @@ export default () => {
                 {body}
               </Typography>
               <Typography gutterBottom variant="body2" color="textSecondary" component="p" align='left'>
-                Question type: {question_type.attributes.name}
+                Question type: {question_type.name}
               </Typography>
               <Typography gutterBottom variant="body2" color="textSecondary" component="p" align='left'>
                 Response type: {response_type}

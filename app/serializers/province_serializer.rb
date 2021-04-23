@@ -1,5 +1,3 @@
-class ProvinceSerializer
-  include JSONAPI::Serializer
-
+class ProvinceSerializer < ActiveModel::Serializer
   attributes :name, :description
 end

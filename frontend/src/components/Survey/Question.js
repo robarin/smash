@@ -99,11 +99,12 @@ const SurveyQuestion = ({id, name, body, response_type, question_responses, surv
         <div className="text-lg text-gray-400">{name}</div>
         <div className="mt-2 flex justify-center">
           <ul className="md:w-1/3 w-full" id={`question-${id}`}>
-            {question_responses.map((response, r_index, self) => {
+            {question_responses.map((q_response, r_index, self) => {
               return(
                 <QuestionResponse
                   key={r_index}
-                  response={response}
+                  questionResponseId={q_response.id}
+                  response={q_response.response}
                   onChange={onOptionChange}
                   onCustomResponseChange={onCustomResponseChange}
                   responseType={response_type}

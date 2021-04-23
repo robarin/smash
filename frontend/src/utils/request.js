@@ -1,18 +1,14 @@
-import { store } from '@/store';
-
 const USE_COOKIES = true;
 
 const request = ({url, headers, method, body}) => {
   const requestMethod = method || 'GET';
   const requestUrl = process.env.REACT_APP_API_URL + url;
-  const currentUser = store.getState().currentUser;
   const requestParams = {
     method: requestMethod,
     headers: {
       ...headers,
     },
   }
-
   if (USE_COOKIES) {
     requestParams.credentials = 'include';
   }

@@ -1,6 +1,4 @@
-class ResponseSerializer
-  include JSONAPI::Serializer
-
+class ResponseSerializer < ActiveModel::Serializer
   attributes :id,
              :name,
              :description

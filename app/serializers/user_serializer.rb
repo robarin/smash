@@ -1,7 +1,5 @@
-class UserSerializer
-  include JSONAPI::Serializer
-
-  has_one :person
+class UserSerializer < ActiveModel::Serializer
+  has_one :person, serializer: PersonSerializer
 
   attributes :id,
              :email,
@@ -9,13 +7,11 @@ class UserSerializer
              :access_token,
              :provider,
              :uid,
-             :sign_in_count
+             :sign_in_count,
+             :confirmed,
+             :person
 
-  attribute :confirmed do |object|
+  def confirmed
     object.confirmed?
-  end
-
-  attribute :person do |object|
-    PersonSerializer.new(object.person).serializable_hash[:data]
   end
 end

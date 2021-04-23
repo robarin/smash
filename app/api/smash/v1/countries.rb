@@ -5,7 +5,9 @@ module Smash
         get do
           countries = Country.includes(regions: [:provinces])
 
-          CountrySerializer.new(countries).serializable_hash
+          ActiveModelSerializers::SerializableResource
+            .new(countries)
+            .serializable_hash(include: { regions: [:provinces]})
         end
       end
     end

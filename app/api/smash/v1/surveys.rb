@@ -10,7 +10,7 @@ module Smash
           survey_type = SurveyType.find_by(name: params[:survey_type_name].capitalize)
           survey = survey_type.surveys.first
 
-          SurveySerializer.new(survey).serializable_hash
+          SurveySerializer.new(survey).serializable_hash(include: [:survey_type, { survey_questions: { question: {question_responses: :response}}}])
         end
       end
     end

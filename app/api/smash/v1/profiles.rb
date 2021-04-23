@@ -3,7 +3,7 @@ module Smash
     class Profiles < Grape::API
       helpers do
         def user_response
-          UserSerializer.new(current_user, include: [:person]).serializable_hash
+          UserSerializer.new(current_user).serializable_hash(include: { person: [:province, :gender] })
         end
       end
 

@@ -42,12 +42,10 @@ const SurveyTypes = ({ list, handleDelete, handleEdit }) => {
           <TableBody>
             {list.map((surveyType) => {
               const {
-                attributes: {
-                  id,
-                  name,
-                  description,
-                  created_at
-                }
+                id,
+                name,
+                description,
+                created_at
               } = surveyType;
 
               return(

@@ -14,6 +14,8 @@ const EditProfile = ({currentUser, setCurrentUser, showFlashMessage, profileUpda
   const fileInputRef = createRef();
 
   const edit = async (e) => {
+    e.preventDefault();
+
     const body = {
       first_name: firstName,
       last_name: lastName,
@@ -58,7 +60,7 @@ const EditProfile = ({currentUser, setCurrentUser, showFlashMessage, profileUpda
     <div className="px-4 py-5 sm:px-6 grid gap-4 border-gray-200 text-left grid-cols-12">
       <div className="col-span-3">
         <div className="w-32 h-32 bg-gray-300 rounded-full">
-          {person.avatar.url && (
+          {person.avatar && (
             <img className="block w-32 h-32 bg-gray-300 rounded-full" alt="avatar" src={process.env.REACT_APP_API_URL + person.avatar.thumb.url} />
           )}
         </div>

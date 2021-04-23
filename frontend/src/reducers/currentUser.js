@@ -11,11 +11,7 @@ const currentUserReducer = (state = initialState, action) => {
       return {...state, isLoading: true}
     case SIGN_IN.success.TYPE:
     case FETCH_CURRENT_USER.success.TYPE:
-      const user = action.payload.data.attributes
-
-      if (!user.admin) {
-        user.person = action.payload.included[0].attributes;
-      }
+      const user = action.payload;
 
       return {...user, isLogged: true, isLoading: false};
     case SIGN_IN.failure.TYPE:

@@ -2,6 +2,7 @@ module Smash
   module V1
     class Users < Grape::API
       LOGIN_ERROR_MESSAGE = 'Invalid email or password'.freeze
+      CONFIRMATION_ERROR_MESSAGE = 'You need to confirm your email'.freeze
 
       helpers do
         def admin
@@ -10,6 +11,14 @@ module Smash
 
         def user
           @user ||= ::User.find_by(email: params[:email])
+        end
+
+        def serialized_admin(admin)
+          AdminSerializer.new(admin).serializable_hash
+        end
+
+        def serialized_user(user)
+          UserSerializer.new(user).serializable_hash(include: { person: [:gender, :province]})
         end
 
         def valid_password?
@@ -22,13 +31,13 @@ module Smash
 
         def validate_user!
           return if valid_email? && valid_password?
-          error!({ message: LOGIN_ERROR_MESSAGE }, 401)
+          error!({message: LOGIN_ERROR_MESSAGE}, 401)
         end
 
         def check_confirmation!
           return if admin
 
-          error!({ message: 'You need to confirm your email' }, 401) unless logged_in_user&.confirmed?
+          error!({message: CONFIRMATION_ERROR_MESSAGE}, 401) unless logged_in_user&.confirmed?
         end
 
         def update_sign_in_count
@@ -43,11 +52,10 @@ module Smash
 
         def user_response(subject = nil)
           if admin
-            return AdminSerializer.new(admin).serializable_hash
+            return serialized_admin(admin)
           end
 
-          res = subject || user
-          UserSerializer.new(res, include: [:person]).serializable_hash
+          serialized_user(subject || user)
         end
 
         def save_user_session(user = nil)
@@ -56,10 +64,10 @@ module Smash
 
         def me
           if current_admin
-            return AdminSerializer.new(current_admin).serializable_hash
+            return serialized_admin(current_admin)
           end
 
-          UserSerializer.new(current_user, include: [:person]).serializable_hash
+          serialized_user(current_user)
         end
       end
 
@@ -95,7 +103,7 @@ module Smash
 
         post '/sign_up' do
           result = ::Users::Auth::Organize.call(params: params)
-          error!({ message: result.message }, 400) if result.failure?
+          error!({message: result.message}, 400) if result.failure?
 
           user_response(result.user)
         end

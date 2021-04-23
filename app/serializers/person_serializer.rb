@@ -1,22 +1,22 @@
-class PersonSerializer
-  include JSONAPI::Serializer
-
+class PersonSerializer < ActiveModel::Serializer
   belongs_to :user
   belongs_to :gender
+  belongs_to :province
 
   attributes :id,
              :first_name,
              :last_name,
              :middle_name,
              :birth_date,
-             :avatar,
-             :phone
+             :phone,
+             :avatar
 
-  attribute :gender do |object|
-    GenderSerializer.new(object.gender).serializable_hash[:data]
-  end
+  def avatar
+    return unless object.avatar.present?
 
-  attribute :province do |object|
-    ProvinceSerializer.new(object.province).serializable_hash[:data]
+    object.avatar.versions.reduce({}) do |h, v|
+      h[v[0]] = { url: v[1].url }
+      h
+    end
   end
 end

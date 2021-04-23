@@ -1,7 +1,5 @@
-class QuestionResponseSerializer
-  include JSONAPI::Serializer
+class QuestionResponseSerializer < ActiveModel::Serializer
+  attributes :id
 
-  attribute :response do |object|
-    ResponseSerializer.new(object.response).serializable_hash[:data]
-  end
+  belongs_to :response
 end
