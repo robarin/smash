@@ -37,16 +37,20 @@ const BasicSurvey = (props) => {
   const validSurveyResult = () => {
     const responses = surveyResult.questionResponses;
     const customResponse = responses.find(r => r.custom);
-    let result = {valid: true, message: ''}
+    const emptyResponse = responses.find(r => r.isMultiple && r.questionResponseId.length === 0);
+    const result = {valid: true}
 
-    if (responses.length !== survey.survey_questions.length) {
-      result = {valid: false, message: 'Please answer to all questions'}
+    if (responses.length !== survey.survey_questions.length || emptyResponse) {
+      result.message = 'Please answer to all questions'
     }
     if (customResponse && customResponse.responseText.length === 0) {
-      result = {valid: false, message: 'Please fill out all your response variants'}
+      result.message = 'Please fill out all your response variants'
+    }
+    if (result.message) {
+      result.valid = false
+      setSurveyError(result.message);
     }
 
-    setSurveyError(result.message);
     return result;
   }
 

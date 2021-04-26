@@ -13,12 +13,13 @@ const QuestionResponse = (props) => {
     index,
     isLast,
     questionId,
-    questionResponseId,
   } = props;
 
   const {
     description
   } = response;
+
+  const questionResponseId = response.id;
 
   const responseOption = (option, input) => {
     return (

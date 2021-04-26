@@ -7,7 +7,7 @@ const SurveyQuestion = ({id, body, response_type, question_responses, surveyResu
   const [customResponse, setCustomResponse] = useState({ responseText: '' });
 
   const onCustomResponseChange = (e) => {
-    const questionId = e.target.name;
+    const questionId = (e.target.name).toString();
     let response;
 
     if (customResponse && customResponse.questionId === questionId) {
@@ -93,18 +93,17 @@ const SurveyQuestion = ({id, body, response_type, question_responses, surveyResu
   }
 
   return (
-    <li key={`${name}-${id}`} className="list-none">
+    <li key={`survey-question-${id}`} className="list-none">
       <div className="p-4 m-4 shadow">
         <div className="text-xl">{body}</div>
-        <div className="text-lg text-gray-400">{name}</div>
+        <div className="text-lg text-gray-400">{body}</div>
         <div className="mt-2 flex justify-center">
           <ul className="md:w-1/3 w-full" id={`question-${id}`}>
             {question_responses.map((q_response, r_index, self) => {
               return(
                 <QuestionResponse
                   key={r_index}
-                  questionResponseId={q_response.id}
-                  response={q_response.response}
+                  response={q_response}
                   onChange={onOptionChange}
                   onCustomResponseChange={onCustomResponseChange}
                   responseType={response_type}
