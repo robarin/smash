@@ -1,5 +1,5 @@
 import {makeAsyncActionCreator, makeActionCreator} from 'redux-toolbelt'
-import {requestGet} from '@utils/request';
+import {requestGet,requestPost, requestPatch} from '@utils/request';
 import {API_ROUTES} from '@utils/constants';
 
 export const FETCH_SURVEY = makeAsyncActionCreator('FETCH_SURVEY');
@@ -7,6 +7,44 @@ export const FETCH_SURVEYS = makeAsyncActionCreator('FETCH_SURVEYS');
 export const SUBMIT_SURVEY = makeAsyncActionCreator('SUBMIT_SURVEY');
 export const SET_SURVEY_RESULT = makeActionCreator('SET_SURVEY_RESULT');
 export const CLEAR_SURVEY_RESULT = makeActionCreator('CLEAR_SURVEY_RESULT');
+export const CREATE_SURVEY = makeAsyncActionCreator('CREATE_SURVEY');
+export const UPDATE_SURVEY = makeAsyncActionCreator('UPDATE_SURVEY');
+
+export const createSurvey = (body) => dispatch => {
+  dispatch(CREATE_SURVEY())
+
+  return requestPost(API_ROUTES.admin.surveys, body).then((response) => {
+    const {status, data} = response
+
+    if (status >= 200 && status < 300) {
+      dispatch(CREATE_SURVEY.success(data))
+    } else {
+      const {message} = data
+      dispatch(CREATE_SURVEY.failure(message))
+      throw new Error(message)
+    }
+
+    return data
+  })
+}
+
+export const updateSurvey = (id, body) => dispatch => {
+  dispatch(UPDATE_SURVEY())
+
+  return requestPatch(`${API_ROUTES.admin.surveys}/${id}`, body).then((response) => {
+    const {status, data} = response
+
+    if (status >= 200 && status < 300) {
+      dispatch(UPDATE_SURVEY.success(data))
+    } else {
+      const {message} = data
+      dispatch(UPDATE_SURVEY.failure(message))
+      throw new Error(message)
+    }
+
+    return data
+  })
+}
 
 export const fetchSurvey = () => dispatch => {
   dispatch(FETCH_SURVEY());
@@ -31,8 +69,6 @@ export const fetchSurveys = () => dispatch => {
 
   return requestGet(API_ROUTES.admin.surveys).then((response) => {
     const {status, data} = response
-
-    console.log('RESP', response);
 
     if (status >= 200 && status < 300) {
       dispatch(FETCH_SURVEYS.success(data))

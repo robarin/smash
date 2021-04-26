@@ -12,6 +12,7 @@ import {
   Button
 } from '@material-ui/core';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import CreateIcon from '@material-ui/icons/Create';
 
 const useStyles = makeStyles({
   table: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default ({list}) => {
+export default ({list, handleEdit}) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -63,6 +64,9 @@ export default ({list}) => {
                   <TableCell align="left">{description}</TableCell>
                   <TableCell align="left">{created_at}</TableCell>
                   <TableCell align="right">
+                    <Button color='primary' onClick={() => handleEdit(id)}>
+                      <CreateIcon />
+                    </Button>
                     <Button color='primary' onClick={() => showSurvey(id)}>
                       <ArrowForwardIcon />
                     </Button>

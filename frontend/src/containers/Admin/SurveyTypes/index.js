@@ -6,7 +6,7 @@ import Form from '@components/Admin/SurveyTypes/Form';
 import SurveyTypesList from '@components/Admin/SurveyTypes';
 import {showFlashMessage} from "@actions/flash";
 
-import {fetchSurveyTypes, updateSurveyType, createSurveyType, deleteSurveyType} from '@actions/surveyTypes';
+import {fetchSurveyTypes, updateSurveyType, createSurveyType, deleteSurveyType} from '@actions/surveyType';
 
 const SurveyTypes = ({showFlashMessage, fetchSurveyTypes, updateSurveyType, createSurveyType, deleteSurveyType}) => {
   const [surveyTypes, setSurveyTypes] = useState([]);
