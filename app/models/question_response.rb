@@ -1,8 +1,7 @@
 class QuestionResponse < ApplicationRecord
-  belongs_to :question
-  belongs_to :response
+  belongs_to :survey_question
 
   has_many :survey_session_answers, dependent: :destroy
 
-  accepts_nested_attributes_for :response
+  validates :name, presence: true
 end

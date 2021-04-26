@@ -1,5 +1,7 @@
 class QuestionResponseSerializer < ActiveModel::Serializer
-  attributes :id
+  belongs_to :survey_question
 
-  belongs_to :response
+  has_many :survey_session_answers, each_serializer: SurveySessionAnswerSerializer
+
+  attributes :id, :name, :description
 end

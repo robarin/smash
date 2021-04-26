@@ -8,7 +8,6 @@ SEEDS = %w[
   provinces
   users
   survey_types
-  questions
   surveys
   survey_questions
 ].freeze

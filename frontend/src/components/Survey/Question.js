@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import QuestionResponse from './QuestionResponse';
 import {setSurveyResult} from '../../actions/survey';
 
-const SurveyQuestion = ({id, name, body, response_type, question_responses, surveyResult, setSurveyResult}) => {
+const SurveyQuestion = ({id, body, response_type, question_responses, surveyResult, setSurveyResult}) => {
   const [customResponse, setCustomResponse] = useState({ responseText: '' });
 
   const onCustomResponseChange = (e) => {

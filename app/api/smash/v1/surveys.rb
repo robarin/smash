@@ -11,7 +11,7 @@ module Smash
         end
 
         def survey
-          @survey ||= survey_type.surveys.includes(survey_questions: :question).first
+          @survey ||= survey_type.surveys.includes(survey_questions: :question_responses).first
         end
       end
 
@@ -24,16 +24,7 @@ module Smash
           SurveySerializer
             .new(survey)
             .serializable_hash(
-              include: [
-                :survey_type,
-                {
-                  survey_questions: {
-                    question: {
-                      question_responses: :response
-                    }
-                  }
-                }
-              ]
+              include: [:survey_type, {survey_questions: :question_responses}]
             )
         end
       end

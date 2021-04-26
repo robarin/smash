@@ -9,14 +9,7 @@ class Survey < ApplicationRecord
   scope :with_survey_questions, -> {
     includes(
       :survey_type,
-      survey_questions: {
-        question: [
-          :question_type,
-          {
-            question_responses: [:response]
-          }
-        ]
-      }
+      survey_questions: [:question_type, :question_responses]
     )
   }
 end
