@@ -3,9 +3,5 @@ class RegionSerializer < ActiveModel::Serializer
 
   belongs_to :country
 
-  def provinces
-    object.provinces.map do |p|
-      ProvinceSerializer.new(p).serializable_hash
-    end
-  end
+  has_many :provinces, each_serializer: ProvinceSerializer
 end

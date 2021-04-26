@@ -14,10 +14,9 @@ module Smash
           requires :last_name, type: String, desc: 'Last name'
           requires :middle_name, type: String, desc: 'Middle name'
         end
-
         patch do
           result = ::People::Update::Organize.call(person: current_user.person, params: params)
-          error!({ message: result.message }) if result.failure?
+          error!({message: result.message}) if result.failure?
 
           user_response
         end
@@ -28,7 +27,7 @@ module Smash
         end
         post '/avatar' do
           result = ::People::Update::Avatar.call(person: current_user.person, file: params[:file])
-          error!({ message: result.message }) if result.failure?
+          error!({message: result.message}) if result.failure?
 
           user_response
         end
@@ -45,7 +44,7 @@ module Smash
         end
         post '/setup' do
           result = ::People::Profile::Setup.call(person: current_user.person, params: params)
-          error!({ message: result.message }) if result.failure?
+          error!({message: result.message}) if result.failure?
 
           user_response
         end

@@ -4,5 +4,5 @@ class QuestionTypeSerializer < ActiveModel::Serializer
              :description,
              :created_at
 
-  has_many :questions, serializer: QuestionSerializer
+  has_many :questions, each_serializer: QuestionSerializer
 end
