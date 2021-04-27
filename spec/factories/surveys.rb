@@ -1,6 +1,7 @@
 FactoryBot.define do
-  factory :role do
-    name { Faker::Job.position }
+  factory :survey do
+    name { Faker::Lorem.word }
     description { Faker::Lorem.paragraph(sentence_count: 2) }
+    association :survey_type, :basic
   end
 end

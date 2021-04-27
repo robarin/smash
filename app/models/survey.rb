@@ -1,4 +1,6 @@
 class Survey < ApplicationRecord
+  alias_attribute :type, :survey_type
+
   belongs_to :survey_type
 
   has_many :survey_questions, dependent: :destroy
