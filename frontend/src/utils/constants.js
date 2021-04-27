@@ -11,6 +11,8 @@ export const API_ROUTES = {
     tagTypes: '/v1/admin/tag_types',
     surveyTypes: '/v1/admin/survey_types',
     surveys: '/v1/admin/surveys',
+    questions: '/v1/admin/questions',
+    surveyQuestions: '/v1/admin/survey_questions'
   },
   profile: {
     update: '/v1/profile/',

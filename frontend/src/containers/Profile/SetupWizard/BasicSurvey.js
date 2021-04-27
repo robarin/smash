@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 import {showFlashMessage} from '@actions/flash';
 import {setCurrentUser} from '@actions/currentUser';
 import {profileSetup} from '@actions/profile';
-import {fetchSurvey, setSurveyResult, clearSurveyResult} from '@actions/survey';
+import {fetchBasicSurvey, setSurveyResult, clearSurveyResult} from '@actions/survey';
 
 import StepButtons from '@components/Navigation/StepButtons';
 import SurveyBody from '@components/Survey/SurveyBody';
@@ -16,7 +16,7 @@ const BasicSurvey = (props) => {
     showFlashMessage,
     setCurrentUser,
     profileSetup,
-    fetchSurvey,
+    fetchBasicSurvey,
     surveyResult,
     setSurveyResult,
     clearSurveyResult
@@ -28,7 +28,7 @@ const BasicSurvey = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    fetchSurvey().then(surveyData => {
+    fetchBasicSurvey().then(surveyData => {
       setSurvey(surveyData);
       setSurveyResult({...surveyResult, surveyId: surveyData.id});
     });
@@ -111,7 +111,7 @@ const mapDispatchToProps = {
   showFlashMessage,
   setCurrentUser,
   profileSetup,
-  fetchSurvey,
+  fetchBasicSurvey,
   setSurveyResult,
   clearSurveyResult,
 }

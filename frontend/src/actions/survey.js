@@ -2,6 +2,7 @@ import {makeAsyncActionCreator, makeActionCreator} from 'redux-toolbelt'
 import {requestGet,requestPost, requestPatch} from '@utils/request';
 import {API_ROUTES} from '@utils/constants';
 
+export const FETCH_BASIC_SURVEY = makeAsyncActionCreator('FETCH_BASIC_SURVEY');
 export const FETCH_SURVEY = makeAsyncActionCreator('FETCH_SURVEY');
 export const FETCH_SURVEYS = makeAsyncActionCreator('FETCH_SURVEYS');
 export const SUBMIT_SURVEY = makeAsyncActionCreator('SUBMIT_SURVEY');
@@ -46,10 +47,28 @@ export const updateSurvey = (id, body) => dispatch => {
   })
 }
 
-export const fetchSurvey = () => dispatch => {
-  dispatch(FETCH_SURVEY());
+export const fetchBasicSurvey = () => dispatch => {
+  dispatch(FETCH_BASIC_SURVEY());
 
   return requestGet(API_ROUTES.surveys.basic).then((response) => {
+    const {status, data} = response
+
+    if (status >= 200 && status < 300) {
+      dispatch(FETCH_BASIC_SURVEY.success(data))
+    } else {
+      const {message} = data
+      dispatch(FETCH_BASIC_SURVEY.failure(message))
+      throw new Error(message)
+    }
+
+    return data
+  })
+}
+
+export const fetchSurvey = (id) => dispatch => {
+  dispatch(FETCH_SURVEY());
+
+  return requestGet(`${API_ROUTES.admin.surveys}/${id}`).then((response) => {
     const {status, data} = response
 
     if (status >= 200 && status < 300) {

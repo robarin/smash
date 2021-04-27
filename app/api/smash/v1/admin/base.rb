@@ -12,6 +12,7 @@ module Smash
         mount Smash::V1::Admin::TagTypes
         mount Smash::V1::Admin::SurveyTypes
         mount Smash::V1::Admin::Surveys
+        mount Smash::V1::Admin::SurveyQuestions
 
         add_swagger_documentation \
         doc_version: '1.0.0',

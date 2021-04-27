@@ -29,7 +29,7 @@ export default ({responses, responseType}) => {
         return(
           <ListItem key={response.id}>
             <ListItemIcon className={classes.listItemIcon} >{responseIcons[responseIconKey]}</ListItemIcon>
-            <ListItemText id={`label-${response.id}`} primary={response.description} secondary={response.name}/>
+            <ListItemText id={`label-${response.id}`} primary={response.name} secondary={response.description}/>
           </ListItem>
         )
       })}
