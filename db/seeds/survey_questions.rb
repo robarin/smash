@@ -4,24 +4,24 @@ questions = [
     response_type: 'single_or_text',
     question_responses_attributes: [
       {
-        name: 'Sources of information',
-        description: 'Social network'
+        name: 'Social network',
+        description: 'Sources of information'
       },
       {
-        name: 'Sources of information',
-        description: 'University'
+        name: 'University',
+        description: 'Sources of information'
       },
       {
-        name: 'Sources of information',
-        description: 'Colleagues'
+        name: 'Colleagues',
+        description: 'Sources of information'
       },
       {
-        name: 'Sources of information',
-        description: 'Advertisement'
+        name: 'Advertisement',
+        description: 'Sources of information'
       },
       {
-        name: 'Custom text response',
-        description: 'Please type your variant'
+        name: 'Please type your variant',
+        description: 'Custom text response'
       }
     ]
   },
@@ -30,16 +30,16 @@ questions = [
     response_type: 'multiple',
     question_responses_attributes: [
       {
-        name: 'Languages',
-        description: 'English'
+        name: 'English',
+        description: 'Languages'
       },
       {
-        name: 'Languages',
-        description: 'Russian'
+        name: 'Russian',
+        description: 'Languages'
       },
       {
-        name: 'Languages',
-        description: 'French'
+        name: 'French',
+        description: 'Languages'
       }
     ]
   },
@@ -48,12 +48,12 @@ questions = [
     response_type: 'single',
     question_responses_attributes: [
       {
-        name: 'Yes/No',
-        description: 'Yes'
+        name: 'Yes',
+        description: 'Yes/No'
       },
       {
-        name: 'Yes/No',
-        description: 'No'
+        name: 'No',
+        description: 'Yes/No'
       }
     ]
   },
@@ -62,20 +62,20 @@ questions = [
     response_type: 'single',
     question_responses_attributes: [
       {
-        name: 'Priorities on tasks',
-        description: 'Your time'
+        name: 'Your time',
+        description: 'Priorities on tasks'
       },
       {
-        name: 'Priorities in tasks',
-        description: 'How much you make'
+        name: 'How much you make',
+        description: 'Priorities on tasks'
       },
       {
-        name: 'Priorities in tasks',
-        description: 'Freedom'
+        name: 'Freedom',
+        description: 'Priorities on tasks'
       },
       {
-        name: 'Priorities in tasks',
-        description: 'Being Creative'
+        name: 'Being Creative',
+        description: 'Priorities on tasks'
       }
     ]
   }
