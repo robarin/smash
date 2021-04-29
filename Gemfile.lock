@@ -19,6 +19,14 @@ GIT
       capistrano-bundler
       puma (>= 4.0, < 6.0)
 
+GIT
+  remote: https://github.com/the-sanjar/rack_session_access
+  revision: 611a3ec542d0572c52da39124fd8428f1187fe9d
+  specs:
+    rack_session_access (0.2.0)
+      builder (>= 2.0.0)
+      rack (>= 1.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -538,6 +546,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 5.0)
   rack-cors
+  rack_session_access!
   rails (~> 6.1.3)
   redis
   responders

@@ -9,6 +9,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'webdrivers/chromedriver'
 require 'database_cleaner'
+require 'rack_session_access/rspec'
 
 Capybara.register_driver :chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new(
@@ -40,6 +41,7 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :feature
   config.include WaitForAjax, type: :feature
   config.include JsonSpec::Helpers
+  config.include AuthHelpers, type: :request
 
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
