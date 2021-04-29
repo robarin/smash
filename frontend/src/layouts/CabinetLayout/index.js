@@ -42,8 +42,8 @@ const CabinetLayout = ({ children, flashMessage, currentUser }) => {
             <p className="text-xl">{pageTitles[history.location.pathname.replace('/', '')]}</p>
           </div>
           <div className="col-span-12 p-4">
-            {currentUser.survey_questions && (
-              <SurveyModal questions={currentUser.survey_questions} />
+            {currentUser.survey && (
+              <SurveyModal survey={currentUser.survey} />
             )}
             {children}
           </div>

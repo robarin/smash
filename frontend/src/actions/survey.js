@@ -110,6 +110,7 @@ export const submitSurveyResults = (body) => dispatch => {
 
     if (status >= 200 && status < 300) {
       dispatch(SUBMIT_SURVEY_RESULTS.success(data))
+      dispatch(clearSurveyResult());
     } else {
       const {message} = data
       dispatch(SUBMIT_SURVEY_RESULTS.failure(message))

@@ -4,6 +4,7 @@ import {useHistory} from 'react-router-dom';
 import {showFlashMessage} from '@actions/flash';
 import {setCurrentUser} from '@actions/currentUser';
 import {profileSetup} from '@actions/profile';
+import {validateSurveyResult} from '@actions/utils/surveys';
 import {fetchBasicSurvey, setSurveyResult, clearSurveyResult} from '@actions/survey';
 
 import StepButtons from '@components/Navigation/StepButtons';
@@ -34,28 +35,8 @@ const BasicSurvey = (props) => {
     });
   }, []);
 
-  const validSurveyResult = () => {
-    const responses = surveyResult.questionResponses;
-    const customResponse = responses.find(r => r.custom);
-    const emptyResponse = responses.find(r => r.isMultiple && r.questionResponseId.length === 0);
-    const result = {valid: true}
-
-    if (responses.length !== survey.survey_questions.length || emptyResponse) {
-      result.message = 'Please answer to all questions'
-    }
-    if (customResponse && customResponse.responseText.length === 0) {
-      result.message = 'Please fill out all your response variants'
-    }
-    if (result.message) {
-      result.valid = false
-      setSurveyError(result.message);
-    }
-
-    return result;
-  }
-
   const onFinish = async () => {
-    const result = validSurveyResult();
+    const result = validateSurveyResult({survey, surveyResult, setError: setSurveyError});
     if (!result.valid) return;
 
     accountInfo.surveyResult = surveyResult;

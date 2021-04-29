@@ -22,16 +22,18 @@ module Smash
         end
 
         def check_user_survey_questions
-          questions = {}
+          options = {}
 
           unless survey_result.survey_complete
-            questions[:survey_questions] = ActiveModelSerializers::SerializableResource.new(
+            options[:survey] = {}
+            options[:survey][:id] = survey_result.survey.id
+            options[:survey][:survey_questions] = ActiveModelSerializers::SerializableResource.new(
               survey_result.unanswered_questions,
               each_serializer: SurveyQuestionSerializer
             ).serializable_hash
           end
 
-          questions
+          options
         end
 
         def serialized_user(user)

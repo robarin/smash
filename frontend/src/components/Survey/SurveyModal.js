@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import Modal from '@components/Utils/Modal';
 import {showModal} from '@actions/modal';
 import {submitSurveyResults} from '@actions/survey';
+import {validateSurveyResult} from '@actions/utils/surveys';
+
 import SurveyBody from './SurveyBody';
 
 const completeView = () => {
@@ -27,14 +29,19 @@ const completeView = () => {
   )
 }
 
-const SurveyModal = ({modal, showModal, questions, surveyResult, submitSurveyResults}) => {
+const SurveyModal = ({modal, showModal, survey, surveyResult, submitSurveyResults}) => {
+  const {survey_questions} = survey;
   const [surveyComplete, setSurveyComplete] = useState(false);
+  const [surveyError, setSurveyError] = useState(null);
 
   useEffect(() => {
     showModal({title: 'Quick survey'});
   }, []);
 
   const onSubmit = async () => {
+    const result = validateSurveyResult({survey, surveyResult, setError: setSurveyError});
+    if (!result.valid) return;
+
     await submitSurveyResults(surveyResult);
     setSurveyComplete(true);
   }
@@ -47,7 +54,12 @@ const SurveyModal = ({modal, showModal, questions, surveyResult, submitSurveyRes
             ? completeView()
             : (
               <div>
-                <SurveyBody questions={questions}/>
+                <SurveyBody questions={survey_questions}/>
+                <div className="w-full m-4 text-center">
+                  {surveyError && (
+                    <p className="text-red-500">{surveyError}</p>
+                  )}
+                </div>
                 <div className="text-center">
                   <button onClick={onSubmit} type="button"
                           className="rounded-md border border-transparent px-4 py-2 bg-green-600 text-base text-white hover:bg-green-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
