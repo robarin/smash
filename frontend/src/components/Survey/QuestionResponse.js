@@ -32,7 +32,7 @@ const QuestionResponse = (props) => {
   }
 
   const isCheckedOption = (questionResponseId) => {
-    const id = (questionResponseId).toString();
+    const id = questionResponseId;
 
     const checked = surveyResult.questionResponses.find(r => {
       if (r.isMultiple) {

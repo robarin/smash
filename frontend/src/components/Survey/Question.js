@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import QuestionResponse from './QuestionResponse';
 import {setSurveyResult} from '../../actions/survey';
+import SelectOption from './SelectOption';
 
 const SurveyQuestion = (props) => {
   const {
@@ -14,16 +15,17 @@ const SurveyQuestion = (props) => {
     setSurveyResult,
     questionIndex
   } = props;
-  const [customResponse, setCustomResponse] = useState({ responseText: '' });
+  const [customResponse, setCustomResponse] = useState({responseText: ''});
+  const surveyResponses = surveyResult.questionResponses;
 
   const onCustomResponseChange = (e) => {
-    const questionId = (e.target.name).toString();
+    const questionId = parseInt(e.target.name);
     let response;
 
     if (customResponse && customResponse.questionId === questionId) {
       response = customResponse;
     } else {
-      response = surveyResult.questionResponses.find(r => r.questionId === questionId);
+      response = surveyResponses.find(r => r.questionId === questionId);
     }
 
     response.responseText = e.target.value;
@@ -55,12 +57,11 @@ const SurveyQuestion = (props) => {
   }
 
   const onOptionChange = (e) => {
-    const {questionResponses} = surveyResult;
-    const questionId = e.target.name;
+    const questionId = parseInt(e.target.name);
+    const questionResponseId = parseInt(e.target.id);
     const optionValue = e.target.value;
-    const questionResponseId = e.target.id;
     const isMultiple = e.target.type === 'checkbox';
-    const currentResponse = questionResponses.find(r => r.questionId === questionId);
+    const currentResponse = surveyResponses.find(r => r.questionId === questionId);
     const custom = toggleTextField({questionId, optionValue});
 
     const questionResponse = {
@@ -90,16 +91,89 @@ const SurveyQuestion = (props) => {
       }
     }
 
-    const filteredResponses = questionResponses.filter(r => r.questionId !== questionId);
-    const userResponses = [
-      ...filteredResponses,
-      questionResponse
-    ];
+    updateSurveyResponses({
+      questionId,
+      newResponse: questionResponse
+    });
+  }
 
+  const isResponseSelect = () => {
+    return response_type.match(/select/);
+  }
+
+  const renderQuestionResponses = () => {
+    return question_responses.map((q_response, r_index, self) => {
+      return (
+        <QuestionResponse
+          key={r_index}
+          response={q_response}
+          onChange={onOptionChange}
+          onCustomResponseChange={onCustomResponseChange}
+          responseType={response_type}
+          index={r_index}
+          isLast={self.length - 1 === r_index}
+          questionId={id}
+          surveyResult={surveyResult}
+        />
+      )
+    })
+  }
+
+  const onSelectChange = (e) => {
+    const selected = e[0] || e;
+    const questionId = selected.questionId;
+    const currentResponse = surveyResponses.find(r => r.questionId === questionId);
+    const questionResponse = {
+      questionId,
+      isMultiple: false,
+      custom: false,
+    }
+
+    const response = currentResponse || questionResponse;
+    response.questionResponseId = [];
+
+    if (Array.isArray(e)) {
+      response.isMultiple = true;
+      e.forEach(res => response.questionResponseId.push(res.value));
+    } else {
+      response.questionResponseId = e.value;
+    }
+
+    updateSurveyResponses({
+      questionId,
+      newResponse: response
+    })
+  }
+
+  const updateSurveyResponses = ({newResponse, questionId}) => {
+    const filteredResponses = surveyResponses.filter(r => r.questionId !== questionId);
+    const newResponses = [
+      ...filteredResponses,
+      newResponse
+    ];
     setSurveyResult({
       ...surveyResult,
-      questionResponses: userResponses
+      questionResponses: newResponses
     })
+  }
+
+  const renderResponseSelect = () => {
+    const responseOptions = question_responses.map((qr) => {
+      return {
+        value: qr.id,
+        label: qr.name,
+        questionId: id,
+      }
+    })
+
+    return (
+      <SelectOption
+        isMulti={!!response_type.match(/multiple/)}
+        options={responseOptions}
+        name="Response variants"
+        onChange={onSelectChange}
+      />
+    )
   }
 
   return (
@@ -108,21 +182,10 @@ const SurveyQuestion = (props) => {
         <div className="text-xl text-center">{`${questionIndex || position}. ${body}`}</div>
         <div className="mt-2 flex justify-center">
           <ul className="md:w-1/3 w-full" id={`question-${id}`}>
-            {question_responses.map((q_response, r_index, self) => {
-              return(
-                <QuestionResponse
-                  key={r_index}
-                  response={q_response}
-                  onChange={onOptionChange}
-                  onCustomResponseChange={onCustomResponseChange}
-                  responseType={response_type}
-                  index={r_index}
-                  isLast={self.length - 1 === r_index}
-                  questionId={id}
-                  surveyResult={surveyResult}
-                />
-              )
-            })}
+            {isResponseSelect()
+              ? renderResponseSelect()
+              : renderQuestionResponses()
+            }
           </ul>
         </div>
       </div>
