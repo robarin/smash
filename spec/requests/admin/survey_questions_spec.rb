@@ -24,6 +24,7 @@ RSpec.describe Smash::V1::Admin::SurveyQuestions, type: :request do
       survey_id: survey.id,
       body: Faker::Lorem.sentence,
       response_type: response_type,
+      position: 1,
       question_responses: []
     }
   }
@@ -34,10 +35,9 @@ RSpec.describe Smash::V1::Admin::SurveyQuestions, type: :request do
         it 'creates new survey_question & sends new survey_question' do
           send_request(:post, '/v1/admin/survey_questions', params: params_with_responses)
 
-          new_question = SurveyQuestion.last
-          parsed_body = JSON.parse(response.body).deep_symbolize_keys
+          parsed_body = JSON.parse(response.body).map(&:deep_symbolize_keys)
 
-          expect(parsed_body).to eq question_attributes(new_question)
+          expect(parsed_body).to eq questions_attributes(survey.reload)
         end
       end
 
@@ -46,9 +46,9 @@ RSpec.describe Smash::V1::Admin::SurveyQuestions, type: :request do
           send_request(:post,'/v1/admin/survey_questions', params: params_without_responses)
 
           new_question = SurveyQuestion.last
-          parsed_body = JSON.parse(response.body).deep_symbolize_keys
+          parsed_body = JSON.parse(response.body).map(&:deep_symbolize_keys)
 
-          expect(parsed_body).to eq question_attributes(new_question)
+          expect(parsed_body).to eq questions_attributes(survey.reload)
           expect(new_question.question_responses.count).to eq 0
         end
       end
@@ -94,9 +94,9 @@ RSpec.describe Smash::V1::Admin::SurveyQuestions, type: :request do
           send_request(:patch,"/v1/admin/survey_questions/#{question.id}",
                        params: params_with_responses.except(:survey_id))
 
-          parsed_body = JSON.parse(response.body).deep_symbolize_keys
+          parsed_body = JSON.parse(response.body).map(&:deep_symbolize_keys)
 
-          expect(parsed_body).to eq question_attributes(question.reload)
+          expect(parsed_body).to eq questions_attributes(survey.reload)
         end
       end
 
@@ -108,10 +108,11 @@ RSpec.describe Smash::V1::Admin::SurveyQuestions, type: :request do
                        params: params_without_responses.except(:survey_id)
                                  .deep_merge(question_responses: question_responses))
 
-          parsed_body = JSON.parse(response.body).deep_symbolize_keys
+          parsed_body = JSON.parse(response.body).map(&:deep_symbolize_keys)
+          updated_question = parsed_body.find { |q| q[:id] == question.id }
 
-          expect(parsed_body).to eq question_attributes(question.reload)
-          expect(parsed_body[:question_responses]).to eq question_responses
+          expect(parsed_body).to eq questions_attributes(survey.reload)
+          expect(updated_question[:question_responses]).to eq question_responses
         end
       end
 
@@ -122,10 +123,11 @@ RSpec.describe Smash::V1::Admin::SurveyQuestions, type: :request do
           send_request(:patch,"/v1/admin/survey_questions/#{question.id}",
                        params: params_without_responses.except(:survey_id))
 
-          parsed_body = JSON.parse(response.body).deep_symbolize_keys
+          parsed_body = JSON.parse(response.body).map(&:deep_symbolize_keys)
+          updated_question = parsed_body.find { |q| q[:id] == question.id }
 
-          expect(parsed_body).to eq question_attributes(question.reload)
-          expect(parsed_body[:question_responses]).to eq []
+          expect(parsed_body).to eq questions_attributes(survey.reload)
+          expect(updated_question[:question_responses]).to eq []
           expect(QuestionResponse.count).to eq (responses_all - responses_count)
         end
       end
@@ -154,8 +156,10 @@ RSpec.describe Smash::V1::Admin::SurveyQuestions, type: :request do
     end
   end
 
-  def question_attributes(question)
-    SurveyQuestionSerializer.new(question).serializable_hash(include: :question_responses)
+  def questions_attributes(survey)
+    ActiveModelSerializers::SerializableResource.new(
+      survey.survey_questions.includes(:question_responses).order(:position)
+    ).serializable_hash(include: :question_responses)
   end
 
   def question_responses(question)

@@ -7,7 +7,6 @@ class SurveySerializer < ActiveModel::Serializer
   attributes :id,
              :name,
              :description,
-             :created_at,
              :response_types
 
   def survey_questions
