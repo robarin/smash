@@ -36,7 +36,9 @@ module Smash
 
           desc 'GET /surveys/:id'
           get '/:id' do
-            SurveySerializer.new(survey).serializable_hash(include: [:survey_type, survey_questions: :question_responses])
+            SurveySerializer.new(survey).serializable_hash(
+              include: [:survey_type, survey_questions: :question_responses]
+            )
           end
 
           desc 'POST /surveys'

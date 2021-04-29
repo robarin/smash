@@ -61,4 +61,38 @@ RSpec.describe "Admin::Surveys", type: :request do
       expect(parsed_body['survey_type']['description']).to eq new_survey_type.description
     end
   end
+
+  describe 'GET /surveys/:id' do
+    let!(:surveys) { create_list(:survey, 2, :with_questions) }
+
+    describe 'when survey id is valid' do
+      it 'responds with surveys' do
+        survey = surveys.first
+        get "/v1/admin/surveys/#{survey.id}"
+
+        expect(response.status).to eq 200
+
+        body = parsed_body.deep_symbolize_keys
+        survey_type_details = survey.survey_type.attributes.deep_symbolize_keys.except(:updated_at, :created_at)
+        question_details = survey.survey_questions.map do |question|
+          {
+            id: question.id,
+            body: question.body,
+            position: question.position,
+            response_type: question.response_type,
+            question_responses: question.question_responses.map do |response|
+              { id: response.id, name: response.name, description: response.description }
+            end
+          }
+        end
+
+        expect(body[:id]).to eq survey.id
+        expect(body[:name]).to eq survey.name
+        expect(body[:description]).to eq survey.description
+        expect(body[:response_types]).to eq SurveyQuestion.response_types.keys
+        expect(body[:survey_type].except(:created_at)).to eq survey_type_details
+        expect(body[:survey_questions]).to eq question_details
+      end
+    end
+  end
 end

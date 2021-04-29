@@ -6,7 +6,5 @@ class SurveyQuestionSerializer < ActiveModel::Serializer
   attributes :id,
              :body,
              :position,
-             :created_at,
-             :response_type,
-             :position
+             :response_type
 end
