@@ -1,5 +1,3 @@
-require 'faker'
-
 FactoryBot.define do
   factory :question_response do
     name        { Faker::Lorem.word }
