@@ -44,7 +44,7 @@ export default ({title, surveyQuestion, questionResponses, responseTypes, close,
       id: surveyQuestionAttrs.id,
       response_type: data.responseType.value,
       body,
-      position,
+      position: Math.abs(position),
       questionResponses
     };
     return handler(params)
@@ -97,10 +97,11 @@ export default ({title, surveyQuestion, questionResponses, responseTypes, close,
                   return(
                     <TextField
                       {...field}
-                      type='text'
+                      type='number'
                       label='Position'
                       variant='outlined'
                       fullWidth={true}
+                      InputProps={{ inputProps: { min: 1 } }}
                     />
                   )
                 }}

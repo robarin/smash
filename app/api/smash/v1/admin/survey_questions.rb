@@ -22,7 +22,11 @@ module Smash
           end
 
           def survey
-            @survey ||= Survey.find(params[:survey_id])
+            @survey ||= params[:survey_id] ? Survey.find(params[:survey_id]) : survey_question.survey
+          end
+
+          def survey_questions
+            survey.survey_questions
           end
         end
 
@@ -43,8 +47,8 @@ module Smash
             if create_survey_question.failure?
               error!({ message: create_survey_question.message }, 400)
             else
-              SurveyQuestionSerializer.new(
-                create_survey_question.survey_question
+              ActiveModelSerializers::SerializableResource.new(
+                survey_questions.includes(:question_responses).order(:position)
               ).serializable_hash(include: :question_responses)
             end
           end
@@ -64,7 +68,9 @@ module Smash
             if update_survey_question.failure?
               error!({ message: update_survey_question.message }, 400)
             else
-              SurveyQuestionSerializer.new(survey_question).serializable_hash(include: :question_responses)
+              ActiveModelSerializers::SerializableResource.new(
+                survey_questions.includes(:question_responses).order(:position)
+              ).serializable_hash(include: :question_responses)
             end
           end
         end

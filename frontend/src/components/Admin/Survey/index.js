@@ -16,7 +16,7 @@ const Survey = ({fetchSurvey, createSurveyQuestion, showFlashMessage}) => {
 
   const handleCreate = (body) => {
     createSurveyQuestion({...body, surveyId: survey.id}).then((result) => {
-      setSurveyQuestions([...surveyQuestions, result]);
+      setSurveyQuestions(result);
       setNewQuestion(false);
       showFlashMessage({
         title: 'Success',
@@ -26,10 +26,7 @@ const Survey = ({fetchSurvey, createSurveyQuestion, showFlashMessage}) => {
     })
   }
 
-  const updateSurveyQuestion = (surveyQuestion) => {
-    const newSurveyQuestions = [...surveyQuestions]
-    const index = newSurveyQuestions.findIndex(sq => sq.id == surveyQuestion.id);
-    newSurveyQuestions.splice(index, 1, surveyQuestion);
+  const updateSurveyQuestion = (newSurveyQuestions) => {
     setSurveyQuestions(newSurveyQuestions);
     showFlashMessage({
       title: 'Success',
