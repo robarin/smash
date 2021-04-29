@@ -1,0 +1,96 @@
+# Ruby CircleCI 2.0 configuration file
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+version: 2
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/ruby:2.7.0-node-browsers
+        environment:
+          PG_HOST: localhost
+          PG_USER: ubuntu
+          RAILS_ENV: test
+          RACK_ENV: test
+          DATABASE_URL: "postgres://postgres@localhost:5432/smash"
+      - image: redis
+      - image: postgres:9.5
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: smash
+          POSTGRES_HOST_AUTH_METHOD: trust
+
+    steps:
+      - checkout
+
+      - run:
+          name: Copy config files
+          command: |
+            cp .env.sample .env
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - ruby-dependencies-{{ checksum "Gemfile.lock" }}
+            - ruby-dependencies-
+
+      - run:
+          name: Install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path ./vendor/bundle
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: ruby-dependencies-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Set up DB
+          command: |
+            bundle exec rake db:create
+            bundle exec rake db:schema:load
+      # run tests!
+      - run:
+          name: Run tests
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            bundle exec rspec
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+  deploy:
+    docker:
+      - image: circleci/ruby:2.7.0-node-browsers
+    working_directory: ~/repo
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "3f:94:91:2d:93:f9:4f:63:ee:c9:03:95:c5:42:d2:e6"
+
+      - checkout
+
+      - restore_cache:
+          keys:
+            - ruby-dependencies-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Bundle Install
+          command: bundle install --jobs=4 --retry=3 --path ./vendor/bundle
+
+      - run:
+          name: Deploy to Production
+          command: bundle exec cap production deploy
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
