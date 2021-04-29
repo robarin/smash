@@ -143,21 +143,14 @@ ActiveRecord::Schema.define(version: 2021_04_15_082059) do
   end
 
   create_table "session_surveys", force: :cascade do |t|
-    t.bigint "session_id"
-    t.bigint "survey_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["session_id"], name: "index_session_surveys_on_session_id"
-    t.index ["survey_id"], name: "index_session_surveys_on_survey_id"
-  end
-
-  create_table "sessions", force: :cascade do |t|
     t.datetime "begin_date", null: false
     t.datetime "end_time"
     t.bigint "person_id"
+    t.bigint "survey_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["person_id"], name: "index_sessions_on_person_id"
+    t.index ["person_id"], name: "index_session_surveys_on_person_id"
+    t.index ["survey_id"], name: "index_session_surveys_on_survey_id"
   end
 
   create_table "survey_questions", force: :cascade do |t|
@@ -233,9 +226,8 @@ ActiveRecord::Schema.define(version: 2021_04_15_082059) do
   add_foreign_key "people", "genders"
   add_foreign_key "people", "users"
   add_foreign_key "question_responses", "survey_questions"
-  add_foreign_key "session_surveys", "sessions"
+  add_foreign_key "session_surveys", "people"
   add_foreign_key "session_surveys", "surveys"
-  add_foreign_key "sessions", "people"
   add_foreign_key "survey_questions", "surveys"
   add_foreign_key "survey_session_answers", "question_responses"
   add_foreign_key "survey_session_answers", "session_surveys"

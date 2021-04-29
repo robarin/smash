@@ -36,4 +36,8 @@ class User < ApplicationRecord
       Devise.friendly_token(10)
     end
   end
+
+  def surveyable?
+    sign_in_count > 1
+  end
 end

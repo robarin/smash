@@ -17,8 +17,25 @@ module Smash
           AdminSerializer.new(admin).serializable_hash
         end
 
+        def survey_result
+          @survey_result ||= ::Surveys::Checkup::Organize.call(person: user.person)
+        end
+
+        def check_user_survey_questions
+          questions = {}
+
+          unless survey_result.survey_complete
+            questions[:survey_questions] = ActiveModelSerializers::SerializableResource.new(
+              survey_result.unanswered_questions,
+              each_serializer: SurveyQuestionSerializer
+            ).serializable_hash
+          end
+
+          questions
+        end
+
         def serialized_user(user)
-          UserSerializer.new(user).serializable_hash(include: { person: [:gender, :province]})
+          UserSerializer.new(user).serializable_hash(include: {person: [:gender, :province]})
         end
 
         def valid_password?
@@ -89,7 +106,13 @@ module Smash
           update_sign_in_count
           save_user_session
 
-          user_response
+          response = user_response
+
+          if user&.surveyable?
+            response.merge!(check_user_survey_questions)
+          end
+
+          response
         end
 
         desc 'Sign up user'

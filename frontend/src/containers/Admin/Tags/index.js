@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {requestGet, requestPatch, requestDelete, requestPost} from '@utils/request';
 import {API_ROUTES} from '@utils/constants';
-import Modal from '@components/Utils/Modal';
+import Modal from '@components/Admin/Utils/Modal';
 import Form from './Form'
 import TagsList from '@components/Admin/Tags';
 import {showFlashMessage} from "@actions/flash";

@@ -5,6 +5,7 @@ import FlashDelay from '@components/Utils/FlashDelay';
 
 import NavMenu from "./NavMenu";
 import ProfileSetup from "@containers/Profile/SetupWizard/ProfileSetup";
+import SurveyModal from '../../components/Survey/SurveyModal';
 
 const CabinetLayout = ({ children, flashMessage, currentUser }) => {
   const history = useHistory();
@@ -41,6 +42,9 @@ const CabinetLayout = ({ children, flashMessage, currentUser }) => {
             <p className="text-xl">{pageTitles[history.location.pathname.replace('/', '')]}</p>
           </div>
           <div className="col-span-12 p-4">
+            {currentUser.survey_questions && (
+              <SurveyModal questions={currentUser.survey_questions} />
+            )}
             {children}
           </div>
         </div>

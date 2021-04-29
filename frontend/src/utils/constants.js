@@ -27,6 +27,7 @@ export const API_ROUTES = {
   },
   surveys: {
     index: '/v1/surveys',
-    basic: '/v1/surveys?survey_type_name=basic'
+    basic: '/v1/surveys/basic',
+    results: '/v1/surveys/results'
   }
 }

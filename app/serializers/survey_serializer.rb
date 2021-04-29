@@ -10,6 +10,13 @@ class SurveySerializer < ActiveModel::Serializer
              :created_at,
              :response_types
 
+  def survey_questions
+    questions = object.survey_questions.includes(:question_responses)
+    return questions unless @instance_options[:questions_amount]
+
+    questions.first(@instance_options[:questions_amount])
+  end
+
   def response_types
     SurveyQuestion.response_types.keys
   end

@@ -89,7 +89,7 @@ const BasicSurvey = (props) => {
         )}
         {survey && (
           <div className="w-full">
-            <SurveyBody survey={survey}/>
+            <SurveyBody questions={survey.survey_questions}/>
           </div>
         )}
         <div className="w-full">

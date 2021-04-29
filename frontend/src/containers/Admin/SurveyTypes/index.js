@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import { Button } from '@material-ui/core';
-import Modal from '@components/Utils/Modal';
+import Modal from '@components/Admin/Utils/Modal';
 import Form from '@components/Admin/SurveyTypes/Form';
 import SurveyTypesList from '@components/Admin/SurveyTypes';
 import {showFlashMessage} from "@actions/flash";

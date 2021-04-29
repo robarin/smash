@@ -1,4 +1,8 @@
 class Survey < ApplicationRecord
+  BASIC_SURVEY_NAME = 'Basic'.freeze
+  BASIC_SURVEY_QUESTIONS_AMOUNT = 8
+  REGULAR_QUESTIONS_AMOUNT = 3
+
   alias_attribute :type, :survey_type
 
   belongs_to :survey_type
@@ -14,4 +18,8 @@ class Survey < ApplicationRecord
       survey_questions: :question_responses
     )
   }
+
+  def self.basic
+    find_by(name: BASIC_SURVEY_NAME)
+  end
 end

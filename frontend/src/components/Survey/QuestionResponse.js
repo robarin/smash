@@ -16,7 +16,8 @@ const QuestionResponse = (props) => {
   } = props;
 
   const {
-    description
+    description,
+    name
   } = response;
 
   const questionResponseId = response.id;
@@ -82,7 +83,7 @@ const QuestionResponse = (props) => {
         responseType,
         questionId,
         questionResponseId,
-        text: description,
+        text: name,
         lastOption: isLast,
       })}
     </li>

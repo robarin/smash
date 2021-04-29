@@ -3,7 +3,17 @@ import {connect} from 'react-redux';
 import QuestionResponse from './QuestionResponse';
 import {setSurveyResult} from '../../actions/survey';
 
-const SurveyQuestion = ({id, body, response_type, question_responses, surveyResult, setSurveyResult}) => {
+const SurveyQuestion = (props) => {
+  const {
+    id,
+    body,
+    position,
+    response_type,
+    question_responses,
+    surveyResult,
+    setSurveyResult,
+    questionIndex
+  } = props;
   const [customResponse, setCustomResponse] = useState({ responseText: '' });
 
   const onCustomResponseChange = (e) => {
@@ -94,9 +104,8 @@ const SurveyQuestion = ({id, body, response_type, question_responses, surveyResu
 
   return (
     <li key={`survey-question-${id}`} className="list-none">
-      <div className="p-4 m-4 shadow">
-        <div className="text-xl">{body}</div>
-        <div className="text-lg text-gray-400">{body}</div>
+      <div className="p-4 m-4 border rounded-md">
+        <div className="text-xl text-center">{`${questionIndex || position}. ${body}`}</div>
         <div className="mt-2 flex justify-center">
           <ul className="md:w-1/3 w-full" id={`question-${id}`}>
             {question_responses.map((q_response, r_index, self) => {

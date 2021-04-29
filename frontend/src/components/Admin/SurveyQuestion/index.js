@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from "react-redux";
-import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
+import {makeStyles} from '@material-ui/core/styles';
+import {Button} from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import QuestionResponse from '../QuestionResponse';
-import { updateSurveyQuestion } from '@actions/surveyQuestion';
-import Form from './Form';;
+import {updateSurveyQuestion} from '@actions/surveyQuestion';
+import Form from './Form';
 
 const useStyles = makeStyles({
   card: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
 const SurveyQuestion = ({params, responseTypes, handleUpdate, updateSurveyQuestion}) => {
   const classes = useStyles();
-  const { id, body, position, response_type, question_responses } = params;
+  const {id, body, position, response_type, question_responses} = params;
   const [edit, setEdit] = useState(false);
 
   const handleEdit = (body) => {
@@ -28,14 +28,14 @@ const SurveyQuestion = ({params, responseTypes, handleUpdate, updateSurveyQuesti
     })
   }
 
-  return(
+  return (
     edit ? (
-      <Form 
+      <Form
         title='Edit survey question'
         surveyQuestion={{id, body, position, response_type}}
         questionResponses={question_responses}
         responseTypes={responseTypes}
-        close={() => setEdit(false)} 
+        close={() => setEdit(false)}
         handler={handleEdit}
       />
     ) : (
@@ -54,12 +54,12 @@ const SurveyQuestion = ({params, responseTypes, handleUpdate, updateSurveyQuesti
           <Typography gutterBottom variant="body2" color="textSecondary" component="p" align='left'>
             Response type: {response_type.replaceAll('_', ' ')}
           </Typography>
-          <br />
+          <br/>
           <div>
             <Typography variant="body1" align='left'>
               Responses:
             </Typography>
-            {question_responses && <QuestionResponse responses={question_responses} responseType={response_type} />}
+            {question_responses && <QuestionResponse responses={question_responses} responseType={response_type}/>}
           </div>
           <div className='text-right'>
             <Button onClick={() => setEdit(true)}>Edit</Button>

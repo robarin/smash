@@ -1,9 +1,7 @@
 import React from 'react';
 import QuestionsList from './QuestionsList';
 
-const SurveyBody = ({survey}) => {
-  const questions = survey.survey_questions;
-
+const SurveyBody = ({questions}) => {
   return (
     <>
       <QuestionsList questions={questions}/>

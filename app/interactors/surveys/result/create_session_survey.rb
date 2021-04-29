@@ -1,10 +1,12 @@
 class Surveys::Result::CreateSessionSurvey < ApplicationInteractor
-  uses_via_context :survey, :session
+  uses_via_context :person, :params, :survey
 
   def call
-    context.session_survey = SessionSurvey.create!(
+    session_survey = person.session_surveys.create!(
       survey: survey,
-      session: session
+      begin_date: Time.zone.now
     )
+
+    context.session_survey = session_survey
   end
 end

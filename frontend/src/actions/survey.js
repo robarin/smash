@@ -10,6 +10,7 @@ export const SET_SURVEY_RESULT = makeActionCreator('SET_SURVEY_RESULT');
 export const CLEAR_SURVEY_RESULT = makeActionCreator('CLEAR_SURVEY_RESULT');
 export const CREATE_SURVEY = makeAsyncActionCreator('CREATE_SURVEY');
 export const UPDATE_SURVEY = makeAsyncActionCreator('UPDATE_SURVEY');
+export const SUBMIT_SURVEY_RESULTS = makeAsyncActionCreator('SUBMIT_SURVEY_RESULTS');
 
 export const createSurvey = (body) => dispatch => {
   dispatch(CREATE_SURVEY())
@@ -94,6 +95,24 @@ export const fetchSurveys = () => dispatch => {
     } else {
       const {message} = data
       dispatch(FETCH_SURVEYS.failure(message))
+      throw new Error(message)
+    }
+
+    return data
+  })
+}
+
+export const submitSurveyResults = (body) => dispatch => {
+  dispatch(SUBMIT_SURVEY_RESULTS())
+
+  return requestPost(API_ROUTES.surveys.results, { surveyResult: body }).then((response) => {
+    const {status, data} = response
+
+    if (status >= 200 && status < 300) {
+      dispatch(SUBMIT_SURVEY_RESULTS.success(data))
+    } else {
+      const {message} = data
+      dispatch(SUBMIT_SURVEY_RESULTS.failure(message))
       throw new Error(message)
     }
 

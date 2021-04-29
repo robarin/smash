@@ -8,7 +8,7 @@ import rootReducer from './reducers/root';
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['currentUser', 'surveyResult']
+  blacklist: ['currentUser', 'surveyResult', 'modal']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

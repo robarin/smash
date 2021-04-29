@@ -5,7 +5,7 @@ import { fetchSurveys, createSurvey, updateSurvey } from '@actions/survey';
 import {showFlashMessage} from "@actions/flash";
 import {showModal, hideModal} from "@actions/modal";
 import SurveysList from '@components/Admin/Surveys';
-import Modal from '@components/Utils/Modal';
+import Modal from '@components/Admin/Utils/Modal';
 import Form from '@components/Admin/Survey/Form';
 
 const Surveys = ({fetchSurveys, createSurvey, updateSurvey, modal, showModal, hideModal, showFlashMessage}) => {
@@ -28,9 +28,9 @@ const Surveys = ({fetchSurveys, createSurvey, updateSurvey, modal, showModal, hi
     setSurveyAttributes(
       {
         id: survey.id,
-        name, 
-        description, 
-        surveyTypeId: survey_type.id, 
+        name,
+        description,
+        surveyTypeId: survey_type.id,
         surveyTypeName: survey_type.name
       }
     );

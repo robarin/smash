@@ -5,7 +5,7 @@ class Person < ApplicationRecord
   belongs_to :gender, optional: true
   belongs_to :province, optional: true
 
-  has_many :sessions, dependent: :destroy
+  has_many :session_surveys, dependent: :destroy
   has_many :person_groups
 
   def full_name
