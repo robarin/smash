@@ -10,8 +10,8 @@ const SelectOption = ({isMulti, options, name, onChange}) => {
       maxMenuHeight={150}
       className="basic-single z-30"
       classNamePrefix="question-response-select"
-      isClearable={true}
       options={options}
+      isClearable={true}
     />
   )
 }

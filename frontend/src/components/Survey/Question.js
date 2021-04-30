@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import QuestionResponse from './QuestionResponse';
 import {setSurveyResult} from '../../actions/survey';
@@ -15,8 +15,21 @@ const SurveyQuestion = (props) => {
     setSurveyResult,
     questionIndex
   } = props;
+  const questionId = id;
   const [customResponse, setCustomResponse] = useState({responseText: ''});
+  const [currentQuestionResponse, setCurrentQuestionResponse] = useState(null);
   const surveyResponses = surveyResult.questionResponses;
+
+  const findCurrentResponse = () => {
+    const res = surveyResponses.find(r => r.questionId === questionId);
+    setCurrentQuestionResponse(res);
+
+    return res;
+  }
+
+  const getFilteredResponses = () => {
+    return surveyResponses.filter(r => r.questionId !== questionId);
+  }
 
   const onCustomResponseChange = (e) => {
     const questionId = parseInt(e.target.name);
@@ -61,7 +74,7 @@ const SurveyQuestion = (props) => {
     const questionResponseId = parseInt(e.target.id);
     const optionValue = e.target.value;
     const isMultiple = e.target.type === 'checkbox';
-    const currentResponse = surveyResponses.find(r => r.questionId === questionId);
+    const currentResponse = findCurrentResponse();
     const custom = toggleTextField({questionId, optionValue});
 
     const questionResponse = {
@@ -91,10 +104,7 @@ const SurveyQuestion = (props) => {
       }
     }
 
-    updateSurveyResponses({
-      questionId,
-      newResponse: questionResponse
-    });
+    updateSurveyResponses({newResponse: questionResponse});
   }
 
   const isResponseSelect = () => {
@@ -120,9 +130,13 @@ const SurveyQuestion = (props) => {
   }
 
   const onSelectChange = (e) => {
-    const selected = e[0] || e;
-    const questionId = selected.questionId;
-    const currentResponse = surveyResponses.find(r => r.questionId === questionId);
+    const isMultiple = Array.isArray(e);
+    const currentResponse = findCurrentResponse();
+
+    if ((isMultiple && e.length === 0) || !e) {
+      return deleteCurrentResponse();
+    }
+
     const questionResponse = {
       questionId,
       isMultiple: false,
@@ -132,28 +146,27 @@ const SurveyQuestion = (props) => {
     const response = currentResponse || questionResponse;
     response.questionResponseId = [];
 
-    if (Array.isArray(e)) {
+    if (isMultiple) {
       response.isMultiple = true;
       e.forEach(res => response.questionResponseId.push(res.value));
     } else {
       response.questionResponseId = e.value;
     }
 
-    updateSurveyResponses({
-      questionId,
-      newResponse: response
+    updateSurveyResponses({newResponse: response})
+  }
+
+  const deleteCurrentResponse = () => {
+    setSurveyResult({
+      ...surveyResult,
+      questionResponses: [...getFilteredResponses()]
     })
   }
 
-  const updateSurveyResponses = ({newResponse, questionId}) => {
-    const filteredResponses = surveyResponses.filter(r => r.questionId !== questionId);
-    const newResponses = [
-      ...filteredResponses,
-      newResponse
-    ];
+  const updateSurveyResponses = ({newResponse}) => {
     setSurveyResult({
       ...surveyResult,
-      questionResponses: newResponses
+      questionResponses: [...getFilteredResponses(), newResponse]
     })
   }
 

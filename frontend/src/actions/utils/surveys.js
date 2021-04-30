@@ -1,7 +1,7 @@
 export const validateSurveyResult = ({survey,surveyResult,setError}) => {
   const responses = surveyResult.questionResponses;
   const customResponse = responses.find(r => r.custom);
-  const emptyResponse = responses.find(r => r.isMultiple && r.questionResponseId.length === 0);
+  const emptyResponse = responses.find(r => (r.isMultiple && r.questionResponseId.length === 0) || !r.questionResponseId);
   const result = {valid: true}
 
   if (responses.length !== survey.survey_questions.length || emptyResponse) {
