@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :gender do
-    name { %w[Male Female Other].sample }
+    sequence(:name) { |n| "#{n}#{Faker::Lorem.unique.word}" }
 
     trait :male do
       name { 'Male' }

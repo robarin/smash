@@ -10,6 +10,13 @@ SEEDS = %w[
   survey_types
   surveys
   survey_questions
+  locations
+  events
+  ratings
+  achievements
+  person_events
+  person_event_achievements
+  event_notes
 ].freeze
 
 SEEDS.each do |seed|

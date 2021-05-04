@@ -6,7 +6,7 @@ FactoryBot.define do
     birth_date { Faker::Date.birthday(min_age: 18, max_age: 65) }
     gender
     avatar { Faker::Avatar.image }
-    phone { Faker::PhoneNumber.phone_number }
+    sequence(:phone) { |n| "#{n}#{Faker::PhoneNumber.unique.phone_number}" }
     user
     province
   end

@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_082059) do
+ActiveRecord::Schema.define(version: 2021_04_30_202629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "achievements", force: :cascade do |t|
+    t.string "name"
+    t.integer "type"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -52,6 +60,29 @@ ActiveRecord::Schema.define(version: 2021_04_15_082059) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "event_notes", force: :cascade do |t|
+    t.bigint "person_event_id", null: false
+    t.datetime "note_date"
+    t.integer "type"
+    t.bigint "rating_id", null: false
+    t.text "note_body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["person_event_id"], name: "index_event_notes_on_person_event_id"
+    t.index ["rating_id"], name: "index_event_notes_on_rating_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.datetime "date"
+    t.integer "type"
+    t.bigint "location_id", null: false
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["location_id"], name: "index_events_on_location_id"
+  end
+
   create_table "genders", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description"
@@ -76,6 +107,18 @@ ActiveRecord::Schema.define(version: 2021_04_15_082059) do
     t.index ["group_type_id"], name: "index_groups_on_group_type_id"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.integer "type"
+    t.string "street_number"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "people", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -92,6 +135,26 @@ ActiveRecord::Schema.define(version: 2021_04_15_082059) do
     t.index ["phone"], name: "index_people_on_phone"
     t.index ["province_id"], name: "index_people_on_province_id"
     t.index ["user_id"], name: "index_people_on_user_id"
+  end
+
+  create_table "person_event_achievements", force: :cascade do |t|
+    t.bigint "person_event_id", null: false
+    t.bigint "achievement_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["achievement_id"], name: "index_person_event_achievements_on_achievement_id"
+    t.index ["person_event_id"], name: "index_person_event_achievements_on_person_event_id"
+  end
+
+  create_table "person_events", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "person_id", null: false
+    t.bigint "role_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_person_events_on_event_id"
+    t.index ["person_id"], name: "index_person_events_on_person_id"
+    t.index ["role_id"], name: "index_person_events_on_role_id"
   end
 
   create_table "person_groups", force: :cascade do |t|
@@ -124,6 +187,14 @@ ActiveRecord::Schema.define(version: 2021_04_15_082059) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["survey_question_id"], name: "index_question_responses_on_survey_question_id"
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.string "name"
+    t.decimal "numeric"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "regions", force: :cascade do |t|
@@ -223,8 +294,16 @@ ActiveRecord::Schema.define(version: 2021_04_15_082059) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "event_notes", "person_events"
+  add_foreign_key "event_notes", "ratings"
+  add_foreign_key "events", "locations"
   add_foreign_key "people", "genders"
   add_foreign_key "people", "users"
+  add_foreign_key "person_event_achievements", "achievements"
+  add_foreign_key "person_event_achievements", "person_events"
+  add_foreign_key "person_events", "events"
+  add_foreign_key "person_events", "people"
+  add_foreign_key "person_events", "roles"
   add_foreign_key "question_responses", "survey_questions"
   add_foreign_key "session_surveys", "people"
   add_foreign_key "session_surveys", "surveys"

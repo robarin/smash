@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :user do
-    email { Faker::Internet.unique.email }
+    sequence(:email) { |n| "#{n}#{Faker::Internet.unique.email}" }
     password { '123456' }
     confirmed_at { Time.zone.now }
 

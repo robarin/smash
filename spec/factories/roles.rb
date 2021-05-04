@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :role do
-    name { Faker::Job.unique.position }
+    sequence(:name) { |n| "#{n}#{Faker::Lorem.unique.word}" }
     description { Faker::Lorem.paragraph(sentence_count: 2) }
   end
 end

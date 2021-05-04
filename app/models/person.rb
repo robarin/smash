@@ -6,7 +6,8 @@ class Person < ApplicationRecord
   belongs_to :province, optional: true
 
   has_many :session_surveys, dependent: :destroy
-  has_many :person_groups
+  has_many :person_groups, dependent: :destroy
+  has_many :person_events, dependent: :destroy
 
   def full_name
     "#{first_name} #{last_name}"
