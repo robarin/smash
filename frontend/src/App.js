@@ -13,6 +13,7 @@ import Users from './containers/Admin/Users';
 import SurveyTypes from './containers/Admin/SurveyTypes';
 import Surveys from './containers/Admin/Surveys';
 import Survey from './components/Admin/Survey';
+import Tags from './containers/Admin/Tags';
 
 import ApplicationRoute from './layouts/ApplicationLayout/ApplicationRoute';
 import AdminRoute from './layouts/AdminLayout/AdminRoute';
@@ -49,6 +50,7 @@ const App = ({getCurrentUser, currentUser}) => {
           <AdminRoute exact path="/admin/surveys" component={Surveys} />
           <AdminRoute exact path="/admin/surveys/:id" component={Survey} />
           <AdminRoute exact path="/admin/survey_types" component={SurveyTypes} />
+          <AdminRoute exact path="/admin/tags" component={Tags} />
         </Switch>
       </Router>
     </div>

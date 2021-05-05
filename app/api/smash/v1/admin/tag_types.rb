@@ -6,9 +6,7 @@ module Smash
           desc 'GET /tag_types'
 
           get '/' do
-            tag_types = [] # TODO Tag.types
-
-            ActiveModelSerializers::SerializableResource.new(tag_types).serializable_hash
+            Tag.serialized_types
           end
         end
       end

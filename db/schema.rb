@@ -246,7 +246,7 @@ ActiveRecord::Schema.define(version: 2021_05_04_121606) do
     t.index ["survey_type_id"], name: "index_surveys_on_survey_type_id"
   end
 
-  create_table "tag_types", force: :cascade do |t|
+  create_table "tags", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", precision: 6, null: false

@@ -8,7 +8,7 @@ export const API_ROUTES = {
   },
   admin: {
     users: '/v1/admin/users',
-    tagTypes: '/v1/admin/tag_types',
+    tags: '/v1/admin/tags',
     surveyTypes: '/v1/admin/survey_types',
     surveys: '/v1/admin/surveys',
     questions: '/v1/admin/questions',

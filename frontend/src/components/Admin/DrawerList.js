@@ -15,7 +15,7 @@ export default () => {
         <DrawerItem href="/admin" icon={HomeIcon} title="Dashboard" />
         <DrawerItem href="/admin/users" icon={PeopleIcon} title="Users" />
         <DrawerItem href="/admin/surveys" icon={FormatListNumberedIcon} title="Surveys" />
-        <DrawerItem href="/admin/tag_types" icon={LocalOffer} title="Tag types" />
+        <DrawerItem href="/admin/tags" icon={LocalOffer} title="Tags" />
         <DrawerItem href="/admin/survey_types" icon={ReorderIcon} title="Survey types" />
       </List>
     </>

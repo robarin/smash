@@ -1,4 +1,8 @@
 class Smash::Api < Grape::API
+  rescue_from ActiveRecord::RecordNotFound do |error|
+    error!(error, 404)
+  end
+
   before do
     params.deep_transform_keys!(&:underscore)
   end

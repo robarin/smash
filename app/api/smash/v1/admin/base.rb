@@ -10,6 +10,7 @@ module Smash
 
         mount Smash::V1::Admin::Users
         mount Smash::V1::Admin::TagTypes
+        mount Smash::V1::Admin::Tags
         mount Smash::V1::Admin::SurveyTypes
         mount Smash::V1::Admin::Surveys
         mount Smash::V1::Admin::SurveyQuestions
