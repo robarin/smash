@@ -1,5 +1,4 @@
 event = FactoryBot.create(:event)
-role = FactoryBot.create(:role)
 
 5.times do
   person = FactoryBot.create(:person)

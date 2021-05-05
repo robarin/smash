@@ -16,10 +16,13 @@ genders = Gender.all
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
       middle_name: Faker::Name.middle_name,
-      gender: genders.sample
+      gender: genders.sample,
+      role: 'student'
     )
 
     user.save!
     user.confirm
+
+    user.person.groups << Group.all.sample
   end
 end

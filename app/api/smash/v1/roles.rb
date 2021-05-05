@@ -3,9 +3,7 @@ module Smash
     class Roles < Grape::API
       resource :roles do
         get do
-          roles = Role.all
-
-          ActiveModelSerializers::SerializableResource.new(roles).serializable_hash
+          Person.roles.keys
         end
       end
     end

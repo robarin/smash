@@ -6,5 +6,9 @@ countries = [
 ]
 
 countries.each do |h|
-  Country.find_or_create_by!(name: h[:name], abbrev: h[:abbrev])
+  country = Country.find_by(name: h[:name], abbrev: h[:abbrev])
+
+  unless country
+    FactoryBot.create(:country, name: h[:name], abbrev: h[:abbrev])
+  end
 end

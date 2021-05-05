@@ -14,7 +14,7 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, fetchUserRoles}) => {
   }, [])
 
   const updateAccountInfo = () => {
-    const currentRole = role || roles[0].name;
+    const currentRole = role || roles[0];
     setAccountInfo({
       ...accountInfo,
       gender,
@@ -74,7 +74,7 @@ const BaseInfo = ({accountInfo, setAccountInfo, nextStep, fetchUserRoles}) => {
                 <label className="block">
                   <select className="form-select outline-none mt-1 block w-full" onChange={onRoleChange}>
                     {roles.map((role, index, self) => (
-                      <option key={`role-${index}`}>{role.name}</option>
+                      <option key={`role-${index}`}>{role}</option>
                     ))}
                   </select>
                 </label>

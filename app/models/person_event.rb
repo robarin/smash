@@ -5,5 +5,4 @@ class PersonEvent < ApplicationRecord
 
   belongs_to :event
   belongs_to :person
-  belongs_to :role
 end

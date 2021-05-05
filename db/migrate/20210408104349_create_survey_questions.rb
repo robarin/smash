@@ -5,6 +5,7 @@ class CreateSurveyQuestions < ActiveRecord::Migration[6.1]
       t.references :survey, foreign_key: true
       t.integer :response_type, default: 0
       t.index :response_type
+      t.integer :position
 
       t.timestamps
     end

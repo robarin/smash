@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_30_202629) do
+ActiveRecord::Schema.define(version: 2021_05_04_121606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "achievements", force: :cascade do |t|
     t.string "name"
-    t.integer "type"
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -60,12 +59,18 @@ ActiveRecord::Schema.define(version: 2021_04_30_202629) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "event_groups", force: :cascade do |t|
+    t.bigint "event_id"
+    t.bigint "group_id"
+    t.index ["event_id"], name: "index_event_groups_on_event_id"
+    t.index ["group_id"], name: "index_event_groups_on_group_id"
+  end
+
   create_table "event_notes", force: :cascade do |t|
+    t.datetime "date"
+    t.text "body"
     t.bigint "person_event_id", null: false
-    t.datetime "note_date"
-    t.integer "type"
     t.bigint "rating_id", null: false
-    t.text "note_body"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["person_event_id"], name: "index_event_notes_on_person_event_id"
@@ -75,7 +80,6 @@ ActiveRecord::Schema.define(version: 2021_04_30_202629) do
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.datetime "date"
-    t.integer "type"
     t.bigint "location_id", null: false
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
@@ -91,25 +95,15 @@ ActiveRecord::Schema.define(version: 2021_04_30_202629) do
     t.index ["name"], name: "index_genders_on_name"
   end
 
-  create_table "group_types", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.text "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "groups", force: :cascade do |t|
     t.string "name", default: "", null: false
-    t.bigint "group_type_id"
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["group_type_id"], name: "index_groups_on_group_type_id"
   end
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
-    t.integer "type"
     t.string "street_number"
     t.string "city"
     t.string "state"
@@ -123,14 +117,15 @@ ActiveRecord::Schema.define(version: 2021_04_30_202629) do
     t.string "first_name"
     t.string "last_name"
     t.string "middle_name"
+    t.string "phone"
+    t.string "avatar"
+    t.integer "role", default: 0
     t.datetime "birth_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
     t.bigint "gender_id"
-    t.string "avatar"
     t.bigint "province_id"
-    t.string "phone"
     t.index ["gender_id"], name: "index_people_on_gender_id"
     t.index ["phone"], name: "index_people_on_phone"
     t.index ["province_id"], name: "index_people_on_province_id"
@@ -149,16 +144,13 @@ ActiveRecord::Schema.define(version: 2021_04_30_202629) do
   create_table "person_events", force: :cascade do |t|
     t.bigint "event_id", null: false
     t.bigint "person_id", null: false
-    t.bigint "role_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["event_id"], name: "index_person_events_on_event_id"
     t.index ["person_id"], name: "index_person_events_on_person_id"
-    t.index ["role_id"], name: "index_person_events_on_role_id"
   end
 
   create_table "person_groups", force: :cascade do |t|
-    t.bigint "role_id"
     t.bigint "person_id"
     t.bigint "group_id"
     t.datetime "begin_date"
@@ -167,7 +159,6 @@ ActiveRecord::Schema.define(version: 2021_04_30_202629) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["group_id"], name: "index_person_groups_on_group_id"
     t.index ["person_id"], name: "index_person_groups_on_person_id"
-    t.index ["role_id"], name: "index_person_groups_on_role_id"
   end
 
   create_table "provinces", force: :cascade do |t|
@@ -206,13 +197,6 @@ ActiveRecord::Schema.define(version: 2021_04_30_202629) do
     t.index ["country_id"], name: "index_regions_on_country_id"
   end
 
-  create_table "roles", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.text "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "session_surveys", force: :cascade do |t|
     t.datetime "begin_date", null: false
     t.datetime "end_time"
@@ -228,9 +212,9 @@ ActiveRecord::Schema.define(version: 2021_04_30_202629) do
     t.string "body", default: "", null: false
     t.bigint "survey_id"
     t.integer "response_type", default: 0
+    t.integer "position"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "position"
     t.index ["response_type"], name: "index_survey_questions_on_response_type"
     t.index ["survey_id"], name: "index_survey_questions_on_survey_id"
   end
@@ -255,9 +239,9 @@ ActiveRecord::Schema.define(version: 2021_04_30_202629) do
   create_table "surveys", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description"
+    t.bigint "survey_type_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "survey_type_id"
     t.index ["survey_type_id"], name: "index_surveys_on_survey_type_id"
   end
 
@@ -294,6 +278,8 @@ ActiveRecord::Schema.define(version: 2021_04_30_202629) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "event_groups", "events"
+  add_foreign_key "event_groups", "groups"
   add_foreign_key "event_notes", "person_events"
   add_foreign_key "event_notes", "ratings"
   add_foreign_key "events", "locations"
@@ -303,7 +289,6 @@ ActiveRecord::Schema.define(version: 2021_04_30_202629) do
   add_foreign_key "person_event_achievements", "person_events"
   add_foreign_key "person_events", "events"
   add_foreign_key "person_events", "people"
-  add_foreign_key "person_events", "roles"
   add_foreign_key "question_responses", "survey_questions"
   add_foreign_key "session_surveys", "people"
   add_foreign_key "session_surveys", "surveys"
