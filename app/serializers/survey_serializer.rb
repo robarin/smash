@@ -7,7 +7,8 @@ class SurveySerializer < ActiveModel::Serializer
   attributes :id,
              :name,
              :description,
-             :response_types
+             :response_types,
+             :created_at
 
   def survey_questions
     questions = object.survey_questions.includes(:question_responses)

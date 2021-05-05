@@ -36,7 +36,7 @@ module Smash
             requires :survey_id, type: Integer
             requires :body, type: String
             requires :response_type, type: String
-            optional :position, type: Integer
+            requires :position, type: Integer
             optional :question_responses, type: Array do
               optional :id
               requires :name
@@ -57,7 +57,7 @@ module Smash
           params do
             requires :body, type: String
             requires :response_type, type: String
-            optional :position, type: Integer
+            requires :position, type: Integer
             optional :question_responses, type: Array do
               optional :id
               requires :name

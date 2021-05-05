@@ -15,4 +15,14 @@ class SurveyQuestion < ApplicationRecord
   accepts_nested_attributes_for :question_responses
 
   validates :body, presence: true
+
+  before_validation :set_position
+
+  private
+
+  def set_position
+    return if position.present?
+
+    self.position = survey.survey_questions.count + 1
+  end
 end

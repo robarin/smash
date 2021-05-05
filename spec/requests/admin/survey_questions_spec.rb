@@ -36,8 +36,17 @@ RSpec.describe Smash::V1::Admin::SurveyQuestions, type: :request do
           send_request(:post, '/v1/admin/survey_questions', params: params_with_responses)
 
           parsed_body = JSON.parse(response.body).map(&:deep_symbolize_keys)
+          survey_questions = questions_attributes(survey.reload)
 
-          expect(parsed_body).to eq questions_attributes(survey.reload)
+          parsed_body.each.with_index do |parsed_question, index|
+            parsed_attrs = parsed_question.slice(:id, :body, :position, :response_type, :question_responses)
+            question_attrs = survey_questions[index].slice(:id, :body, :position, :response_type, :question_responses)
+            parsed_survey_attrs = parsed_question[:survey].slice(:id, :name, :description, :response_types)
+            survey_attrs = survey_questions[index][:survey].slice(:id, :name, :description, :response_types)
+
+            expect(parsed_attrs).to eq question_attrs
+            expect(parsed_survey_attrs).to eq survey_attrs
+          end
         end
       end
 
@@ -48,7 +57,18 @@ RSpec.describe Smash::V1::Admin::SurveyQuestions, type: :request do
           new_question = SurveyQuestion.last
           parsed_body = JSON.parse(response.body).map(&:deep_symbolize_keys)
 
-          expect(parsed_body).to eq questions_attributes(survey.reload)
+          survey_questions = questions_attributes(survey.reload)
+
+          parsed_body.each.with_index do |parsed_question, index|
+            parsed_attrs = parsed_question.slice(:id, :body, :position, :response_type, :question_responses)
+            question_attrs = survey_questions[index].slice(:id, :body, :position, :response_type, :question_responses)
+            parsed_survey_attrs = parsed_question[:survey].slice(:id, :name, :description, :response_types)
+            survey_attrs = survey_questions[index][:survey].slice(:id, :name, :description, :response_types)
+
+            expect(parsed_attrs).to eq question_attrs
+            expect(parsed_survey_attrs).to eq survey_attrs
+          end
+
           expect(new_question.question_responses.count).to eq 0
         end
       end
@@ -95,8 +115,17 @@ RSpec.describe Smash::V1::Admin::SurveyQuestions, type: :request do
                        params: params_with_responses.except(:survey_id))
 
           parsed_body = JSON.parse(response.body).map(&:deep_symbolize_keys)
+          survey_questions = questions_attributes(survey.reload)
 
-          expect(parsed_body).to eq questions_attributes(survey.reload)
+          parsed_body.each.with_index do |parsed_question, index|
+            parsed_attrs = parsed_question.slice(:id, :body, :position, :response_type, :question_responses)
+            question_attrs = survey_questions[index].slice(:id, :body, :position, :response_type, :question_responses)
+            parsed_survey_attrs = parsed_question[:survey].slice(:id, :name, :description, :response_types)
+            survey_attrs = survey_questions[index][:survey].slice(:id, :name, :description, :response_types)
+
+            expect(parsed_attrs).to eq question_attrs
+            expect(parsed_survey_attrs).to eq survey_attrs
+          end
         end
       end
 
@@ -110,8 +139,18 @@ RSpec.describe Smash::V1::Admin::SurveyQuestions, type: :request do
 
           parsed_body = JSON.parse(response.body).map(&:deep_symbolize_keys)
           updated_question = parsed_body.find { |q| q[:id] == question.id }
+          survey_questions = questions_attributes(survey.reload)
 
-          expect(parsed_body).to eq questions_attributes(survey.reload)
+          parsed_body.each.with_index do |parsed_question, index|
+            parsed_attrs = parsed_question.slice(:id, :body, :position, :response_type, :question_responses)
+            question_attrs = survey_questions[index].slice(:id, :body, :position, :response_type, :question_responses)
+            parsed_survey_attrs = parsed_question[:survey].slice(:id, :name, :description, :response_types)
+            survey_attrs = survey_questions[index][:survey].slice(:id, :name, :description, :response_types)
+
+            expect(parsed_attrs).to eq question_attrs
+            expect(parsed_survey_attrs).to eq survey_attrs
+          end
+
           expect(updated_question[:question_responses]).to eq question_responses
         end
       end
@@ -125,8 +164,18 @@ RSpec.describe Smash::V1::Admin::SurveyQuestions, type: :request do
 
           parsed_body = JSON.parse(response.body).map(&:deep_symbolize_keys)
           updated_question = parsed_body.find { |q| q[:id] == question.id }
+          survey_questions = questions_attributes(survey.reload)
 
-          expect(parsed_body).to eq questions_attributes(survey.reload)
+          parsed_body.each.with_index do |parsed_question, index|
+            parsed_attrs = parsed_question.slice(:id, :body, :position, :response_type, :question_responses)
+            question_attrs = survey_questions[index].slice(:id, :body, :position, :response_type, :question_responses)
+            parsed_survey_attrs = parsed_question[:survey].slice(:id, :name, :description, :response_types)
+            survey_attrs = survey_questions[index][:survey].slice(:id, :name, :description, :response_types)
+
+            expect(parsed_attrs).to eq question_attrs
+            expect(parsed_survey_attrs).to eq survey_attrs
+          end
+
           expect(updated_question[:question_responses]).to eq []
           expect(QuestionResponse.count).to eq (responses_all - responses_count)
         end
