@@ -1,3 +1,3 @@
-10.times do
-  FactoryBot.create(:location)
+Province.all.each do |province|
+  FactoryBot.create(:location, province: province)
 end

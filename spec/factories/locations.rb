@@ -1,10 +1,11 @@
 FactoryBot.define do
   factory :location do
-    name { Faker::Name.name }
+    city          { Faker::Address.city }
     street_number { Faker::Address.street_address }
-    city { Faker::Address.city }
-    state { Faker::Address.state }
-    zip { Faker::Address.zip_code }
-    description { Faker::Lorem.paragraph(sentence_count: 2) }
+    zip           { Faker::Address.zip_code }
+    name          { Faker::Name.name }
+    description   { Faker::Lorem.paragraph(sentence_count: 2) }
+
+    province
   end
 end

@@ -1,11 +1,11 @@
 class CreateLocations < ActiveRecord::Migration[6.1]
   def change
     create_table :locations do |t|
-      t.string :name
+      t.references :province, foreign_key: true
+      t.string :city, null: false
       t.string :street_number
-      t.string :city
-      t.string :state
       t.string :zip
+      t.string :name
       t.text :description
 
       t.timestamps

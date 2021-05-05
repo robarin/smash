@@ -103,14 +103,15 @@ ActiveRecord::Schema.define(version: 2021_05_04_121606) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.string "name"
+    t.bigint "province_id"
+    t.string "city", null: false
     t.string "street_number"
-    t.string "city"
-    t.string "state"
     t.string "zip"
+    t.string "name"
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["province_id"], name: "index_locations_on_province_id"
   end
 
   create_table "people", force: :cascade do |t|
@@ -283,6 +284,7 @@ ActiveRecord::Schema.define(version: 2021_05_04_121606) do
   add_foreign_key "event_notes", "person_events"
   add_foreign_key "event_notes", "ratings"
   add_foreign_key "events", "locations"
+  add_foreign_key "locations", "provinces"
   add_foreign_key "people", "genders"
   add_foreign_key "people", "users"
   add_foreign_key "person_event_achievements", "achievements"
