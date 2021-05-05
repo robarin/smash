@@ -48,29 +48,35 @@ const QuestionResponse = (props) => {
   const renderOption = ({responseType, text, questionId, questionResponseId, lastOption}) => {
     const customResponse = lastOption && responseType.match(/text/);
     const isChecked = isCheckedOption(questionResponseId);
+    const isMultiple = responseType.match(/multiple/);
+    let optionValue;
     let textField;
     let option;
 
     if (customResponse) {
       textField = <CustomResponseField name={questionId} id={questionResponseId} onChange={onCustomResponseChange}/>
+      optionValue = isMultiple ? 'custom-multiple' : 'custom-single';
+    } else {
+      optionValue = isMultiple ? 'multiple' : 'single';
     }
 
-    if (responseType.match(/single/)) {
-      option = <RadioButtonOption
-        text={text}
-        name={questionId}
-        id={questionResponseId}
-        isChecked={isChecked}
-        onChange={onChange}
-        value={customResponse ? 'custom' : 'predefined'}
-      />
-    } else {
+    if (isMultiple) {
       option = <CheckBoxOption
         text={text}
         name={questionId}
         id={questionResponseId}
         isChecked={isChecked}
         onChange={onChange}
+        value={optionValue}
+      />
+    } else {
+      option = <RadioButtonOption
+        text={text}
+        name={questionId}
+        id={questionResponseId}
+        isChecked={isChecked}
+        onChange={onChange}
+        value={optionValue}
       />
     }
 

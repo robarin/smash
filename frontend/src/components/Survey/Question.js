@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import QuestionResponse from './QuestionResponse';
 import {setSurveyResult} from '../../actions/survey';
@@ -53,20 +53,25 @@ const SurveyQuestion = (props) => {
     )
   }
 
-  const toggleTextField = ({questionId, optionValue}) => {
+  const toggleTextField = ({questionId, optionValue, checked}) => {
     const textField = customResponseTextarea(questionId);
-    if (textField) {
-      textField.classList.add('hidden');
-    }
+    if (!textField) return false;
 
-    let visible = false;
-
-    if (textField && optionValue === 'custom') {
+    const show = () => {
       textField.classList.remove('hidden');
-      visible = true;
+      return true;
+    }
+    const hide = () => {
+      textField.classList.add('hidden');
+      return false;
     }
 
-    return visible;
+    switch (optionValue) {
+      case 'single': return hide();
+      case 'custom-single': return show();
+      case 'custom-multiple': return checked ? show() : hide();
+      default: return textField;
+    }
   }
 
   const onOptionChange = (e) => {
@@ -75,8 +80,7 @@ const SurveyQuestion = (props) => {
     const optionValue = e.target.value;
     const isMultiple = e.target.type === 'checkbox';
     const currentResponse = findCurrentResponse();
-    const custom = toggleTextField({questionId, optionValue});
-
+    const custom = toggleTextField({questionId, optionValue, checked: isMultiple && e.target.checked});
     const questionResponse = {
       questionId,
       isMultiple,
