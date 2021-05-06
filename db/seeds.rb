@@ -11,7 +11,9 @@ SEEDS = %w[
   surveys
   survey_questions
   tags
+  location_types
   locations
+  event_types
   events
 ].freeze
 

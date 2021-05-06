@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_04_121606) do
+ActiveRecord::Schema.define(version: 2021_05_06_090855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,13 @@ ActiveRecord::Schema.define(version: 2021_05_04_121606) do
     t.index ["rating_id"], name: "index_event_notes_on_rating_id"
   end
 
+  create_table "event_types", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.datetime "date"
@@ -84,6 +91,8 @@ ActiveRecord::Schema.define(version: 2021_05_04_121606) do
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "event_type_id"
+    t.index ["event_type_id"], name: "index_events_on_event_type_id"
     t.index ["location_id"], name: "index_events_on_location_id"
   end
 
@@ -102,6 +111,13 @@ ActiveRecord::Schema.define(version: 2021_05_04_121606) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "location_types", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "locations", force: :cascade do |t|
     t.bigint "province_id"
     t.string "city", null: false
@@ -111,6 +127,8 @@ ActiveRecord::Schema.define(version: 2021_05_04_121606) do
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "location_type_id"
+    t.index ["location_type_id"], name: "index_locations_on_location_type_id"
     t.index ["province_id"], name: "index_locations_on_province_id"
   end
 
@@ -246,6 +264,13 @@ ActiveRecord::Schema.define(version: 2021_05_04_121606) do
     t.index ["survey_type_id"], name: "index_surveys_on_survey_type_id"
   end
 
+  create_table "tag_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -283,7 +308,9 @@ ActiveRecord::Schema.define(version: 2021_05_04_121606) do
   add_foreign_key "event_groups", "groups"
   add_foreign_key "event_notes", "person_events"
   add_foreign_key "event_notes", "ratings"
+  add_foreign_key "events", "event_types"
   add_foreign_key "events", "locations"
+  add_foreign_key "locations", "location_types"
   add_foreign_key "locations", "provinces"
   add_foreign_key "people", "genders"
   add_foreign_key "people", "users"

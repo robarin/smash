@@ -1,3 +1,3 @@
-Province.all.each do |province|
-  FactoryBot.create(:location, province: province)
+LocationType.all.each do |location_type|
+  FactoryBot.create(:location, location_type: location_type, province: Province.all.sample)
 end
