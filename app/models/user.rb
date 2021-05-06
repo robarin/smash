@@ -1,7 +1,9 @@
 class User < ApplicationRecord
   include AccessTokenable
 
-  enum role: %i[regular]
+  enum role: {
+    regular: 0
+  }
 
   devise :database_authenticatable,
          :registerable,

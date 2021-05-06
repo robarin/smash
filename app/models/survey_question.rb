@@ -1,13 +1,13 @@
 class SurveyQuestion < ApplicationRecord
-  enum response_type: %i[
-    single
-    multiple
-    text
-    single_or_text
-    multiple_or_text
-    single_select
-    multiple_select
-  ]
+  enum response_type: {
+    single: 0,
+    multiple: 1,
+    text: 2,
+    single_or_text: 3,
+    multiple_or_text: 4,
+    single_select: 5,
+    multiple_select: 6
+  }
 
   belongs_to :survey
   has_many :question_responses, dependent: :destroy
