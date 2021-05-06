@@ -11,7 +11,7 @@ RSpec.describe 'Admin::Tag', type: :request do
     it 'returns tags' do
       get '/v1/admin/tags'
 
-      expect(sorted_response_body.map(&:deep_symbolize_keys)).to eq tags
+      expect(parsed_body).to eq tags
     end
   end
 

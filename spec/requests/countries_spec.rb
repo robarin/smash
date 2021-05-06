@@ -15,8 +15,8 @@ RSpec.describe 'Countries', type: :request do
 
         expect(response).to have_http_status(200)
         parsed_body.each_with_index do |country, idx|
-          expect(country['name']).to eq countries[idx].name
-          expect(country['description']).to eq countries[idx].description
+          expect(country[:name]).to eq countries[idx].name
+          expect(country[:description]).to eq countries[idx].description
         end
       end
     end

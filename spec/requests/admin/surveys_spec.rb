@@ -8,9 +8,9 @@ RSpec.describe "Admin::Surveys", type: :request do
       get "/v1/admin/surveys"
 
       expect(response).to have_http_status(200)
-      sorted_response_body.each_with_index do |survey, idx|
-        expect(survey['name']).to eq surveys[idx][:name]
-        expect(survey['description']).to eq surveys[idx][:description]
+      parsed_body.each_with_index do |survey, idx|
+        expect(survey[:name]).to eq surveys[idx][:name]
+        expect(survey[:description]).to eq surveys[idx][:description]
       end
     end
   end
