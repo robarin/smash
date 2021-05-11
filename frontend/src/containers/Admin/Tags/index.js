@@ -42,6 +42,7 @@ const Tags = ({tags, fetchTags, updateTag, createTag}) => {
   }
 
   useEffect(() => {
+    throw 'Check Sentry frontend error delivery'
     fetchTags()
   }, []);
 

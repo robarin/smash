@@ -2,6 +2,7 @@ import './App.css';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import * as Sentry from "@sentry/react";
 import Home from './containers/Home';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
@@ -24,6 +25,12 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { getCurrentUser } from "./actions/currentUser";
 
 library.add(fab)
+
+if (process.env.NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN
+  })
+}
 
 const App = ({getCurrentUser, currentUser}) => {
   useEffect(() => {

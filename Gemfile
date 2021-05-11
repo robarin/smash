@@ -21,6 +21,8 @@ gem 'rack_session_access', git: 'https://github.com/the-sanjar/rack_session_acce
 gem 'responders'
 gem 'rest-client'
 gem 'sendinblue'
+gem "sentry-ruby"
+gem "sentry-rails"
 gem 'selenium-webdriver'
 gem 'rails', '~> 6.1.3'
 gem 'rack-cors'
