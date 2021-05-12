@@ -14,6 +14,8 @@ module Smash
         mount Smash::V1::Admin::SurveyTypes
         mount Smash::V1::Admin::Surveys
         mount Smash::V1::Admin::SurveyQuestions
+        mount Smash::V1::Admin::Events
+        mount Smash::V1::Admin::EventRelatedEntities
 
         add_swagger_documentation \
         doc_version: '1.0.0',

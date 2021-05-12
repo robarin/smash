@@ -1,5 +1,5 @@
 class RegionSerializer < ActiveModel::Serializer
-  attributes :name, :description, :provinces
+  attributes :id, :name, :description, :provinces
 
   belongs_to :country
 

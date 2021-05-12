@@ -91,7 +91,7 @@ const Surveys = ({fetchSurveys, createSurvey, updateSurvey, modal, showModal, hi
         </h1>
         <Button color='primary' onClick={showNewModal}>Create survey</Button>
       </div>
-        <SurveysList list={surveys} handleEdit={showEditModal}/>
+      <SurveysList list={surveys} handleEdit={showEditModal}/>
       <div>
         <Modal isOpen={modal.open} title={modal.title} handleClose={closeModal}>
           <Form survey={surveyAttributes} handler={surveyAttributes.id ? handleUpdate : handleCreate} />

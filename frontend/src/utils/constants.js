@@ -12,7 +12,9 @@ export const API_ROUTES = {
     surveyTypes: '/v1/admin/survey_types',
     surveys: '/v1/admin/surveys',
     questions: '/v1/admin/questions',
-    surveyQuestions: '/v1/admin/survey_questions'
+    surveyQuestions: '/v1/admin/survey_questions',
+    events: '/v1/admin/events',
+    eventRelatedEntities: '/v1/admin/event_related_entities',
   },
   profile: {
     update: '/v1/profile/',

@@ -44,7 +44,7 @@ const DialogContent = withStyles((theme) => ({
 const Modal = ({isOpen, handleClose, title, children}) => {
   return (
     <div>
-      <Dialog aria-labelledby="customized-dialog-title" open={isOpen}>
+      <Dialog fullWidth={true} aria-labelledby="customized-dialog-title" open={isOpen}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           {title}
         </DialogTitle>

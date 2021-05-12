@@ -4,6 +4,5 @@ class Location < ApplicationRecord
 
   has_many :events, dependent: :destroy
 
-  validates :name, :city, :street_number, presence: true
-  validates :city, uniqueness: true
+  validates :city, presence: true
 end

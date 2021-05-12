@@ -11,6 +11,9 @@ import Dashboard from './containers/Cabinet/Dashboard';
 
 import AdminHome from './containers/Admin/Home';
 import Users from './containers/Admin/Users';
+import Events from './containers/Admin/Events';
+import Event from './components/Admin/Event';
+import NewEvent from './components/Admin/Event/NewEvent';
 import SurveyTypes from './containers/Admin/SurveyTypes';
 import Surveys from './containers/Admin/Surveys';
 import Survey from './components/Admin/Survey';
@@ -57,6 +60,9 @@ const App = ({getCurrentUser, currentUser}) => {
           <AdminRoute exact path="/admin/surveys" component={Surveys} />
           <AdminRoute exact path="/admin/surveys/:id" component={Survey} />
           <AdminRoute exact path="/admin/survey_types" component={SurveyTypes} />
+          <AdminRoute exact path="/admin/events" component={Events} />
+          <AdminRoute exact path="/admin/events/:id" component={Event} />
+          <AdminRoute exact path="/admin/new/events" component={NewEvent} />
           <AdminRoute exact path="/admin/tags" component={Tags} />
         </Switch>
       </Router>
